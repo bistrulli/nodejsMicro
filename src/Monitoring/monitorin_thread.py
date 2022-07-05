@@ -90,7 +90,7 @@ class mnt_thread(Thread):
         else:
             Ti=((nrq-self.lnrrq)*1000)/(tsim-self.lsample)
         
-        self.lnrrq=res["nrq"]
+        self.lnrrq=nrq
         self.lsample=tsim
         
         res["rt"]=rtData
