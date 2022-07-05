@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@stdlib/random-base-exponential": "^0.0.6",
+    "express": "^4.18.1",
+    "mongodb": "^4.7.0",
+    "params-cli": "^1.0.0",
+    "perf_hooks": "^0.0.1",
+    "sleep": "^6.3.0"
+  }
+}
