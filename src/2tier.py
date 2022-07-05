@@ -12,7 +12,7 @@ import numpy as np
 if __name__ == '__main__':
     try:
         
-        data={"pop":[7],"rt":[],"rtCI":[],"tr":[],"trCI":[],"ms":[]}
+        data={"pop":np.linspace(1,15,15,dtype=int),"rt":[],"rtCI":[],"tr":[],"trCI":[],"ms":[]}
         
         msSys={"ms1":{"appFile":"../2tier/ms1.js",
                           "addr":"localhost",

@@ -39,6 +39,7 @@ class mnt_thread(Thread):
         self.stime=stime
         self.lnrrq=None
         self.mongoClient=MongoClient("mongodb://localhost:27017/"+self.name)
+        self.lastEvent=-1
         
         self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name)
         self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name)
@@ -79,16 +80,16 @@ class mnt_thread(Thread):
         else:
             cursor=self.mongoClient[self.name]["rt"].find({ "st": { "$gt": self.lastEvent } }).sort("st",1)
         nrq=self.mongoClient[self.name]["rt"].count_documents({})
-        
-        self.lastEvent=None
+            
         for item in cursor:
             rtData.append(item["end"]-item["st"])
             self.lastEvent=item["st"]
-        
+            
         if(self.lnrrq is None):
             Ti=(nrq*1000)/(tsim-self.stime)
         else:
             Ti=((nrq-self.lnrrq)*1000)/(tsim-self.lsample)
+        
         
         self.lnrrq=nrq
         self.lsample=tsim
@@ -127,10 +128,9 @@ class mnt_thread(Thread):
             
             ert=None
             if(rtRes is not None):
-                #ert=rtRes[1]*100/rtRes[0]
-                ert=rtRes[1]
+                ert=rtRes[1]*100/rtRes[0]
                 self.rtData=rtRes
-                if(ert<=10**-2):
+                if(ert<=1.):
                     rtConveerged=True
                     print("rt-%s converged <%.4f +/- %.4f>"%(self.name,rtRes[0],rtRes[1]))
                 else:
