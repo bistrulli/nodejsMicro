@@ -50,7 +50,7 @@ app.get('/:st([0-9]+)', function(req, res) {
 	if(parseInt(st)>0)
 		msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);
-	
+	console.log(st,et)
 })
 
 var server = app.listen(port, async function() {
