@@ -82,8 +82,12 @@ class mnt_thread(Thread):
         nrq=self.mongoClient[self.name]["rt"].count_documents({})
             
         for item in cursor:
-            rtData.append(item["end"]-item["st"])
+            rtData.append(int(item["end"])-int(item["st"]))
             self.lastEvent=item["st"]
+            
+            #print(int(item["end"]),int(item["st"]))
+        
+        #print(rtData)
             
         if(self.lnrrq is None):
             Ti=(nrq*1000)/(tsim-self.stime)

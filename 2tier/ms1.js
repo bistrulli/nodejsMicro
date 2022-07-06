@@ -3,7 +3,6 @@ var sleep = require('sleep');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
-const { PerformanceObserver, performance } = require('perf_hooks');
 var app = express();
 
 mongoInit = async function(ms_name) {
@@ -43,21 +42,16 @@ if (params.has('mnt_port')) {
 	throw new Error("mnt_port required");
 }
 
-const obs = new PerformanceObserver((items) => {
-	//req_time.push(items.getEntries()[0].duration)
-	var myobj = { "st": items.getEntries()[0].startTime, "end": items.getEntries()[0].startTime + items.getEntries()[0].duration }
-	msdb.collection("rt").insertOne(myobj)
-	performance.clearMarks();
-});
-obs.observe({ entryTypes: ['measure'] });
-
-app.get('/', function(req, res) {
-	performance.mark('A');
+app.get('/:st([0-9]+)', function(req, res) {
+	st=req.params["st"]
 	var delay = exponential(1.0 / 300.0);
 	sleep.msleep(Math.round(delay))
-	performance.mark('B');
+	
 	res.send('Hello World ' + ms_name);
-	performance.measure('rt', 'A', 'B');
+	et=(new Date().getTime())
+	//console.log(st,et)
+	if(parseInt(st)>0)
+		msdb.collection("rt").insertOne({ "st": st, "end":et})
 })
 
 var server = app.listen(port, async function() {

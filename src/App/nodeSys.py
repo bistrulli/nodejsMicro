@@ -109,6 +109,7 @@ class nodeSys():
         
     def reset(self):
         clientThread.toStop=False
+        clientThread.id=0
         
         self.nodeSysProc={}
         self.clientThreads=[]
