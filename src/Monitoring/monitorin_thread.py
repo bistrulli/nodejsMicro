@@ -134,7 +134,7 @@ class mnt_thread(Thread):
             if(rtRes is not None):
                 ert=rtRes[1]*100/rtRes[0]
                 self.rtData=rtRes
-                if(ert<=1.):
+                if(ert<=0.5):
                     rtConveerged=True
                     print("rt-%s converged <%.4f +/- %.4f>"%(self.name,rtRes[0],rtRes[1]))
                 else:
@@ -144,7 +144,7 @@ class mnt_thread(Thread):
             if(trRes is not None):
                 etr=trRes[1]*100/trRes[0]
                 self.trData=trRes
-                if(etr<=1.):
+                if(etr<=0.5):
                     trConveerged=True
                     print("tr-%s converged <%.4f +/- %.4f>"%(self.name,trRes[0],trRes[1]))
                 else:
