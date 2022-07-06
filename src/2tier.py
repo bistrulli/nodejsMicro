@@ -20,7 +20,7 @@ if __name__ == '__main__':
                           "mntPort":8082}}
         sys=nodeSys(msSys)
         
-        for p in data["pop"]:
+        for p in data["Cli"]:
             
             print("####pop %d###"%(p))
             
