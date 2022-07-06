@@ -12,7 +12,7 @@ import numpy as np
 if __name__ == '__main__':
     try:
         
-        data={"Cli":np.linspace(1,15,15,dtype=int),"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
+        data={"Cli":[5],"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
         
         msSys={"ms1":{"appFile":"../2tier/ms1.js",
                           "addr":"localhost",
@@ -42,7 +42,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###"%(p))
-            savemat("../data/2tier.mat", data)
+            savemat("../data/2tier_test.mat", data)
             
             print("killing clients")
             sys.stopClient()

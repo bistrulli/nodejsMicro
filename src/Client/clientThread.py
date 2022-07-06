@@ -14,6 +14,7 @@ class clientThread(Thread):
     mongoClient=None
     
     ttime=None
+    delays=[]
     
     def __init__(self,ttime):
         Thread.__init__(self)
@@ -26,8 +27,13 @@ class clientThread(Thread):
         while(not clientThread.toStop):
             st = time.time_ns() // 1_000_000 
             
-            delay = np.random.exponential(scale=self.ttime)
-            time.sleep(delay)
+            d = np.random.exponential(scale=self.ttime)
+            #clientThread.delays.append(d)
+            
+            #print(np.mean(clientThread.delayxs))
+            
+            time.sleep(self.ttime/1000.0)
+            #pygame.time.delay(int(np.ceil(d)))
             
             reqTime=time.time_ns() // 1_000_000
             req.get('http://localhost:8081/%d'%(reqTime))
