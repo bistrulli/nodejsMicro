@@ -46,10 +46,10 @@ app.get('/:st([0-9]+)', function(req, res) {
 	st=parseInt(req.params["st"])
 	var delay = exponential(1.0 / 300.0);
 	sleep.msleep(Math.round(delay))
-	res.send('Hello World ' + ms_name);
 	et=(new Date().getTime())
 	if(st>0)
 		msdb.collection("rt").insertOne({ "st": st, "end":et})
+	res.send('Hello World ' + ms_name);
 })
 
 var server = app.listen(port, async function() {
