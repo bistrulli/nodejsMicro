@@ -29,14 +29,14 @@ if __name__ == '__main__':
             sys.startMNT()
             
             data["ms"]=list(sys.data.keys())
-            data["rt"].append([])
-            data["tr"].append([])
+            data["RTm"].append([])
+            data["Tm"].append([])
             data["rtCI"].append([])
             data["trCI"].append([])
             
             for ms in  data["ms"]:
-                data["rt"][-1].append(sys.data[ms]["rt"][0])
-                data["tr"][-1].append(sys.data[ms]["tr"][0])
+                data["RTm"][-1].append(sys.data[ms]["rt"][0])
+                data["Tm"][-1].append(sys.data[ms]["tr"][0])
                 
                 data["rtCI"][-1].append(sys.data[ms]["rt"][1])
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
