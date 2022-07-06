@@ -49,7 +49,7 @@ app.get('/:st([0-9]+)', function(req, res) {
 	
 	res.send('Hello World ' + ms_name);
 	et=(new Date().getTime())
-	//console.log(st,et)
+	console.log(st,et)
 	if(parseInt(st)>0)
 		msdb.collection("rt").insertOne({ "st": st, "end":et})
 })
