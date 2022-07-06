@@ -43,11 +43,11 @@ if (params.has('mnt_port')) {
 }
 
 app.get('/:st([0-9]+)', function(req, res) {
-	st=req.params["st"]
+	st=parseInt(req.params["st"])
 	var delay = exponential(1.0 / 300.0);
 	sleep.msleep(Math.round(delay))
 	et=(new Date().getTime())
-	if(parseInt(st)>0)
+	if(st>0)
 		msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);
 	console.log(st,et)
