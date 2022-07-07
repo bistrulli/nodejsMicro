@@ -26,6 +26,8 @@ class mnt_thread(Thread):
     mongoClient=None
     msDb=None
     
+    logFile=None
+    
     
     def __init__(self,ms,period,name,stime=None):
         Thread.__init__(self)
@@ -40,9 +42,10 @@ class mnt_thread(Thread):
         self.lnrrq=None
         self.mongoClient=MongoClient("mongodb://localhost:27017/"+self.name)
         self.lastEvent=-1
+        self.logFile=open("../log/%sStats.log"%(self.name),"w+")
         
-        self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name)
-        self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name)
+        self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name,logFile=self.logFile)
+        self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name,logFile=self.logFile)
     
     def getTRData(self):
         res = req.get("http://%s:%d/Events/"%(self.ms["addr"],self.ms["mntPort"]))
@@ -136,9 +139,9 @@ class mnt_thread(Thread):
                 self.rtData=rtRes
                 if(ert<=0.5):
                     rtConveerged=True
-                    print("rt-%s converged <%.4f +/- %.4f>"%(self.name,rtRes[0],rtRes[1]))
+                    self.logFile.write("rt-%s converged <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
                 else:
-                    print("rt-%s converging <%.4f +/- %.4f>"%(self.name,rtRes[0],rtRes[1]))
+                    self.logFile.write("rt-%s converging <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
             
             etr=None
             if(trRes is not None):
@@ -146,10 +149,13 @@ class mnt_thread(Thread):
                 self.trData=trRes
                 if(etr<=0.5):
                     trConveerged=True
-                    print("tr-%s converged <%.4f +/- %.4f>"%(self.name,trRes[0],trRes[1]))
+                    self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
                 else:
-                    print("tr-%s converging <%.4f +/- %.4f>"%(self.name,trRes[0],trRes[1]))
+                    self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
             
+            self.logFile.flush()
+        
+        self.logFile.close()            
             
             
         

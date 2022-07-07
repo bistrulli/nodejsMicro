@@ -12,20 +12,20 @@ import numpy as np
 if __name__ == '__main__':
     try:
         
-        data={"Cli":[10],"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
+        data={"Cli":np.linspace(1,15,15),"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
         
-        msSys={"ms2":{   "appFile":"../3tier/ms2.js",
-                          "addr":"localhost",
-                          "port":8083,
-                          "mntPort":8084},
-               "ms3":{   "appFile":"../3tier/ms3.js",
-                          "addr":"localhost",
-                          "port":8085,
-                          "mntPort":8086},
+
+               # "ms3":{   "appFile":"../3tier/ms3.js",
+               #            "addr":"localhost",
+               #            "port":8085,
+               #            "mntPort":8086},
+        msSys={
                 "ms1":{"appFile":"../3tier/ms1.js",
                           "addr":"localhost",
-                          "port":8081,
-                          "mntPort":8082}
+                          "port":8081},
+                "ms2":{   "appFile":"../3tier/ms2.js",
+                          "addr":"localhost",
+                          "port":8082}
                
               }
         sys=nodeSys(msSys)

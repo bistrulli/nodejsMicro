@@ -10,8 +10,9 @@ class BM():
     wupIdx=None
     wupH=None
     name=None
+    logfile=None
     
-    def __init__(self,B,K,P,wupH,name):
+    def __init__(self,B,K,P,wupH,name,logFile):
         self.B=B
         self.K=K
         self.P=P
@@ -20,6 +21,7 @@ class BM():
         self.samples=[]
         self.Batches=[]
         self.name=name
+        self.logfile=logFile
         
     def warmUp(self):
         e=None
@@ -27,11 +29,11 @@ class BM():
             e=np.mean(np.abs(np.diff(self.cumMean()))[len(self.samples)-self.wupH:])
             if(e<10**(0)):
                 self.wupIdx=len(self.samples)-1
-                print("[%s]warmUP completed with avg error:"%(self.name),e)
+                self.logfile.write("[%s]warmUP completed with avg error %f:\n"%(self.name,e))
             else:
-                print("[%s]warmUP-error:"%(self.name),e)
+                self.logfile.write("[%s]warmUP-error %f:\n"%(self.name,e))
         else:
-            print("[%s]warn-up:"%(self.name),len(self.samples),self.wupH)
+            self.logfile.write("[%s]warn-up %d %d:\n"%(self.name,len(self.samples),self.wupH))
     
     def BM(self):
         res=None
@@ -54,7 +56,7 @@ class BM():
             
                 res=[Y,CI]
             else:
-                print("[%s]Accumulating BatchMeans samples "%(self.name),len(ss_samples),"of ",self.B*self.K)
+                self.logfile.write("[%s]Accumulating BatchMeans samples %d of %d\n"%(self.name,len(ss_samples),self.B*self.K))
         
         return res
 

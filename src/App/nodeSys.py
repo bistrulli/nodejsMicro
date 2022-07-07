@@ -34,8 +34,7 @@ class nodeSys():
             msErrf = open("../log/%sErr.log"%(ms), "w+")
         
             self.nodeSysProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
-                                                   "port=%s"%(self.nodeSys[ms]["port"]),
-                                                   "mnt_port=%s"%(self.nodeSys[ms]["mntPort"])], 
+                                                   "port=%s"%(self.nodeSys[ms]["port"])], 
                                                   stdout=msOutf, stderr=msErrf)
             self.waitMs(ms)
             
@@ -78,7 +77,7 @@ class nodeSys():
         r=None
         while(atpt < limit and not connected):
             try:
-                r = req.get("http://%s:%d/0"%(self.nodeSys[msName]["addr"],self.nodeSys[msName]["mntPort"]))
+                r = req.get("http://%s:%d/mnt"%(self.nodeSys[msName]["addr"],self.nodeSys[msName]["port"]))
                 connected = True
                 break
             except:

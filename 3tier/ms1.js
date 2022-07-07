@@ -8,15 +8,15 @@ const axios = require('axios');
 var rwc = require("random-weighted-choice");
 
 mongoInit = async function(ms_name) {
-	var db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
+	let db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
 	if (db.err) { console.log('error'); }
 	else { console.log('conneted to mongo'); }
-	dbo = db.db(ms_name)
+	let dbo = db.db(ms_name)
 	try {
 		await dbo.collection("rt").drop()
 	} catch (e) {
 	}
-	rtCol = await dbo.createCollection("rt")
+	let rtCol = await dbo.createCollection("rt")
 	if (rtCol.err) {
 		console.log("error while creating rt collection")
 	} else {
@@ -25,9 +25,8 @@ mongoInit = async function(ms_name) {
 	return dbo
 }
 
-ms_name = null
-port = null
-mnt_port = null
+var ms_name = null
+var port = null
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {
@@ -38,49 +37,42 @@ if (params.has('port')) {
 } else {
 	throw new Error("port required");
 }
-if (params.has('mnt_port')) {
-	mnt_port = params.get('mnt_port')
-} else {
-	throw new Error("mnt_port required");
-}
 
 app.get('/:st([0-9]+)', async function(req, res) {
-	st = parseInt(req.params["st"])
+	let st = parseInt(req.params["st"])
 
-	var table = [
-		{ weight: 1, id: "tier1", port: 8083 },
-		{ weight: 1, id: "tier2", port: 8085 }
+	let table = [
+		{ weight: 1, id: "tier1", port: 8082 },
+		{ weight: 0, id: "tier2", port: 8083 }
 	];
-	var tier = rwc(table);
-	
-	tierPort=null
-	for(i=0; i<table.length;i++){
-		if(table[i].id==tier){
-			tierPort=table[i].port
+	let tier = rwc(table);
+
+	let tierPort = null
+	for (i = 0; i < table.length; i++) {
+		if (table[i].id == tier) {
+			tierPort = table[i].port
 			break
 		}
 	}
-	
-	reqTime = new Date().getTime()
+
+	let reqTime = new Date().getTime()
 	await axios.get(`http://localhost:${tierPort}/${reqTime}`)
 
-	var delay = exponential(1.0 / 300.0);
+
+	let delay = exponential(1.0 / 300.0);
 	sleep.msleep(Math.round(delay))
-	et = (new Date().getTime())
-	if (st > 0)
-		msdb.collection("rt").insertOne({ "st": st, "end": et })
+	const et = (new Date().getTime())
+	msdb.collection("rt").insertOne({ "st": st, "end": et })
 	res.send('Hello World ' + ms_name);
+})
+
+app.get('/mnt', function(req, res) {
+	res.send('running ' + ms_name);
 })
 
 var server = app.listen(port, async function() {
 	var host = server.address().address
 	var port = server.address().port
 	global.msdb = await mongoInit(ms_name)
-	console.log("Example app listening at http://%s:%s", host, port)
-})
-
-var server2 = app.listen(mnt_port, async function() {
-	var host = server2.address().address
-	var port = server2.address().port
 	console.log("Example app listening at http://%s:%s", host, port)
 })
