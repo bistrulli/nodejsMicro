@@ -76,14 +76,14 @@ class mnt_thread(Thread):
         
         tsim=time.time_ns() // 1_000_000
         if(self.lnrrq is None):
-            cursor=self.mongoClient[self.name]["rt"].find().sort("st",1)
+            cursor=self.mongoClient[self.name]["rt"].find().sort("end",1)
         else:
-            cursor=self.mongoClient[self.name]["rt"].find({ "st": { "$gt": self.lastEvent } }).sort("st",1)
+            cursor=self.mongoClient[self.name]["rt"].find({ "end": { "$gt": self.lastEvent } }).sort("end",1)
         nrq=self.mongoClient[self.name]["rt"].count_documents({})
             
         for item in cursor:
             rtData.append(int(item["end"])-int(item["st"]))
-            self.lastEvent=item["st"]
+            self.lastEvent=item["end"]
             
             #print(int(item["end"]),int(item["st"]))
         

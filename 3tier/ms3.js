@@ -4,11 +4,9 @@ const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
 var app = express();
-const axios = require('axios');
-var rwc = require("random-weighted-choice");
 
 mongoInit = async function(ms_name) {
-	var db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
+	var db = await MongoClient.connect("mongodb://localhost:27017/${ms_name}")
 	if (db.err) { console.log('error'); }
 	else { console.log('conneted to mongo'); }
 	dbo = db.db(ms_name)
@@ -44,31 +42,14 @@ if (params.has('mnt_port')) {
 	throw new Error("mnt_port required");
 }
 
-app.get('/:st([0-9]+)', async function(req, res) {
-	st = parseInt(req.params["st"])
 
-	var table = [
-		{ weight: 1, id: "tier1", port: 8083 },
-		{ weight: 1, id: "tier2", port: 8085 }
-	];
-	var tier = rwc(table);
-	
-	tierPort=null
-	for(i=0; i<table.length;i++){
-		if(table[i].id==tier){
-			tierPort=table[i].port
-			break
-		}
-	}
-	
-	reqTime = new Date().getTime()
-	await axios.get(`http://localhost:${tierPort}/${reqTime}`)
-
-	var delay = exponential(1.0 / 300.0);
+app.get('/:st([0-9]+)', function(req, res) {
+	st=parseInt(req.params["st"])
+	var delay = exponential(1.0 / 200.0);
 	sleep.msleep(Math.round(delay))
-	et = (new Date().getTime())
-	if (st > 0)
-		msdb.collection("rt").insertOne({ "st": st, "end": et })
+	et=(new Date().getTime())
+	if(st>0)
+		msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);
 })
 

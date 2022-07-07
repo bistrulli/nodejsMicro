@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "@stdlib/random-base-exponential": "^0.0.6",
+    "axios": "^0.27.2",
     "express": "^4.18.1",
     "mongodb": "^4.7.0",
     "node-statsd": "^0.1.1",
     "params-cli": "^1.0.0",
     "perf_hooks": "^0.0.1",
+    "random-weighted-choice": "^0.1.4",
     "response-time": "^2.3.2",
     "sleep": "^6.3.0"
   }

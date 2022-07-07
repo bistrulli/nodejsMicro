@@ -3,7 +3,6 @@ var sleep = require('sleep');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
-const { PerformanceObserver, performance } = require('perf_hooks');
 var app = express();
 
 mongoInit = async function(ms_name) {
@@ -43,37 +42,26 @@ if (params.has('mnt_port')) {
 	throw new Error("mnt_port required");
 }
 
-const obs = new PerformanceObserver((items) => {
-	//req_time.push(items.getEntries()[0].duration)
-	var myobj = { "st": items.getEntries()[0].startTime, "end": items.getEntries()[0].startTime + items.getEntries()[0].duration }
-	msdb.collection("rt").insertOne(myobj)
-	performance.clearMarks();
-});
-obs.observe({ entryTypes: ['measure'] });
 
-app.get('/', function(req, res) {
-	performance.mark('A');
-	var delay = exponential(1.0 / 20000);
-	//sleep.msleep(Math.round(delay))
-	sleep.msleep(Math.round(20000))
-	performance.mark('B');
+app.get('/:st([0-9]+)', function(req, res) {
+	st=parseInt(req.params["st"])
+	var delay = exponential(1.0 / 700.0);
+	sleep.msleep(Math.round(delay))
+	et=(new Date().getTime())
+	if(st>0)
+		msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);
-	performance.measure('rt', 'A', 'B');
 })
 
 var server = app.listen(port, async function() {
 	var host = server.address().address
 	var port = server.address().port
-
 	global.msdb = await mongoInit(ms_name)
 	console.log("Example app listening at http://%s:%s", host, port)
-
 })
 
 var server2 = app.listen(mnt_port, async function() {
 	var host = server2.address().address
 	var port = server2.address().port
-
 	console.log("Example app listening at http://%s:%s", host, port)
-
 })

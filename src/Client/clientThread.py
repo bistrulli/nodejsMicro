@@ -6,6 +6,7 @@ from pymongo import MongoClient
 import pymongo
 
 
+
 class clientThread(Thread):
     
     i=0
@@ -22,18 +23,23 @@ class clientThread(Thread):
         self.id=clientThread.i
         clientThread.i+=1
         self.mongoClient=MongoClient("mongodb://localhost:27017/client")
+        
     
     def run(self):
         while(not clientThread.toStop):
             st = time.time_ns() // 1_000_000 
             
-            d = np.random.exponential(scale=self.ttime)
+            #d = np.random.exponential(scale=self.ttime)
             #clientThread.delays.append(d)
             
             #print(np.mean(clientThread.delayxs))
             
+            #lo metto deterministico perche per via dell'imprecisione di timer 
+            #i dati non verrebbero puliti
             time.sleep(self.ttime/1000.0)
             #pygame.time.delay(int(np.ceil(d)))
+            #self.waitEvent.wait(timeout=d/10000.0);
+            
             
             reqTime=time.time_ns() // 1_000_000
             req.get('http://localhost:8081/%d'%(reqTime))
