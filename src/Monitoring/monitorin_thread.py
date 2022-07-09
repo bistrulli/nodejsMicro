@@ -6,6 +6,7 @@ from BatchMeans import BM
 import json
 from pymongo import MongoClient
 import pymongo
+from utility import CountDownLatch 
 
 class mnt_thread(Thread):
     
@@ -28,8 +29,10 @@ class mnt_thread(Thread):
     
     logFile=None
     
+    countDown=None
     
-    def __init__(self,ms,period,name,stime=None):
+    
+    def __init__(self,ms,period,name,stime=None,countDown=None):
         Thread.__init__(self)
         self.ms=ms
         self.period=period
@@ -43,6 +46,7 @@ class mnt_thread(Thread):
         self.mongoClient=MongoClient("mongodb://localhost:27017/"+self.name)
         self.lastEvent=-1
         self.logFile=open("../log/%sStats.log"%(self.name),"w+")
+        self.countDown=countDown
         
         self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name,logFile=self.logFile)
         self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name,logFile=self.logFile)
@@ -113,8 +117,9 @@ class mnt_thread(Thread):
         
         rtConveerged=False
         trConveerged=False
+        notified=False
         stl=None
-        while(not rtConveerged or not trConveerged):
+        while(self.countDown.getCount()>0):
             if(stl is not None):
                 delay=max(self.period-(time.time()-stl),0)
             else:
@@ -135,12 +140,14 @@ class mnt_thread(Thread):
             
             ert=None
             if(rtRes is not None):
-                ert=rtRes[1]*100/rtRes[0]
+                #ert=rtRes[1]*100/rtRes[0]
+                ert=rtRes[1]
                 self.rtData=rtRes
-                if(ert<=0.5):
+                if(ert<=10):
                     rtConveerged=True
                     self.logFile.write("rt-%s converged <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
                 else:
+                    rtConveerged=False
                     self.logFile.write("rt-%s converging <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
             
             etr=None
@@ -151,9 +158,15 @@ class mnt_thread(Thread):
                     trConveerged=True
                     self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
                 else:
-                    self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
+                    trConveerged=False
+                    self.logFile.write("tr-%s converging <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
             
             self.logFile.flush()
+            
+            if(rtConveerged and trConveerged and not notified):
+                self.countDown.count_down()
+                notified=True
+                
         
         self.logFile.close()            
             
