@@ -25,7 +25,7 @@ class BM():
         
     def warmUp(self):
         e=None
-        if(len(self.samples)>self.wupH and self.wupIdx==None):
+        if(len(self.samples)>self.wupH):
             e=np.mean(np.abs(np.diff(self.cumMean()))[len(self.samples)-self.wupH:])
             if(e<10**(0)):
                 self.wupIdx=len(self.samples)-1
@@ -41,7 +41,7 @@ class BM():
         if(self.wupIdx is None):
             self.warmUp()
         else:
-            ss_samples=self.samples[self.wupH:-1]
+            ss_samples=self.samples[self.wupIdx:-1]
             if(len(ss_samples)//self.B>=self.K):
                 Kr=(len(ss_samples))//self.B
                 

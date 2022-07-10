@@ -29,14 +29,14 @@ class clientThread(Thread):
         while(not clientThread.toStop):
             st = time.time_ns() // 1_000_000 
             
-            #d = np.random.exponential(scale=self.ttime)
+            d = np.random.exponential(scale=self.ttime)
             #clientThread.delays.append(d)
             
             #print(np.mean(clientThread.delayxs))
             
             #lo metto deterministico perche per via dell'imprecisione di timer 
             #i dati non verrebbero puliti
-            time.sleep(self.ttime/1000.0)
+            time.sleep(d/1000.0)
             #pygame.time.delay(int(np.ceil(d)))
             #self.waitEvent.wait(timeout=d/10000.0);
             

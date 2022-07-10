@@ -40,7 +40,7 @@ if (params.has('port')) {
 app.get('/:st([0-9]+)', function(req, res) {
 	let st=parseInt(req.params["st"])
 	let delay = exponential(1.0 / 200.0);
-	sleep.msleep(Math.round(delay))
+	sleep.msleep(Math.round(200))
 	let et=(new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);

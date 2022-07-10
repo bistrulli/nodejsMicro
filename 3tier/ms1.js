@@ -27,6 +27,11 @@ mongoInit = async function(ms_name) {
 
 var ms_name = null
 var port = null
+//var ncore=1
+var stime=300.0
+
+//slowDown=@(mu,so,st)mu*(1-(so-min(so,st))/so);
+
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {
@@ -59,11 +64,11 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	await axios.get(`http://localhost:${tierPort}/${reqTime}`)
 
 
-	let delay = exponential(1.0 / 300.0);
+	let delay = exponential(1.0 / stime);
 	sleep.msleep(Math.round(delay))
-	const et = (new Date().getTime())
-	msdb.collection("rt").insertOne({ "st": st, "end": et })
 	res.send('Hello World ' + ms_name);
+	let et = (new Date().getTime())
+	msdb.collection("rt").insert({ "st": st, "end": et })
 })
 
 app.get('/mnt', function(req, res) {

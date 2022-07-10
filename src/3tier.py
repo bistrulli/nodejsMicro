@@ -12,7 +12,7 @@ import numpy as np
 if __name__ == '__main__':
     try:
         
-        data={"Cli":[1],"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
+        data={"Cli":np.linspace(1,15,15,dtype=int),"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
         
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
@@ -20,12 +20,12 @@ if __name__ == '__main__':
                #            "port":8085,
                #            "mntPort":8086},
         msSys={
-                "ms1":{"appFile":"../3tier/ms1.js",
-                          "addr":"localhost",
-                          "port":8081},
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "port":8082}
+                          "port":8082},
+                "ms1":{"appFile":"../3tier/ms1.js",
+                          "addr":"localhost",
+                          "port":8081}
                
               }
         sys=nodeSys(msSys)
@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###"%(p))
-            savemat("../data/3tier.mat", data)
+            savemat("../data/3tier2.mat", data)
             
             print("killing clients")
             sys.stopClient()

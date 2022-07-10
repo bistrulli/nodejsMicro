@@ -25,6 +25,7 @@ mongoInit = async function(ms_name) {
 
 var ms_name = null
 var port = null
+var stime=700.0
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {
@@ -37,13 +38,13 @@ if (params.has('port')) {
 }
 
 
-app.get('/:st([0-9]+)', function(req, res) {
+app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
-	let delay = exponential(1.0 / 700.0);
+	let delay = exponential(1.0 / stime);
 	sleep.msleep(Math.round(delay))
-	let et=(new Date().getTime())
-	msdb.collection("rt").insertOne({ "st": st, "end":et})
 	res.send('Hello World ' + ms_name);
+	let et=(new Date().getTime())
+	msdb.collection("rt").insert({ "st": st, "end":et})
 })
 
 app.get('/mnt', function(req, res) {
