@@ -19,14 +19,12 @@ if __name__ == '__main__':
                #            "addr":"localhost",
                #            "port":8085,
                #            "mntPort":8086},
-        msSys={
+        msSys={"ms1":{"appFile":"../3tier/ms1.js",
+                          "addr":"localhost",
+                          "port":8081},
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "port":8082},
-                "ms1":{"appFile":"../3tier/ms1.js",
-                          "addr":"localhost",
-                          "port":8081}
-               
+                          "port":8082}
               }
         sys=nodeSys(msSys)
         

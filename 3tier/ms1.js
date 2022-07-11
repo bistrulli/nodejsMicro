@@ -25,12 +25,16 @@ mongoInit = async function(ms_name) {
 	return dbo
 }
 
+slowDown = function(mu,so,st) {
+	return mu*(1-(so-Math.min(so,st))/so)
+}
+
 var ms_name = null
 var port = null
-//var ncore=1
+var ncore=1
 var stime=300.0
 
-//slowDown=@(mu,so,st)mu*(1-(so-min(so,st))/so);
+stime=(1.0/slowDown(1.0/stime,ncore,ncore*0.35))
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
