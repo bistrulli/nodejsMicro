@@ -25,7 +25,7 @@ mongoInit = async function(ms_name) {
 
 var ms_name = null
 var port = null
-var stime=700.0
+var stime=30.0
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {

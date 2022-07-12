@@ -32,9 +32,9 @@ slowDown = function(mu,so,st) {
 var ms_name = null
 var port = null
 var ncore=1
-var stime=300.0
+var stime=120.0
 
-stime=(1.0/slowDown(1.0/stime,ncore,ncore*0.35))
+stime=(1.0/slowDown(1.0/stime,ncore,ncore))
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
