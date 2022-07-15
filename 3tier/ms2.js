@@ -23,9 +23,22 @@ mongoInit = async function(ms_name) {
 	return dbo
 }
 
+getMSHRtime= function(){
+	let hrTime = process.hrtime();
+	return (hrTime[0] * 1000 + hrTime[1] / 1000000.0);
+}
+
+doWork=function (delay){
+	let stime=getMSHRtime()
+	let i=0;
+	while((getMSHRtime()-stime)<=delay){
+		i=i+1;
+	}
+}
+
 var ms_name = null
 var port = null
-var stime=30.0
+var stime=100.0
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {
@@ -42,9 +55,10 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
 	let delay = exponential(1.0 / stime);
 	sleep.msleep(Math.round(delay))
-	res.send('Hello World ' + ms_name);
+	//doWork(delay);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insert({ "st": st, "end":et})
+	res.send('Hello World ' + ms_name);
 })
 
 app.get('/mnt', function(req, res) {

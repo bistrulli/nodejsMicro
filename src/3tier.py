@@ -12,31 +12,35 @@ import numpy as np
 if __name__ == '__main__':
     try:
         
-        data={"Cli":np.linspace(1,20,20,dtype=int),"RTm":[],"rtCI":[],"Tm":[],"trCI":[],"ms":[]}
-        
+        data = {"Cli":np.linspace(1,20,8,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
                #            "port":8085,
                #            "mntPort":8086},
-        msSys={"ms1":{"appFile":"../3tier/ms1.js",
+        msSys = {"ms1":{  "appFile":"../3tier/ms1.js",
                           "addr":"localhost",
-                          "port":8081},
+                          "port":9081,
+                          "prxFile":"../3tier/msProxy.js",
+                          "prxPort":8081
+                          },
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "port":8082}
+                          "port":9082,
+                          "prxFile":"../3tier/msProxy.js",
+                          "prxPort":8082}
               }
-        sys=nodeSys(msSys)
+        sys = nodeSys(msSys)
         
         for p in data["Cli"]:
             
-            print("####pop %d###"%(p))
+            print("####pop %d###" % (p))
             
             sys.startSys()
             sys.startClient(p)
             sys.startMNT()
             
-            data["ms"]=list(sys.data.keys())
+            data["ms"] = list(sys.data.keys())
             data["RTm"].append([])
             data["Tm"].append([])
             data["rtCI"].append([])
@@ -49,16 +53,14 @@ if __name__ == '__main__':
                 data["rtCI"][-1].append(sys.data[ms]["rt"][1])
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
-            print("####pop %d converged###"%(p))
-            savemat("../data/3tier3.mat", data)
+            print("####pop %d converged###" % (p))
+            savemat("../data/3tier_test.mat", data)
             
             print("killing clients")
             sys.stopClient()
             print("killing system") 
             sys.stopSys()
             sys.reset()
-        
-        
     
     except Exception as ex:
         print("killing clients")

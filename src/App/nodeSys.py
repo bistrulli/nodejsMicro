@@ -15,6 +15,7 @@ class nodeSys():
     nodeSys=None
     #mappa con la stessa struttura di prima ma che contiene i processi node del sistema
     nodeSysProc=None
+    nodePrxProc=None
     clientThreads=None
     mntThreads=None
     data=None
@@ -23,6 +24,7 @@ class nodeSys():
     def __init__(self,nodeSys):
         self.nodeSys=nodeSys
         self.nodeSysProc={}
+        self.nodePrxProc={}
         self.clientThreads=[]
         self.mntThreads=[]
         self.data={}
@@ -32,15 +34,23 @@ class nodeSys():
     def startSys(self):
         for ms in self.nodeSys:
             msOutf = open("../log/%sOut.log"%(ms), "w+")
+            msPrxOutf = open("../log/%sPrxOut.log"%(ms), "w+")
             msErrf = open("../log/%sErr.log"%(ms), "w+")
-        
+            msPrxErrf = open("../log/%sPrxErr.log"%(ms), "w+")
+            
+            self.nodePrxProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["prxFile"],"port=%s"%(self.nodeSys[ms]["prxPort"]),
+                                                   "tgtPort=%s"%(self.nodeSys[ms]["port"])], 
+                                                  stdout=msPrxOutf, stderr=msPrxErrf)
+            
             self.nodeSysProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                    "port=%s"%(self.nodeSys[ms]["port"])], 
                                                   stdout=msOutf, stderr=msErrf)
             self.waitMs(ms)
             
             msOutf.close()
+            msPrxOutf.close()
             msErrf.close()
+            msPrxErrf.close()
     
     def stopSys(self):
         for ms in self.nodeSysProc:
@@ -49,6 +59,13 @@ class nodeSys():
                 self.nodeSysProc[ms].wait(timeout=2)
             except psutil.TimeoutExpired as e:
                 self.nodeSysProc[ms].kill()
+        
+        for ms in self.nodePrxProc:
+            self.nodePrxProc[ms].terminate()
+            try:
+                self.nodePrxProc[ms].wait(timeout=2)
+            except psutil.TimeoutExpired as e:
+                self.nodePrxProc[ms].kill()
     
     def startClient(self,N):
         

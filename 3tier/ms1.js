@@ -6,6 +6,31 @@ var exponential = require('@stdlib/random-base-exponential');
 var app = express();
 const axios = require('axios');
 var rwc = require("random-weighted-choice");
+const { execSync } = require('child_process');
+
+axios.interceptors.request.use((request) => {
+	request.ts = Date.now();
+	return request;
+});
+
+axios.interceptors.response.use((response) => {
+	const timeInMs = `${Number(Date.now() - response.config.ts).toFixed()}ms`;
+	response.latency = timeInMs;
+	return response;
+});
+
+getMSHRtime = function() {
+	let hrTime = process.hrtime();
+	return (hrTime[0] * 1000 + hrTime[1] / 1000000.0);
+}
+
+doWork = function(delay) {
+	let stime = getMSHRtime()
+	let i = 0;
+	while ((getMSHRtime() - stime) <= delay) {
+		i = i + 1;
+	}
+}
 
 mongoInit = async function(ms_name) {
 	let db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
@@ -25,16 +50,16 @@ mongoInit = async function(ms_name) {
 	return dbo
 }
 
-slowDown = function(mu,so,st) {
-	return mu*(1-(so-Math.min(so,st))/so)
+slowDown = function(mu, so, st) {
+	return mu * (1 - (so - Math.min(so, st)) / so)
 }
 
 var ms_name = null
 var port = null
-var ncore=1
-var stime=120.0
+var ncore = 1
+var stime = 120.0
 
-stime=(1.0/slowDown(1.0/stime,ncore,ncore))
+stime = (1.0 / slowDown(1.0 / stime, ncore, ncore))
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
@@ -64,15 +89,25 @@ app.get('/:st([0-9]+)', async function(req, res) {
 		}
 	}
 
-	let reqTime = new Date().getTime()
-	await axios.get(`http://localhost:${tierPort}/${reqTime}`)
 
+	//invece di predere il tempo di riposta in questo modo
+	//faccio un proxy lato ricevete che mi aggiunge il tempo di arrivo della richiesta e 
+	//considero quello come tempo di risposta
+	//se il proxy non fa nulla ed e molto veloce non dovrebbe aggiungere contesa
+	let reqTime = new Date().getTime()
+	resp = await axios.get(`http://localhost:${tierPort}`)
+	//console.log(response.latency)
 
 	let delay = exponential(1.0 / stime);
 	sleep.msleep(Math.round(delay))
-	res.send('Hello World ' + ms_name);
+	//doWork(delay);
+
 	let et = (new Date().getTime())
 	msdb.collection("rt").insert({ "st": st, "end": et })
+
+	res.send('Hello World ' + ms_name);
+
+
 })
 
 app.get('/mnt', function(req, res) {

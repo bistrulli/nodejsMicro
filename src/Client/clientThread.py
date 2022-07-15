@@ -42,10 +42,8 @@ class clientThread(Thread):
             
             
             reqTime=time.time_ns() // 1_000_000
-            req.get('http://localhost:8081/%d'%(reqTime))
-            
+            req.get('http://localhost:8081')
             end= time.time_ns() // 1_000_000
-            
             self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
     
     
