@@ -143,7 +143,7 @@ class mnt_thread(Thread):
                 #ert=rtRes[1]*100/rtRes[0]
                 ert=rtRes[1]
                 self.rtData=rtRes
-                if(ert<=10):
+                if(ert<=1.):
                     rtConveerged=True
                     self.logFile.write("rt-%s converged <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
                 else:

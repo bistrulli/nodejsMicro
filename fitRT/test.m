@@ -1,5 +1,5 @@
 clear
-load('/Users/emilio/git/nodejsMicro/data/3tier_test.mat')
+load('/Users/emilio/git/nodejsMicro/data/3tier_test_java.mat')
 
 RT=zeros(size(Cli,2),3);
 
@@ -8,7 +8,7 @@ NC=[inf,1,1];
 X0=zeros(1,6);
 
 MU=1000./[flip(diff(flip(RTm(1,:)))),RTm(1,3)];
-%MU=[1/0.1,1/0.300,1/0.70];
+MU=[1/0.1,1/0.125,1/0.118];
 
 for i=1:size(Cli,2)
     

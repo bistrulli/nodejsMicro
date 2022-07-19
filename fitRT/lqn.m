@@ -22,7 +22,7 @@ end
 p.MU = MU; 
 p.NT = NT;
 p.NC = NC;
-p.delta = 10^3; % context switch rate (super fast)
+p.delta = 10^5; % context switch rate (super fast)
 
 %states name
 %X(1)=X0;
