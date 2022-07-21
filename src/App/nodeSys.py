@@ -42,7 +42,7 @@ class nodeSys():
             #                                        "tgtPort=%s"%(self.nodeSys[ms]["port"])], 
             #                                       stdout=msPrxOutf, stderr=msPrxErrf)
             
-            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar","/Users/emilio/git/msProxy/target/msproxy-0.0.1-SNAPSHOT-jar-with-dependencies.jar",
+            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"],
                                                    "--tgtPort","%d"%self.nodeSys[ms]["port"]
                                                    ,"--prxPort","%d"%self.nodeSys[ms]["prxPort"]], 
                                       stdout=msPrxOutf, stderr=msPrxErrf)
