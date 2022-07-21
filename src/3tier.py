@@ -11,8 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     try:
-        #np.linspace(1,20,8,dtype=int)
-        data = {"Cli":np.linspace(1,20,8,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":np.linspace(1,100,50,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
@@ -54,7 +53,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/3tier_test_java.mat", data)
+            savemat("../data/3tier_test_java_all.mat", data)
             
             print("killing clients")
             sys.stopClient()

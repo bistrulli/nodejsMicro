@@ -4,20 +4,26 @@ const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
 var app = express();
-const axios = require('axios');
+//const axios = require('axios');
+const superagent = require('superagent');
 var rwc = require("random-weighted-choice");
 const { execSync } = require('child_process');
+//const http = require('http');
+//const httpAgent = new http.Agent({ keepAlive: true });
 
-axios.interceptors.request.use((request) => {
-	request.ts = Date.now();
-	return request;
-});
+//on the instance
+//const instance = axios.create({httpAgent});
 
-axios.interceptors.response.use((response) => {
-	const timeInMs = `${Number(Date.now() - response.config.ts).toFixed()}ms`;
-	response.latency = timeInMs;
-	return response;
-});
+//axios.interceptors.request.use((request) => {
+//	request.ts = Date.now();
+//	return request;
+//});
+//
+//axios.interceptors.response.use((response) => {
+//	const timeInMs = `${Number(Date.now() - response.config.ts).toFixed()}ms`;
+//	response.latency = timeInMs;
+//	return response;
+//});
 
 getMSHRtime = function() {
 	let hrTime = process.hrtime();
@@ -95,7 +101,8 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	//considero quello come tempo di risposta
 	//se il proxy non fa nulla ed e molto veloce non dovrebbe aggiungere contesa
 	let reqTime = new Date().getTime()
-	resp = await axios.get(`http://localhost:${tierPort}`)
+	//resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false, "agent": httpAgent})
+	resp = await superagent.get(`http://localhost:${tierPort}`)
 	//console.log(response.latency)
 
 	let delay = exponential(1.0 / stime);
@@ -106,7 +113,6 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	msdb.collection("rt").insert({ "st": st, "end": et })
 
 	res.send('Hello World ' + ms_name);
-
 
 })
 
