@@ -65,7 +65,7 @@ app.get('/mnt', function(req, res) {
 	res.send('running ' + ms_name);
 })
 
-var server = app.listen(port, async function() {
+var server = app.listen(port,"localhost",100000,async function() {
 	var host = server.address().address
 	var port = server.address().port
 	global.msdb = await mongoInit(ms_name)
