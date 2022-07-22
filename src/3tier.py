@@ -31,7 +31,7 @@ if __name__ == '__main__':
               }
         sys = nodeSys(msSys)
         
-        for p in data["Cli"]:
+        for p in data["Cli"][11:-1]:
             
             print("####pop %d###" % (p))
             

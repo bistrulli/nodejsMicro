@@ -8,7 +8,7 @@ var app = express();
 const superagent = require('superagent');
 var rwc = require("random-weighted-choice");
 const { execSync } = require('child_process');
-//const http = require('http');
+const http = require('http');
 //const httpAgent = new http.Agent({ keepAlive: true });
 
 //on the instance
@@ -102,17 +102,36 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	//se il proxy non fa nulla ed e molto veloce non dovrebbe aggiungere contesa
 	let reqTime = new Date().getTime()
 	//resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false, "agent": httpAgent})
-	resp = await superagent.get(`http://localhost:${tierPort}`)
+	//resp = await superagent.get(`http://localhost:${tierPort}`)
 	//console.log(response.latency)
+	
+	const options = {
+			  hostname: 'localhost',
+			  port: tierPort,
+			  path: '/',
+			  method: 'GET'
+			};		
+	
+	let innerReq = http.request(options, function(innerRes) {
+	  innerRes.on('end', () => {
+			let delay = exponential(1.0 / stime);
+			sleep.msleep(Math.round(delay))
+			//doWork(delay);
+			let et = (new Date().getTime())
+			msdb.collection("rt").insert({ "st": st, "end": et })
+			res.send('Hello World ' + ms_name);
+	  });
+	});
+	innerReq.end();
 
-	let delay = exponential(1.0 / stime);
-	sleep.msleep(Math.round(delay))
-	//doWork(delay);
-
-	let et = (new Date().getTime())
-	msdb.collection("rt").insert({ "st": st, "end": et })
-
-	res.send('Hello World ' + ms_name);
+//	let delay = exponential(1.0 / stime);
+//	sleep.msleep(Math.round(delay))
+//	//doWork(delay);
+//
+//	let et = (new Date().getTime())
+//	msdb.collection("rt").insert({ "st": st, "end": et })
+//
+//	res.send('Hello World ' + ms_name);
 
 })
 
