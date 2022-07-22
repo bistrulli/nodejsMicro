@@ -14,10 +14,11 @@ var rwc = require("random-weighted-choice");
 //const httpAgent = new http.Agent({ keepAlive: true });
 
 var keepaliveAgent = new Agent({
-	  maxSockets: 1000,
+	  maxSockets: 10000,
 	  maxFreeSockets: 100,
-	  timeout: 60000,
-	  keepAliveTimeout: 30000 // free socket keepalive for 30 seconds
+	  timeout: 0,
+	  keepAlive: false
+	  //keepAliveTimeout: 30000 // free socket keepalive for 30 seconds
 	});
 
 
