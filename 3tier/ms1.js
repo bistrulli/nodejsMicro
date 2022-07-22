@@ -116,7 +116,7 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	//console.log(response.latency)
 
 	let delay = exponential(1.0 / stime);
-	sleep.msleep(Math.min(Math.round(delay),2))
+	sleep.msleep(Math.max(Math.round(delay),2))
 	//doWork(delay);
 
 	let et = (new Date().getTime())

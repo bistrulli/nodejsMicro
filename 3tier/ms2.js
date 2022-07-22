@@ -54,7 +54,7 @@ if (params.has('port')) {
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
 	let delay = exponential(1.0 / stime);
-	sleep.msleep(Math.min(Math.round(delay),2))
+	sleep.msleep(Math.max(Math.round(delay),2))
 	//doWork(delay);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insert({ "st": st, "end":et})
