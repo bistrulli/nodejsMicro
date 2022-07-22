@@ -56,9 +56,10 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	let delay = exponential(1.0 / stime);
 	sleep.msleep(Math.round(delay))
 	//doWork(delay);
+	res.send('Hello World ' + ms_name);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insert({ "st": st, "end":et})
-	res.send('Hello World ' + ms_name);
+	
 })
 
 app.get('/mnt', function(req, res) {
