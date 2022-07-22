@@ -38,14 +38,14 @@ class nodeSys():
             msErrf = open("../log/%sErr.log"%(ms), "w+")
             msPrxErrf = open("../log/%sPrxErr.log"%(ms), "w+")
             
-            # self.nodePrxProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["prxFile"],"port=%s"%(self.nodeSys[ms]["prxPort"]),
-            #                                        "tgtPort=%s"%(self.nodeSys[ms]["port"])], 
-            #                                       stdout=msPrxOutf, stderr=msPrxErrf)
+            self.nodePrxProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["prxFile"],"port=%s"%(self.nodeSys[ms]["prxPort"]),
+                                                   "tgtPort=%s"%(self.nodeSys[ms]["port"])], 
+                                                  stdout=msPrxOutf, stderr=msPrxErrf)
             
-            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"],
-                                                   "--tgtPort","%d"%self.nodeSys[ms]["port"]
-                                                   ,"--prxPort","%d"%self.nodeSys[ms]["prxPort"]], 
-                                      stdout=msPrxOutf, stderr=msPrxErrf)
+            # self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"],
+            #                                        "--tgtPort","%d"%self.nodeSys[ms]["port"]
+            #                                        ,"--prxPort","%d"%self.nodeSys[ms]["prxPort"]], 
+            #                           stdout=msPrxOutf, stderr=msPrxErrf)
             
             self.nodeSysProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                    "port=%s"%(self.nodeSys[ms]["port"])], 

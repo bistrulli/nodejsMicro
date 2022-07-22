@@ -20,13 +20,13 @@ if __name__ == '__main__':
         msSys = {"ms1":{  "appFile":"../3tier/ms1.js",
                           "addr":"localhost",
                           "port":9081,
-                          "prxFile":"../prx/proxy.jar",
+                          "prxFile":"../3tier/msProxy.js",
                           "prxPort":8081
                           },
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
                           "port":9082,
-                          "prxFile":"../prx/proxy.jar",
+                          "prxFile":"../3tier/msProxy.js",
                           "prxPort":8082}
               }
         sys = nodeSys(msSys)
