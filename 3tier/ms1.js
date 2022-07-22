@@ -120,7 +120,7 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	//doWork(delay);
 
 	let et = (new Date().getTime())
-	msdb.collection("rt").insert_one({ "st": st, "end": et })
+	msdb.collection("rt").insertOne({ "st": st, "end": et })
 
 	res.send('Hello World ' + ms_name);
 
