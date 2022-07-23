@@ -47,7 +47,7 @@ class nodeSys():
                                                    ,"--prxPort","%d"%self.nodeSys[ms]["prxPort"]], 
                                       stdout=msPrxOutf, stderr=msPrxErrf)
             
-            self.nodeSysProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+            self.nodeSysProc[ms]=subprocess.Popen(["node","--jitless",self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                    "port=%s"%(self.nodeSys[ms]["port"])], 
                                                   stdout=msOutf, stderr=msErrf)
             self.waitMs(ms)
