@@ -12,7 +12,7 @@ import numpy as np
 if __name__ == '__main__':
     try:
         #np.linspace(1,50,30,dtype=int)
-        data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":[20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
