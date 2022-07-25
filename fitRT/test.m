@@ -1,5 +1,5 @@
 clear
-load('/Users/emilio/git/nodejsMicro/data/3tier_test_java.mat')
+load('/Users/emilio/git/nodejsMicro/data/3tier_test_java_jitless.mat')
 
 RT=zeros(size(Cli,2),3);
 
@@ -7,10 +7,11 @@ NT=[inf,1,1];
 NC=[inf,1,1];
 X0=zeros(1,6);
 
-MU=1000./[flip(diff(flip(RTm(1,:)))),RTm(1,3)];
-MU=[1/0.1,1/0.128,1/0.118];
+%MU=1000./[flip(diff(flip(RTm(1,:)))),RTm(1,3)];
+%MU=[9.7355 7.513859495775013 9.725773227044295];
+MU=[1/0.1,1/0.128,1/0.120];
 
-for i=1:size(Cli,2)
+for i=1:size(RTm,1)
     
     X0(1)=Cli(i);
  

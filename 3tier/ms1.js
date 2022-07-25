@@ -4,37 +4,17 @@ const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
 var app = express();
-//const axios = require('axios');
 const superagent = require('superagent');
 var Agent = require('agentkeepalive');
 var rwc = require("random-weighted-choice");
-//const { execSync } = require('child_process');
-//const http = require('http');
 
-//const httpAgent = new http.Agent({ keepAlive: true });
+const cluster = require('node:cluster');
+const http = require('node:http');
+const numCPUs = require('node:os').cpus().length;
+const process = require('node:process');
 
-var keepaliveAgent = new Agent({
-	  maxSockets: 10000,
-	  maxFreeSockets: 100,
-	  timeout: 0,
-	  keepAlive: false
-	  //keepAliveTimeout: 30000 // free socket keepalive for 30 seconds
-	});
+const nworker=3
 
-
-//on the instance
-//const instance = axios.create({httpAgent});
-
-//axios.interceptors.request.use((request) => {
-//	request.ts = Date.now();
-//	return request;
-//});
-//
-//axios.interceptors.response.use((response) => {
-//	const timeInMs = `${Number(Date.now() - response.config.ts).toFixed()}ms`;
-//	response.latency = timeInMs;
-//	return response;
-//});
 
 getMSHRtime = function() {
 	let hrTime = process.hrtime();
@@ -131,9 +111,24 @@ app.get('/mnt', function(req, res) {
 	res.send('running ' + ms_name);
 })
 
-var server = app.listen(port,"localhost",100000, async function() {
-	var host = server.address().address
-	var port = server.address().port
-	global.msdb = await mongoInit(ms_name)
-	console.log("Example app listening at http://%s:%s", host, port)
-})
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < nworker; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+	var server = app.listen(port,"localhost",100000, async function() {
+		var host = server.address().address
+		var port = server.address().port
+		global.msdb = await mongoInit(ms_name)
+		console.log("Example app listening at http://%s:%s", host, port)
+	})
+
+  console.log(`Worker ${process.pid} started`);
+}
