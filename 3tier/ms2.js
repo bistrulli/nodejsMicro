@@ -38,7 +38,7 @@ doWork=function (delay){
 
 var ms_name = null
 var port = null
-var stime=100.0
+var stime=33.33 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {

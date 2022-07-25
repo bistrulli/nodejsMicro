@@ -11,8 +11,6 @@ var rwc = require("random-weighted-choice");
 const cluster = require('node:cluster');
 const process = require('node:process');
 
-const nworker=3
-
 
 getMSHRtime = function() {
 	let hrTime = process.hrtime();
@@ -51,8 +49,8 @@ slowDown = function(mu, so, st) {
 
 var ms_name = null
 var port = null
-var ncore = 1
-var stime = 120.0
+var ncore = 3
+var stime = 200.0
 
 stime = (1.0 / slowDown(1.0 / stime, ncore, ncore))
 
@@ -113,7 +111,7 @@ if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
 
   // Fork workers.
-  for (let i = 0; i < nworker; i++) {
+  for (let i = 0; i < ncore; i++) {
     cluster.fork();
   }
 
@@ -127,6 +125,5 @@ if (cluster.isPrimary) {
 		global.msdb = await mongoInit(ms_name)
 		console.log("Example app listening at http://%s:%s", host, port)
 	})
-
   console.log(`Worker ${process.pid} started`);
 }
