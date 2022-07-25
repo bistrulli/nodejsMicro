@@ -9,8 +9,6 @@ var Agent = require('agentkeepalive');
 var rwc = require("random-weighted-choice");
 
 const cluster = require('node:cluster');
-const http = require('node:http');
-const numCPUs = require('node:os').cpus().length;
 const process = require('node:process');
 
 const nworker=3
@@ -93,7 +91,7 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	//se il proxy non fa nulla ed e molto veloce non dovrebbe aggiungere contesa
 	//let reqTime = new Date().getTime()
 	//resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false, "agent": httpAgent})
-	resp = await superagent.get(`http://localhost:${tierPort}`).agent(keepaliveAgent);
+	resp = await superagent.get(`http://localhost:${tierPort}`);
 	//console.log(response.latency)
 
 	let delay = exponential(1.0 / stime);
