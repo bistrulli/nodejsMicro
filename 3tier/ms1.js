@@ -30,6 +30,14 @@ mongoInit = async function(ms_name) {
 	if (db.err) { console.log('error'); }
 	else { console.log('conneted to mongo'); }
 	let dbo = db.db(ms_name)
+	return dbo
+}
+
+initRtColl=async funcion(ms_name){
+	let db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
+	if (db.err) { console.log('error'); }
+	else { console.log('conneted to mongo'); }
+	let dbo = db.db(ms_name)
 	try {
 		await dbo.collection("rt").drop()
 	} catch (e) {
@@ -40,7 +48,8 @@ mongoInit = async function(ms_name) {
 	} else {
 		console.log("db init success")
 	}
-	return dbo
+	dbo.close()
+	db.close()
 }
 
 slowDown = function(mu, so, st) {
@@ -109,7 +118,10 @@ app.get('/mnt', function(req, res) {
 
 if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
-
+  
+  //init db
+  initRtColl(ms_name)
+  
   // Fork workers.
   for (let i = 0; i < ncore; i++) {
     cluster.fork();
