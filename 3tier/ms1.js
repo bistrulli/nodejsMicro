@@ -120,7 +120,7 @@ if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
   
   //init db
-  initRtColl(ms_name)
+  await initRtColl(ms_name)
   
   // Fork workers.
   for (let i = 0; i < ncore; i++) {
