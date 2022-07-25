@@ -48,7 +48,6 @@ initRtColl=async function(ms_name){
 	} else {
 		console.log("db init success")
 	}
-	dbo.close()
 	db.close()
 }
 
