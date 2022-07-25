@@ -84,7 +84,7 @@ class nodeSys():
         
         self.startTime=time.time_ns() // 1_000_000 
         for n in range(N):
-            self.clientThreads.append(clientThread(ttime=125))
+            self.clientThreads.append(clientThread(ttime=12))
             self.clientThreads[-1].start()
     
     def stopClient(self):

@@ -1,7 +1,7 @@
 clear 
 
 NT=[inf,inf,inf];
-NC=[inf,3,3];
+NC=[inf,4,4];
 MU=zeros(1,7);
 MU([7,6,5])=[80,5,30];
 X0=zeros(1,7);
@@ -10,7 +10,7 @@ rep=1;
 dt=0.1;
 TF=100000;
 
-Cli=1:20;
+Cli=[4];
 
 %states name
 %X(1)=XBrowse_2Address;

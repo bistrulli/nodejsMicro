@@ -3,6 +3,8 @@ var sleep = require('sleep');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var exponential = require('@stdlib/random-base-exponential');
+const cluster = require('node:cluster');
+const process = require('node:process');
 var app = express();
 
 mongoInit = async function(ms_name) {
@@ -38,7 +40,9 @@ doWork=function (delay){
 
 var ms_name = null
 var port = null
-var stime=33.33 
+var stime=33.33
+ncore=4
+
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
 } else {
@@ -65,9 +69,23 @@ app.get('/mnt', function(req, res) {
 	res.send('running ' + ms_name);
 })
 
-var server = app.listen(port,"localhost",100000,async function() {
-	var host = server.address().address
-	var port = server.address().port
-	global.msdb = await mongoInit(ms_name)
-	console.log("Example app listening at http://%s:%s", host, port)
-})
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < ncore; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+	var server = app.listen(port,"localhost",100000,async function() {
+		var host = server.address().address
+		var port = server.address().port
+		global.msdb = await mongoInit(ms_name)
+		console.log("Example app listening at http://%s:%s", host, port)
+	})
+  console.log(`Worker ${process.pid} started`);
+}
