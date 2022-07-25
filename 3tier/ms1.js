@@ -33,7 +33,7 @@ mongoInit = async function(ms_name) {
 	return dbo
 }
 
-initRtColl=async funcion(ms_name){
+initRtColl=async function(ms_name){
 	let db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
 	if (db.err) { console.log('error'); }
 	else { console.log('conneted to mongo'); }
