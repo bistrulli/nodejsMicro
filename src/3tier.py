@@ -11,7 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(1,120,30,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":np.linspace(1,100,30,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
