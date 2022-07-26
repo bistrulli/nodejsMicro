@@ -49,7 +49,7 @@ doWork=function (delay){
 var ms_name = null
 var port = null
 var stime=33.33
-ncore=4
+ncore=2
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
