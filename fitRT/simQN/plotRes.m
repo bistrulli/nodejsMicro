@@ -1,17 +1,16 @@
 clear
-load("/Users/emilio/git/nodejsMicro/data/3tier_test_java_jitless_worker.mat");
+load("/Users/emilio/git/nodejsMicro/data/3tier_test_java_jitless_worker_3f.mat");
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
 
-% P=[0,1,0;
-%    0,0,1;
-%    1,0,0;];
-% 
-% P2=[0,1,0;
-%     0,0,1;
-%     0,0,0;];
+P=[0,1,0;
+   0,0,1;
+   1,0,0;];
 
-% MU=[1/0.1,1/0.12,1/0.1];
+P2=[0,1,0;
+    0,0,1;
+    0,0,0;];
 
+%MU=[1/0.0125,1/0.2,1/0.033];
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
