@@ -57,7 +57,7 @@ slowDown = function(mu, so, st) {
 
 var ms_name = null
 var port = null
-var ncore = 15
+var ncore = 20
 var stime = 200.0
 
 stime = (1.0 / slowDown(1.0 / stime, ncore, ncore))
