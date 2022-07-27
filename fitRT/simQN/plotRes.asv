@@ -1,21 +1,21 @@
 clear
+load("/Users/emilio/git/nodejsMicro/data/3tier_test_java_jitless_worker_3f.mat");
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/3tier_worker_all.mat");
 
-% P=[0,1,0;
-%    0,0,1;
-%    1,0,0;];
-% 
-% P2=[0,1,0;
-%     0,0,1;
-%     0,0,0;];
+P=[0,1,0;
+   0,0,1;
+   1,0,0;];
+
+P2=[0,1,0;
+    0,0,1;
+    0,0,0;];
 
 %MU=[1/0.0125,1/0.2,1/0.033];
 
-% NC=ones(size(RTm));
-% NC(:,1)=1000;
-% NC(:,2)=20;
-% NC(:,3)=2;
+NC=ones(size(RTm));
+NC(:,1)=1000;
+NC(:,2)=11;
+NC(:,3)=2;
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
@@ -30,7 +30,7 @@ Tl=zeros(CIdx,size(RTm,2));
 for i=1:CIdx
     %Kpi=lineQN([Cli(i)],P,MU,NC(i,:));
     
-    X0=[Cli(1,i),zeros(1,size(P,2)-1)];
+    X0=[Cli(i),zeros(1,size(P,2)-1)];
     [t,y,T,RT]=QN_ODE(X0,NC(i,:),P,MU,inf);
     
     RTl(i,:)=solveRT2(P2,RT');
