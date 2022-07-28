@@ -48,7 +48,7 @@ if (params.has('port')) {
 
 var staticPool = new StaticPool({
   size: ncore,
-  task: "/Users/emilio/git/nodejsMicro/3tier/thread.js",
+  task: "./thread.js",
   workerData: ""
 });
 
