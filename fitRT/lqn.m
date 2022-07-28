@@ -26,11 +26,14 @@ p.delta = 10^5; % context switch rate (super fast)
 
 %states name
 %X(1)=X0;
-%X(2)=X1_a1;
-%X(3)=X1_a2;
+%X(2)=X1_a;
+%X(3)=X1_2;
 %X(4)=X1_e;
 %X(5)=X2_a;
 %X(6)=X2_e;
+%X(7)=X0_c;
+%X(8)=X1_c;
+%X(9)=X2_c;
 
 
 %task ordering
@@ -40,12 +43,11 @@ p.delta = 10^5; % context switch rate (super fast)
 
 
 % Jump matrix
-stoich_matrix=[-1,  +1,  +0,  +0,  +0,  +0; 
-               +0,  -1,  +0,  +0,  +1,  +0; 
-               +0,  +0,  +0,  +0,  -1,  +1; 
-               +0,  +0,  +1,  +0,  +0,  -1; 
-               +0,  +0,  -1,  +1,  +0,  +0; 
-               +1,  +0,  +0,  -1,  +0,  +0; 
+stoich_matrix=[-1,  +1,  +0,  +0,  +0,  +0,  +1,  +0,  +0; 
+               +0,  -1,  +1,  +0,  +1,  +0,  +0,  +0,  +0; 
+               +0,  +0,  +0,  +0,  -1,  +1,  +0,  +0,  +0; 
+               +0,  +0,  -1,  +1,  +0,  -1,  +0,  +0,  +1; 
+               +1,  +0,  +0,  -1,  +0,  +0,  +0,  +1,  +0; 
                ];
     
 tspan = [0, TF];
@@ -64,10 +66,9 @@ end
 % Propensity rate vector (CTMC)
 function Rate = propensities_2state(X, p)
     Rate = [p.MU(1)*X(1);
-            p.delta*min(p.NT(2)-X(4),X(2)+X(3))*(X(2)/sum(X([2,3])));
+            p.delta*min(p.NT(2)-(X(3)+X(4)),X(2));
     		p.delta*min(p.NT(3)-X(6),X(5));
             p.MU(3)*min(p.NC(3),X(6));
-            p.delta*min(p.NT(2)-X(4),X(2)+X(3))*(X(3)/sum(X([2,3])));
             p.MU(2)*min(p.NC(2),X(4));
     		];
     Rate(isnan(Rate))=0;
