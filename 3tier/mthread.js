@@ -48,7 +48,7 @@ if (params.has('port')) {
 
 var staticPool = new StaticPool({
   size: ncore,
-  task: "./thread.js",
+  task: "../3tier/thread.js",
   workerData: ""
 });
 
