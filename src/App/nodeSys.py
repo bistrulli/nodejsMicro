@@ -31,7 +31,7 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
-        self.clearLog()
+        #self.clearLog()
     
     
     def startSys(self):
