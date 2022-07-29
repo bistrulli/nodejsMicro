@@ -138,3 +138,5 @@ WiredTiger
 journal
 storage.bson
 diagnostic.data
+
+prx/
