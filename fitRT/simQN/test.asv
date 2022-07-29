@@ -1,0 +1,25 @@
+clear
+
+X0=[1,0,0];
+MU=[1/0.2,1/0.2,1/0.033];
+S=[10000,10,2];
+P=[0,1.,0;
+    0,0,1;
+    1,0,0;];
+TF=20000;
+dt=0.1;
+rep=1;
+
+pop=raound(linspace(1,100,30));
+
+Xsim=zeros();
+Xode=zeros();
+
+for i=1:size(pop,2)
+    X=QN(X0,S,P,MU,TF,rep,dt);
+    Xm=(cumsum(X,2)./linspace(1,size(X,2),size(X,2)))';
+    [t,y,T,RT]=QN_ODE(X0,S,P,MU,inf);
+    
+    
+end
+
