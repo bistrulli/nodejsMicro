@@ -168,7 +168,7 @@ class mnt_thread(Thread):
                 notified=True
                 
         
-        self.logFile.close()            
+        self.logFile.close()           
             
             
         

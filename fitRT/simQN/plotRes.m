@@ -1,21 +1,18 @@
 clear
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/3tier_worker_all.mat");
+load("/Users/emilio/git/nodejsMicro/data/mt_test.mat");
 
-% P=[0,1,0;
-%    0,0,1;
-%    1,0,0;];
+% P=[0,1;
+%    1,0;];
 % 
-% P2=[0,1,0;
-%     0,0,1;
-%     0,0,0;];
-
-%MU=[1/0.0125,1/0.2,1/0.033];
+% P2=[0,1;
+%     0,0;];
+% 
+% MU=[1,1/0.105];
 
 % NC=ones(size(RTm));
 % NC(:,1)=1000;
-% NC(:,2)=20;
-% NC(:,3)=2;
+% NC(:,2)=3;
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
@@ -46,7 +43,7 @@ for cmp=1:size(RTm,2)
     stem(RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
     stem(RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
     %stem(RTlqn_Ode(cmp,1:CIdx)',"--","linewidth",1.3,'LineStyle','none')
-    legend(["RT_m","RT_p","RT_ode"])
+    legend(["RT_m","RT_p"])
 end
 % 
 % 

@@ -1,10 +1,7 @@
 var express = require('express');
-var sleep = require('sleep');
+const { StaticPool } = require('node-worker-threads-pool');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
-var exponential = require('@stdlib/random-base-exponential');
-const cluster = require('node:cluster');
-const process = require('node:process');
 var app = express();
 
 mongoInit = async function(ms_name) {
@@ -33,19 +30,6 @@ initRtColl=async function(ms_name){
 	db.close()
 }
 
-getMSHRtime= function(){
-	let hrTime = process.hrtime();
-	return (hrTime[0] * 1000 + hrTime[1] / 1000000.0);
-}
-
-doWork=function (delay){
-	let stime=getMSHRtime()
-	let i=0;
-	while((getMSHRtime()-stime)<=delay){
-		i=i+1;
-	}
-}
-
 var ms_name = null
 var port = null
 var stime=33.33
@@ -62,11 +46,17 @@ if (params.has('port')) {
 	throw new Error("port required");
 }
 
+//initThreadpool
+var staticPool = new StaticPool({
+	  size: ncore,
+	  task: "../msLocalLogic/msThread.js",
+	  workerData: ""
+});
+
 
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
-	let delay = exponential(1.0 / stime);
-	sleep.msleep(Math.max(Math.round(delay),0))
+	let result = await staticPool.exec(stime); 
 	//doWork(delay);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end":et})
@@ -77,26 +67,13 @@ app.get('/mnt', function(req, res) {
 	res.send('running ' + ms_name);
 })
 
-if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
   
-  //init db
-  initRtColl(ms_name)
-
-  // Fork workers.
-  for (let i = 0; i < ncore; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-  });
-} else {
-	var server = app.listen(port,"localhost",100000,async function() {
-		var host = server.address().address
-		var port = server.address().port
-		global.msdb = await mongoInit(ms_name)
-		console.log("Example app listening at http://%s:%s", host, port)
-	})
-  console.log(`Worker ${process.pid} started`);
-}
+//init db
+initRtColl(ms_name)
+var server = app.listen(port,"localhost",async function() {
+	var host = server.address().address
+	var port = server.address().port
+	global.msdb = await mongoInit(ms_name)
+	console.log("Example app listening at http://%s:%s", host, port)
+});
+console.log(`Worker ${process.pid} started`);

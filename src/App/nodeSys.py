@@ -7,6 +7,8 @@ from Monitoring import mnt_thread
 from pymongo import MongoClient
 import pymongo
 from utility import CountDownLatch 
+import shutil
+import os
 
 class nodeSys():
     
@@ -29,6 +31,7 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
+        self.clearLog()
     
     
     def startSys(self):
@@ -129,6 +132,10 @@ class nodeSys():
             
             d=t.getData()
             self.data[t.name]={"rt":d[0],"tr":d[1]}
+    
+    def clearLog(self):
+        shutil.rmtree('../log')
+        os.makedirs('../log')
         
         
     def reset(self):

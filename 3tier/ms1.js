@@ -1,29 +1,11 @@
 var express = require('express');
-var sleep = require('sleep');
+const { StaticPool } = require('node-worker-threads-pool');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
-var exponential = require('@stdlib/random-base-exponential');
 var app = express();
 const superagent = require('superagent');
-var Agent = require('agentkeepalive');
+// var Agent = require('agentkeepalive');
 var rwc = require("random-weighted-choice");
-
-const cluster = require('node:cluster');
-const process = require('node:process');
-
-
-getMSHRtime = function() {
-	let hrTime = process.hrtime();
-	return (hrTime[0] * 1000 + hrTime[1] / 1000000.0);
-}
-
-doWork = function(delay) {
-	let stime = getMSHRtime()
-	let i = 0;
-	while ((getMSHRtime() - stime) <= delay) {
-		i = i + 1;
-	}
-}
 
 mongoInit = async function(ms_name) {
 	let db = await MongoClient.connect(`mongodb://localhost:27017/${ms_name}`)
@@ -51,16 +33,10 @@ initRtColl=async function(ms_name){
 	db.close()
 }
 
-slowDown = function(mu, so, st) {
-	return mu * (1 - (so - Math.min(so, st)) / so)
-}
-
 var ms_name = null
 var port = null
-var ncore = 20
+var ncore = 3
 var stime = 200.0
-
-stime = (1.0 / slowDown(1.0 / stime, ncore, ncore))
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
@@ -72,6 +48,13 @@ if (params.has('port')) {
 } else {
 	throw new Error("port required");
 }
+
+// initThreadpool
+var staticPool = new StaticPool({
+	  size: ncore,
+	  task: "../msLocalLogic/msThread.js",
+	  workerData: ""
+});
 
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st = parseInt(req.params["st"])
@@ -89,24 +72,13 @@ app.get('/:st([0-9]+)', async function(req, res) {
 			break
 		}
 	}
-
-
-	//invece di predere il tempo di riposta in questo modo
-	//faccio un proxy lato ricevete che mi aggiunge il tempo di arrivo della richiesta e 
-	//considero quello come tempo di risposta
-	//se il proxy non fa nulla ed e molto veloce non dovrebbe aggiungere contesa
-	//let reqTime = new Date().getTime()
-	//resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false, "agent": httpAgent})
+	
+	// resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false,
+	// "agent": httpAgent})
 	resp = await superagent.get(`http://localhost:${tierPort}`);
-	//console.log(response.latency)
-
-	let delay = exponential(1.0 / stime);
-	sleep.msleep(Math.max(Math.round(delay),0))
-	//doWork(delay);
-
+	let result = await staticPool.exec(stime); 
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })
-
 	res.send('Hello World ' + ms_name);
 
 })
@@ -114,27 +86,14 @@ app.get('/:st([0-9]+)', async function(req, res) {
 app.get('/mnt', function(req, res) {
 	res.send('running ' + ms_name);
 })
-
-if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
   
-  //init db
-  initRtColl(ms_name)
   
-  // Fork workers.
-  for (let i = 0; i < ncore; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-  });
-} else {
-	var server = app.listen(port,"localhost",100000, async function() {
-		var host = server.address().address
-		var port = server.address().port
-		global.msdb = await mongoInit(ms_name)
-		console.log("Example app listening at http://%s:%s", host, port)
-	})
-  console.log(`Worker ${process.pid} started`);
-}
+// init db
+initRtColl(ms_name)
+var server = app.listen(port,"localhost", async function() {
+	var host = server.address().address
+	var port = server.address().port
+	global.msdb = await mongoInit(ms_name)
+	console.log("Example app listening at http://%s:%s", host, port)
+})
+console.log(`Worker ${process.pid} started`);
