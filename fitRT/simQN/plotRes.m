@@ -1,22 +1,20 @@
 clear
-%load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
+load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
 load("/Users/emilio/git/nodejsMicro/data/3tier_all.mat");
 
-P=[0,1,0;
-   0,0,1;
-   1,0,0;];
-
-P2=[0,1,0;
-   0,0,1;
-   0,0,0;];
-
-%MU=[1/0.2,1/0.105];
-MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);
+% P=[0,1,0;
+%    0,0,1;
+%    1,0,0;];
+% 
+% P2=[0,1,0;
+%    0,0,1;
+%    0,0,0;];
+% MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);
 
 NC=ones(size(RTm));
-NC(:,1)=inf;
-NC(:,2)=20;
-NC(:,3)=2;
+NC(:,1)=1000.0;
+NC(:,2)=20.0;
+NC(:,3)=2.0;
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
