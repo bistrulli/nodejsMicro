@@ -1,6 +1,6 @@
 clear
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/3tier2b.mat");
+load("/Users/emilio/git/nodejsMicro/data/3tier_all.mat");
 
 % P=[0,1,0;
 %    0,0,1;
@@ -11,10 +11,10 @@ load("/Users/emilio/git/nodejsMicro/data/3tier2b.mat");
 %    0,0,0;];
 % MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);
 
-NC=ones(size(RTm));
-NC(:,1)=1000.0;
-NC(:,2)=8.0;
-NC(:,3)=4.0;
+% NC=ones(size(RTm));
+% NC(:,1)=1000.0;
+% NC(:,2)=8.0;
+% NC(:,3)=4.0;
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
