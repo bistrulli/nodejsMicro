@@ -78,9 +78,9 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	let resp = superagent.get(`http://localhost:${tierPort}`);
 	
 	//eseguo parte della chiamata in modo asincrono
-	let result = await staticPool.exec(stime*0.5);
+	await staticPool.exec(stime*0.5);
 	await resp //mi sincronizzo
-	let result = await staticPool.exec(stime*0.5);//finisco di eseguire
+	await staticPool.exec(stime*0.5);//finisco di eseguire
 	
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })
