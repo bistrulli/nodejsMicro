@@ -53,7 +53,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/3tier2b.mat", data)
+            savemat("../data/3tierA1.mat", data)
             
             print("killing clients")
             sys.stopClient()

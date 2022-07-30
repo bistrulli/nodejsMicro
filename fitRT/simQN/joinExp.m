@@ -1,7 +1,7 @@
 clear
 
 e1=load("/Users/emilio/git/nodejsMicro/data/3tier1b.mat");
-e2=load("/Users/emilio/git/nodejsMicro/data/3tier2bf.mat");
+e2=load("/Users/emilio/git/nodejsMicro/data/3tier2b.mat");
 
 e1CIdx=sum(sum(e1.RTm,2)~=0);
 e2CIdx=sum(sum(e2.RTm,2)~=0);
