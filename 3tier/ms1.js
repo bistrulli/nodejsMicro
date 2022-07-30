@@ -35,7 +35,7 @@ initRtColl=async function(ms_name){
 
 var ms_name = null
 var port = null
-var ncore = 8
+var ncore = 20
 var stime = 200.0
 
 if (params.has('ms_name')) {
@@ -75,8 +75,13 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	
 	// resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false,
 	// "agent": httpAgent})
-	resp = await superagent.get(`http://localhost:${tierPort}`);
-	let result = await staticPool.exec(stime); 
+	let resp = superagent.get(`http://localhost:${tierPort}`);
+	
+	//eseguo parte della chiamata in modo asincrono
+	let result = await staticPool.exec(stime*0.2);
+	await resp //mi sincronizzo
+	let result = await staticPool.exec(stime*0.8);//finisco di eseguire
+	
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })
 	res.send('Hello World ' + ms_name);
