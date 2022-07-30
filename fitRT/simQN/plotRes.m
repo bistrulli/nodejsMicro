@@ -14,7 +14,7 @@ P2=[0,1,0;
 MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);
 
 NC=ones(size(RTm));
-NC(:,1)=1000;
+NC(:,1)=inf;
 NC(:,2)=20;
 NC(:,3)=2;
 
@@ -30,11 +30,12 @@ RTl=zeros(CIdx,size(RTm,2));
 Tl=zeros(CIdx,size(RTm,2));
 for i=1:CIdx
     %Kpi=lineQN([Cli(i)],P,MU,NC(i,:));
+    disp(Cli(1,i))
     
     X0=[Cli(1,i),zeros(1,size(P,2)-1)];
     [t,y,T,RT]=QN_ODE(X0,NC(i,:),P,MU,inf);
     
-    RTl(i,:)=solveRT(P2,RT);
+    RTl(i,:)=solveRT2(P2,RT');
     Tl(i,:)=T;
 end
 
