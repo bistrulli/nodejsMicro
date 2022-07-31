@@ -1,6 +1,7 @@
 var express = require('express');
 //const { StaticPool } = require('node-worker-threads-pool');
-const workerpool = require('workerpool');
+//const workerpool = require('workerpool');
+const Piscina = require('piscina');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var app = express();
@@ -55,15 +56,22 @@ if (params.has('port')) {
 //});
 
 //create a worker pool using an external worker script
-const pool = workerpool.pool("../msLocalLogic/msThread.js",{minWorkers:ncore,
-															maxWorkers:ncore,
-															workerType:"thread"});
+//const pool = workerpool.pool("../msLocalLogic/msThread.js",{minWorkers:ncore,
+//															maxWorkers:ncore,
+//															workerType:"thread"});
+
+const piscina = new Piscina({
+	  filename:"../msLocalLogic/msThread.js",
+	  minThreads:ncore,
+	  maxThreads:ncore
+});
 
 
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
 	//let result = await staticPool.exec(stime);
-	await pool.exec('doWork', [stime])
+	//await pool.exec('doWork', [stime])
+	await piscina.run({ delay: stime}, { name: 'doWork' })
 	//doWork(delay);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end":et})

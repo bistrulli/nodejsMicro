@@ -1,6 +1,7 @@
 var express = require('express');
 // const { StaticPool} = require('node-worker-threads-pool');
-const workerpool = require('workerpool');
+//const workerpool = require('workerpool');
+const Piscina = require('piscina');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var app = express();
@@ -59,9 +60,16 @@ if (params.has('port')) {
 // });
 
 // create a worker pool using an external worker script
-const pool = workerpool.pool("../msLocalLogic/msThread.js",{minWorkers:ncore,
-															maxWorkers:ncore,
-															workerType:"thread"});
+//const pool = workerpool.pool("../msLocalLogic/msThread.js",{minWorkers:ncore,
+//															maxWorkers:ncore,
+//															workerType:"thread"});
+
+const piscina = new Piscina({
+	  filename:"../msLocalLogic/msThread.js",
+	  minThreads:ncore,
+	  maxThreads:ncore
+});
+
 
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st = parseInt(req.params["st"])
@@ -85,8 +93,9 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	
 	// eseguo parte della chiamata in modo asincrono
 	await response // mi sincronizzo
-	await pool.exec('doWork', [stime/2])
-	await pool.exec('doWork', [stime/2])
+	await piscina.run({ delay: stime}, { name: 'doWork' })
+//	await pool.exec('doWork', [stime/2])
+//	await pool.exec('doWork', [stime/2])
 //	await staticPool.exec(100.0);
 //	await staticPool.exec(100.0);
 	// await staticPool.exec(stime/2);//finisco di eseguire
