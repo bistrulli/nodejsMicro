@@ -79,8 +79,8 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	
 	//eseguo parte della chiamata in modo asincrono
 	await response //mi sincronizzo
-	await staticPool.exec(stime/2);
-	await staticPool.exec(stime/2);//finisco di eseguire
+	await staticPool.exec(stime);
+	//await staticPool.exec(stime/2);//finisco di eseguire
 	
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })
