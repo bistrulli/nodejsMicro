@@ -3,8 +3,9 @@ const { StaticPool } = require('node-worker-threads-pool');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var app = express();
-const superagent = require('superagent');
+//const superagent = require('superagent');
 // var Agent = require('agentkeepalive');
+const axios = require('axios')
 var rwc = require("random-weighted-choice");
 
 mongoInit = async function(ms_name) {
@@ -73,9 +74,8 @@ app.get('/:st([0-9]+)', async function(req, res) {
 		}
 	}
 	
-	// resp = await axios.get(`http://localhost:${tierPort}`,{"proxy":false,
-	// "agent": httpAgent})
-	let resp = superagent.get(`http://localhost:${tierPort}`);
+	let resp = axios.get(`http://localhost:${tierPort}`)
+	//let resp = superagent.get(`http://localhost:${tierPort}`);
 	
 	//eseguo parte della chiamata in modo asincrono
 	await staticPool.exec(stime*0.5);
