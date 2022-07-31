@@ -1,9 +1,10 @@
 var express = require('express');
-const { StaticPool } = require('node-worker-threads-pool');
+// const { StaticPool} = require('node-worker-threads-pool');
+const workerpool = require('workerpool');
 const params = require('params-cli');
 const { MongoClient } = require('mongodb');
 var app = express();
-//const superagent = require('superagent');
+// const superagent = require('superagent');
 // var Agent = require('agentkeepalive');
 const axios = require('axios')
 var rwc = require("random-weighted-choice");
@@ -51,11 +52,16 @@ if (params.has('port')) {
 }
 
 // initThreadpool
-var staticPool = new StaticPool({
-	  size: ncore,
-	  task: "../msLocalLogic/msThread.js",
-	  workerData: ""
-});
+// var staticPool = new StaticPool({
+// size: ncore,
+// task: "../msLocalLogic/msThread.js",
+// workerData: ""
+// });
+
+// create a worker pool using an external worker script
+const pool = workerpool.pool("../msLocalLogic/msThread.js",{minWorkers:ncore,
+															maxWorkers:ncore,
+															workerType:"thread"});
 
 app.get('/:st([0-9]+)', async function(req, res) {
 	let st = parseInt(req.params["st"])
@@ -75,12 +81,14 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	}
 	 
 	let response = axios.get(`http://localhost:${tierPort}`)
-	//let resp = superagent.get(`http://localhost:${tierPort}`);
+	// let resp = superagent.get(`http://localhost:${tierPort}`);
 	
-	//eseguo parte della chiamata in modo asincrono
-	await response //mi sincronizzo
-	await staticPool.exec(stime);
-	//await staticPool.exec(stime/2);//finisco di eseguire
+	// eseguo parte della chiamata in modo asincrono
+	await response // mi sincronizzo
+	await pool.exec('doWork', [stime])
+//	await staticPool.exec(100.0);
+//	await staticPool.exec(100.0);
+	// await staticPool.exec(stime/2);//finisco di eseguire
 	
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })

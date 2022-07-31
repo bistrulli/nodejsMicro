@@ -1,6 +1,7 @@
 const {execSync} = require('child_process');
 const exponential = require('@stdlib/random-base-exponential');
-const { parentPort, workerData } = require('worker_threads');
+//const { parentPort, workerData } = require('worker_threads');
+const workerpool = require('workerpool');
 
 //getMSHRtime = function() {
 //	let hrTime = process.hrtime();
@@ -26,8 +27,13 @@ function doWork(delay) {
 
 // Main thread will pass the data you need
 // through this event listener.
-parentPort.on('message', (delay) => {
-doWork(parseFloat(delay));
-// return the result to main thread.
-parentPort.postMessage("done");
+//parentPort.on('message', (delay) => {
+//doWork(parseFloat(delay));
+//// return the result to main thread.
+//parentPort.postMessage("done");
+//});
+
+//create a worker and register public functions
+workerpool.worker({
+	doWork: doWork
 });
