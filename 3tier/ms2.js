@@ -71,7 +71,7 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	let st=parseInt(req.params["st"])
 	//let result = await staticPool.exec(stime);
 	//await pool.exec('doWork', [stime])
-	await piscina.run({ delay: stime}, { name: 'doWork' })
+	await piscina.run({ delay: stime})
 	//doWork(delay);
 	let et=(new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end":et})
