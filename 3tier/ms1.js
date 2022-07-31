@@ -74,13 +74,13 @@ app.get('/:st([0-9]+)', async function(req, res) {
 		}
 	}
 	
-	let resp = axios.get(`http://localhost:${tierPort}`)
+	let response = axios.get(`http://localhost:${tierPort}`)
 	//let resp = superagent.get(`http://localhost:${tierPort}`);
 	
 	//eseguo parte della chiamata in modo asincrono
-	await staticPool.exec(stime*0.5);
-	await resp //mi sincronizzo
-	await staticPool.exec(stime*0.5);//finisco di eseguire
+	await staticPool.exec(stime/2);
+	await response //mi sincronizzo
+	await staticPool.exec(stime/2);//finisco di eseguire
 	
 	let et = (new Date().getTime())
 	msdb.collection("rt").insertOne({ "st": st, "end": et })

@@ -20,7 +20,8 @@ const { parentPort, workerData } = require('worker_threads');
 // since it will block.
 function doWork(delay) {
 	//d=(exponential(1.0 / delay)/1000.0).toFixed(4)
-	d=delay.toFixed(2)
+	d=delay.toFixed(4)
+	console.log(d)
 	execSync(`sleep ${d}`);
 }
 
