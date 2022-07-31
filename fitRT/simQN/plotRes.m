@@ -1,6 +1,6 @@
 clear
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/3tier_all.mat");
+load("/Users/emilio/git/nodejsMicro/data/3tierA1.mat");
 
 % P=[0,1,0;
 %    0,0,1;
