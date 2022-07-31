@@ -38,7 +38,7 @@ const exponential = require('@stdlib/random-base-exponential');
 //	doWork: doWork
 //});
 
-module.exports = ({delay}) {
+module.exports = ({delay}) => {
 	//d=(exponential(1.0 / delay)/1000.0).toFixed(4)
 	d=(delay/1000).toFixed(4)
 	execSync(`sleep ${d}`);
