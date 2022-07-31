@@ -85,7 +85,8 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	
 	// eseguo parte della chiamata in modo asincrono
 	await response // mi sincronizzo
-	await pool.exec('doWork', [stime])
+	await pool.exec('doWork', [stime/2])
+	await pool.exec('doWork', [stime/2])
 //	await staticPool.exec(100.0);
 //	await staticPool.exec(100.0);
 	// await staticPool.exec(stime/2);//finisco di eseguire
