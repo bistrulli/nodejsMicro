@@ -93,8 +93,10 @@ app.get('/:st([0-9]+)', async function(req, res) {
 	
 	// eseguo parte della chiamata in modo asincrono
 	await response // mi sincronizzo
-	await piscina.run({ delay: 100})
-	await piscina.run({ delay: 100})
+	await Promise.all([
+		piscina.run({ delay: 100}),
+		piscina.run({ delay: 100})
+	]);
 //	await pool.exec('doWork', [stime/2])
 //	await pool.exec('doWork', [stime/2])
 //	await staticPool.exec(100.0);
