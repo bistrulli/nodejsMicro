@@ -38,7 +38,7 @@ initRtColl=async function(ms_name){
 
 var ms_name = null
 var port = null
-var ncore = 25
+var ncore = 1
 var stime = 200.0
 
 if (params.has('ms_name')) {
