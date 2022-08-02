@@ -22,10 +22,11 @@ class clientThread(Thread):
         self.ttime=ttime
         self.id=clientThread.i
         clientThread.i+=1
-        self.mongoClient=MongoClient("mongodb://localhost:27017/client")
+        self.mongoClient=MongoClient("mongodb://localhost:27017/")
         
     
     def run(self):
+        ms1Obj=self.mongoClient["sys"]["ms"].find_one({"name":"ms1"})
         while(not clientThread.toStop):
             st = time.time_ns() // 1_000_000 
             
@@ -42,7 +43,7 @@ class clientThread(Thread):
             
             
             reqTime=time.time_ns() // 1_000_000
-            req.get('http://localhost:8081')
+            req.get('http://localhost:%d'%(ms1Obj["prxPort"]))
             end= time.time_ns() // 1_000_000
             self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
     

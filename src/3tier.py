@@ -11,7 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":[1,10,20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
@@ -19,15 +19,13 @@ if __name__ == '__main__':
                #            "mntPort":8086},
         msSys = {"ms1":{  "appFile":"../3tier/ms1.js",
                           "addr":"localhost",
-                          "port":9081,
-                          "prxFile":"../prx/proxy.jar",
-                          "prxPort":8081
+                          "replica":3,
+                          "prxFile":"../prx/proxy.jar"
                           },
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "port":9082,
-                          "prxFile":"../prx/proxy.jar",
-                          "prxPort":8082}
+                          "replica":3,
+                          "prxFile":"../prx/proxy.jar"}
               }
         sys = nodeSys(msSys)
         
@@ -53,7 +51,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/3tierA2.mat", data)
+            savemat("../data/3tierLB.mat", data)
             
             print("killing clients")
             sys.stopClient()

@@ -9,6 +9,10 @@ import pymongo
 from utility import CountDownLatch 
 import shutil
 import os
+import socket
+import numpy as np
+import json
+import glob
 
 class nodeSys():
     
@@ -31,42 +35,67 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
-        #self.clearLog()
+        self.clearLog()
     
     
     def startSys(self):
+        
+        mongoCli=MongoClient("mongodb://localhost:27017/sys")
+        try:
+            mongoCli["sys"]["ms"].drop()
+        except:
+            pass
+        finally:
+            mongoCli["sys"].create_collection("ms")
+        
         for ms in self.nodeSys:
-            msOutf = open("../log/%sOut.log"%(ms), "w+")
+            
+            port=None
+            for rep in range(self.nodeSys[ms]["replica"]):
+                port=self.getRandomPort()
+                msOutf = open("../log/%sOut_%d.log"%(ms,port), "w+")
+                msErrf = open("../log/%sErr_%d.log"%(ms,port), "w+")
+                
+                if(not ms in self.nodeSysProc):
+                    self.nodeSysProc[ms]=[]
+                if(not "ports" in self.nodeSys[ms]):
+                    self.nodeSys[ms]["ports"]=[]
+                
+                self.nodeSys[ms]["ports"]+=[port]
+                self.nodeSysProc[ms]+=[subprocess.Popen(["node",self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                       "port=%s"%(port)], 
+                                                      stdout=msOutf, stderr=msErrf)]
+                self.waitMs(ms,port)
+                
+                msOutf.close()
+                msErrf.close()
+            
+           
             msPrxOutf = open("../log/%sPrxOut.log"%(ms), "w+")
-            msErrf = open("../log/%sErr.log"%(ms), "w+")
             msPrxErrf = open("../log/%sPrxErr.log"%(ms), "w+")
             
-            # self.nodePrxProc[ms]=subprocess.Popen(["node", self.nodeSys[ms]["prxFile"],"port=%s"%(self.nodeSys[ms]["prxPort"]),
-            #                                        "tgtPort=%s"%(self.nodeSys[ms]["port"])], 
-            #                                       stdout=msPrxOutf, stderr=msPrxErrf)
+            self.nodeSys[ms]["prxPort"]=self.getRandomPort()
+            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"]
+                                                   ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
+                                                   "--msName","%s"%(ms)],
+                                                   stdout=msPrxOutf, stderr=msPrxErrf)
             
-            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"],
-                                                   "--tgtPort","%d"%self.nodeSys[ms]["port"]
-                                                   ,"--prxPort","%d"%self.nodeSys[ms]["prxPort"]], 
-                                      stdout=msPrxOutf, stderr=msPrxErrf)
-            
-            self.nodeSysProc[ms]=subprocess.Popen(["node",self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
-                                                   "port=%s"%(self.nodeSys[ms]["port"])], 
-                                                  stdout=msOutf, stderr=msErrf)
-            self.waitMs(ms)
-            
-            msOutf.close()
             msPrxOutf.close()
-            msErrf.close()
             msPrxErrf.close()
+            
+            #salvo le informazioni di questo microservizio
+            self.nodeSys[ms]["name"]=ms;
+            mongoCli["sys"]["ms"].insert_one(self.nodeSys[ms])
+            
     
     def stopSys(self):
         for ms in self.nodeSysProc:
-            self.nodeSysProc[ms].terminate()
-            try:
-                self.nodeSysProc[ms].wait(timeout=2)
-            except psutil.TimeoutExpired as e:
-                self.nodeSysProc[ms].kill()
+            for p in self.nodeSysProc[ms]:
+                p.terminate()
+                try:
+                    p.wait(timeout=2)
+                except psutil.TimeoutExpired as e:
+                    p.kill()
         
         for ms in self.nodePrxProc:
             self.nodePrxProc[ms].terminate()
@@ -96,14 +125,14 @@ class nodeSys():
             c.join()
             print("stopped client %d"%(c.id))
     
-    def waitMs(self,msName):
+    def waitMs(self,msName=None,port=None):
         atpt = 0
         limit = 10
         connected = False
         r=None
         while(atpt < limit and not connected):
             try:
-                r = req.get("http://%s:%d/mnt"%(self.nodeSys[msName]["addr"],self.nodeSys[msName]["port"]))
+                r = req.get("http://%s:%d/mnt"%(self.nodeSys[msName]["addr"],port))
                 connected = True
                 break
             except:
@@ -133,9 +162,27 @@ class nodeSys():
             d=t.getData()
             self.data[t.name]={"rt":d[0],"tr":d[1]}
     
+    def is_port_in_use(self,port: int) -> bool:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            res=s.connect_ex(('localhost', port))
+            if(res==0):
+                s.close()
+                return res
+            
+    
+    def getRandomPort(self) -> int:
+        port=np.random.randint(low=3000,high=65535)
+        while(self.is_port_in_use(port)):
+            port=np.random.randint(low=3000,high=65535)
+        return port
+    
     def clearLog(self):
-        shutil.rmtree('../log')
-        os.makedirs('../log')
+        files = glob.glob('../log/*.log')
+        for f in files:
+            try:
+                os.remove(os.path.abspath(f))
+            except OSError as e:
+                print("Error: %s : %s" % (f, e.strerror))
         
         
     def reset(self):
