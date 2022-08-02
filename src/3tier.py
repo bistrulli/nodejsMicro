@@ -11,7 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[10,20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":[20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
