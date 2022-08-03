@@ -110,8 +110,8 @@ app.get('/', async function(req, res) {
 		res2.on('end', () => {
 			console.log("end")
 			res.send('Hello World ' + ms_name); 
-	    }).bind(res)
-	}).bind(res)
+	    })
+	})
 })
 
 app.get('/mnt', function(req, res) {
