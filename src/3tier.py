@@ -24,7 +24,7 @@ if __name__ == '__main__':
                           },
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "replica":10,
+                          "replica":1,
                           "prxFile":"../prx/proxy.jar"}
               }
         sys = nodeSys(msSys)
