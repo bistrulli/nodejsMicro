@@ -69,7 +69,7 @@ if (params.has('port')) {
 
 
 app.get('/', async function(req, res) {
-	let st=new Date();
+	//let st=new Date();
 	if(ms2Port==null){
 		var client = await mongoInit()
 		var db=client.db("sys")
@@ -92,7 +92,7 @@ app.get('/', async function(req, res) {
 	}
 	let st=new Date();
 	let response = await axios.get(`http://localhost:${tierPort}`)
-	end=new Date();
+	let end=new Date();
 	console.log(end.getTime()-st.getTime());
 	if (response.err) { console.log('error'); }
 	else { 
