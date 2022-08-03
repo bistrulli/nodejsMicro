@@ -1,11 +1,23 @@
 var express = require('express');
-const {execSync} = require('child_process');
+// const {execSync} = require('child_process');
+var sleep = require('sleep');
 const exponential = require('@stdlib/random-base-exponential');
 const params = require('params-cli');
 var app = express();
 const axios = require('axios')
 var rwc = require("random-weighted-choice");
 const { MongoClient } = require('mongodb');
+const { hrtime } = require('node:process');
+
+
+function doWork(delay){
+	const start = hrtime.bigint();
+	let i=0;
+	while(hrtime.bigint()-start>0){
+		i++;
+	}
+	return i;
+}
 
 mongoInit = async function() {
 	let client = await MongoClient.connect(`mongodb://localhost:27017/`)
@@ -32,11 +44,17 @@ initRtColl=async function(ms_name){
 	db.close()
 }
 
+axios.defaults.headers = {
+		  'Cache-Control': 'no-cache',
+		  'Pragma': 'no-cache',
+		  'Expires': '0',
+		};
+
 var ms_name = null
 var port = null
 var stime = 200.0
-var ms2Port=null
-var ms3Port=null
+global.ms2Port=null
+global.ms3Port=null
 
 if (params.has('ms_name')) {
 	ms_name = params.get('ms_name')
@@ -51,12 +69,11 @@ if (params.has('port')) {
 
 
 app.get('/', async function(req, res) {
-	let st = parseInt(req.params["st"])
-	
+	let st=new Date();
 	if(ms2Port==null){
-		let client = await mongoInit()
-		let db=client.db("sys")
-		let ms2obj=await db.collection("ms").findOne({name:"ms2"})
+		var client = await mongoInit()
+		var db=client.db("sys")
+		var ms2obj=await db.collection("ms").findOne({name:"ms2"})
 		ms2Port=ms2obj.prxPort
 	}
 	
@@ -73,14 +90,19 @@ app.get('/', async function(req, res) {
 			break
 		}
 	}
-	
-	let response = axios.get(`http://localhost:${tierPort}`)
-	await response;
-	// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
-	d=(stime/1000).toFixed(4)
-	execSync(`sleep ${d}`);
-	
-	res.send('Hello World ' + ms_name);
+	let response = await axios.get(`http://localhost:${tierPort}`)
+	if (response.err) { console.log('error'); }
+	else { 
+		doWork(delay*1000.0)
+		//sleep.msleep(stime)
+		// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
+		// d=(stime)
+		// execSync(`sleep ${d}`);
+		
+		res.send('Hello World ' + ms_name); 
+		//end=new Date();
+		// console.log(end.getTime()-st.getTime());
+	}
 })
 
 app.get('/mnt', function(req, res) {

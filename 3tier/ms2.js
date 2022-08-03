@@ -1,8 +1,17 @@
 var express = require('express');
 const params = require('params-cli');
-const {execSync} = require('child_process');
+var sleep = require('sleep');
 var app = express();
-const { MongoClient } = require('mongodb');
+//const { MongoClient } = require('mongodb');
+
+function doWork(delay){
+	const start = hrtime.bigint();
+	let i=0;
+	while(hrtime.bigint()-start>0){
+		i++;
+	}
+	return i;
+}
 
 mongoInit = async function() {
 	let client = await MongoClient.connect(`mongodb://localhost:27017`)
@@ -45,12 +54,10 @@ if (params.has('port')) {
 }
 
 app.get('/', async function(req, res) {
-	let st=parseInt(req.params["st"])
-	
-	d=(stime/1000).toFixed(4)
+	//d=(stime/1000).toFixed(4)
 	//d=(exponential(1.0 / delay)/1000.0).toFixed(4)
-	execSync(`sleep ${d}`);
-	
+	//sleep.msleep(stime);
+	doWork(stime*1000.0)
 	res.send('Hello World ' + ms_name);
 })
 

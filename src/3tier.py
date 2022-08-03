@@ -11,7 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
                # "ms3":{   "appFile":"../3tier/ms3.js",
                #            "addr":"localhost",
@@ -19,12 +19,12 @@ if __name__ == '__main__':
                #            "mntPort":8086},
         msSys = {"ms1":{  "appFile":"../3tier/ms1.js",
                           "addr":"localhost",
-                          "replica":3,
+                          "replica":1,
                           "prxFile":"../prx/proxy.jar"
                           },
                 "ms2":{   "appFile":"../3tier/ms2.js",
                           "addr":"localhost",
-                          "replica":3,
+                          "replica":10,
                           "prxFile":"../prx/proxy.jar"}
               }
         sys = nodeSys(msSys)
