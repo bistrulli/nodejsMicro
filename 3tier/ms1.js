@@ -90,9 +90,9 @@ app.get('/', async function(req, res) {
 			break
 		}
 	}
-	let st=new Date();
-	let response = await axios.get(`http://localhost:${tierPort}`)
-	let end=new Date();
+	const st=new Date();
+	const response = await axios.get(`http://localhost:${tierPort}`)
+	const end=new Date();
 	console.log(end.getTime()-st.getTime());
 	if (response.err) { console.log('error'); }
 	else { 
