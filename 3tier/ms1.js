@@ -10,6 +10,21 @@ var rwc = require("random-weighted-choice");
 const { MongoClient } = require('mongodb');
 const { hrtime } = require('node:process');
 
+function getms2(tierPort) {
+    let url = `http://localhost:${tierPort}`;
+    return new Promise((resolve, reject) => {
+      http.get(url, res => {
+        let response = "";
+        res.on("data", chunk => {
+          response += chunk;
+        });
+        res.on("end", () => {
+          resolve(response);
+        });
+      });
+    });
+ }
+
 
 function doWork(delay){
 	const start = hrtime.bigint();
@@ -106,12 +121,9 @@ app.get('/', async function(req, res) {
 //		// console.log(end.getTime()-st.getTime());
 //	}
 	
-	http.get(`http://localhost:${tierPort}`, res2 => {	    
-		res2.on('end', () => {
-			console.log("end")
-			res.send('Hello World ' + ms_name); 
-	    })
-	})
+	let response=await getms2(tierPort);
+	sleep.msleep(stime)
+	res.send('Hello World ' + ms_name); 
 })
 
 app.get('/mnt', function(req, res) {
