@@ -93,7 +93,7 @@ app.get('/', async function(req, res) {
 	let response = await axios.get(`http://localhost:${tierPort}`)
 	if (response.err) { console.log('error'); }
 	else { 
-		doWork(stime*e06)
+		doWork(stime*1e06)
 		//sleep.msleep(stime)
 		// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
 		// d=(stime)
