@@ -57,8 +57,8 @@ if (params.has('port')) {
 app.get('/', async function(req, res) {
 	//d=(stime/1000).toFixed(4)
 	//d=(exponential(1.0 / delay)/1000.0).toFixed(4)
-	//sleep.msleep(stime);
-	doWork(stime*1e06)
+	sleep.msleep(stime);
+	//doWork(stime*1e06)
 	res.send('Hello World ' + ms_name);
 })
 
