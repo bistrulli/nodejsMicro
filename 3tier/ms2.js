@@ -8,7 +8,7 @@ const { hrtime } = require('node:process');
 function doWork(delay){
 	const start = hrtime.bigint();
 	let i=0;
-	while(hrtime.bigint()-start>0){
+	while(hrtime.bigint()-start<delay){
 		i++;
 	}
 	return i;
