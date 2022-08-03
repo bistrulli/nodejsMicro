@@ -13,7 +13,7 @@ const { hrtime } = require('node:process');
 function doWork(delay){
 	const start = hrtime.bigint();
 	let i=0;
-	while(hrtime.bigint()-start>0){
+	while(hrtime.bigint()-start<delay){
 		i++;
 	}
 	return i;
@@ -93,7 +93,7 @@ app.get('/', async function(req, res) {
 	let response = await axios.get(`http://localhost:${tierPort}`)
 	if (response.err) { console.log('error'); }
 	else { 
-		doWork(delay*1000.0)
+		doWork(stime*e06)
 		//sleep.msleep(stime)
 		// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
 		// d=(stime)
