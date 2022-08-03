@@ -3,6 +3,7 @@ const params = require('params-cli');
 var sleep = require('sleep');
 var app = express();
 //const { MongoClient } = require('mongodb');
+const { hrtime } = require('node:process');
 
 function doWork(delay){
 	const start = hrtime.bigint();
