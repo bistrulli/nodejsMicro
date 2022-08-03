@@ -75,7 +75,9 @@ class nodeSys():
             msPrxErrf = open("../log/%sPrxErr.log"%(ms), "w+")
             
             self.nodeSys[ms]["prxPort"]=self.getRandomPort()
-            self.nodePrxProc[ms]=subprocess.Popen(["java","-jar",self.nodeSys[ms]["prxFile"]
+            self.nodePrxProc[ms]=subprocess.Popen(["java",
+                                                   "-Xmx6g",
+                                                   "-jar",self.nodeSys[ms]["prxFile"]
                                                    ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
                                                    "--msName","%s"%(ms)],
                                                    stdout=msPrxOutf, stderr=msPrxErrf)
