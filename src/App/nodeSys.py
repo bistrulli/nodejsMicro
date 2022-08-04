@@ -68,6 +68,7 @@ class nodeSys():
                                                          "--initial_old_space_size=2000",
                                                          "--max_old_space_size=2000",
                                                          "--scavenge_task",
+                                                         "--v8-pool-size=8",
                                                          self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                        "port=%s"%(port)], 
                                                       stdout=msOutf, stderr=msErrf)]
