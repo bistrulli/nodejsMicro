@@ -62,7 +62,13 @@ class nodeSys():
                     self.nodeSys[ms]["ports"]=[]
                 
                 self.nodeSys[ms]["ports"]+=[port]
-                self.nodeSysProc[ms]+=[subprocess.Popen(["node",self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                self.nodeSysProc[ms]+=[subprocess.Popen(["node",
+                                                         "--min_semi_space_size=2000",
+                                                         "--max_semi_space_size=2000",
+                                                         "--initial_old_space_size=2000",
+                                                         "--max_old_space_size=2000",
+                                                         "--scavenge_task=true",
+                                                         self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                        "port=%s"%(port)], 
                                                       stdout=msOutf, stderr=msErrf)]
                 self.waitMs(ms,port)

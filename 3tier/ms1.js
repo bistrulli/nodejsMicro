@@ -5,7 +5,7 @@ const exponential = require('@stdlib/random-base-exponential');
 const params = require('params-cli');
 var app = express();
 const axios = require('axios')
-const http = require('http');
+//const http = require('http');
 var rwc = require("random-weighted-choice");
 const { MongoClient } = require('mongodb');
 const { hrtime } = require('node:process');
@@ -107,23 +107,23 @@ app.get('/', async function(req, res) {
 		}
 	}
 	
-//	const response = await axios.get(`http://localhost:${tierPort}`)
-//	if (response.err) { console.log('error'); }
-//	else { 
-//		// doWork(stime*1e06)
-//		sleep.msleep(stime)
-//		// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
-//		// d=(stime)
-//		// execSync(`sleep ${d}`);
-//		
-//		res.send('Hello World ' + ms_name); 
-//		// end=new Date();
-//		// console.log(end.getTime()-st.getTime());
-//	}
+	const response = await axios.get(`http://localhost:${tierPort}`)
+	if (response.err) { console.log('error'); }
+	else { 
+		// doWork(stime*1e06)
+		sleep.msleep(stime)
+		// d=(exponential(1.0 / delay)/1000.0).toFixed(4)
+		// d=(stime)
+		// execSync(`sleep ${d}`);
+		
+		res.send('Hello World ' + ms_name); 
+		// end=new Date();
+		// console.log(end.getTime()-st.getTime());
+	}
 	
-	let response=await getms2(tierPort);
-	sleep.msleep(stime)
-	res.send('Hello World ' + ms_name); 
+//	let response=await getms2(tierPort);
+//	sleep.msleep(stime)
+//	res.send('Hello World ' + ms_name); 
 })
 
 app.get('/mnt', function(req, res) {
