@@ -67,6 +67,7 @@ class nodeSys():
                                                          "--max_semi_space_size=3000",
                                                          "--initial_old_space_size=3000",
                                                          "--max_old_space_size=3000",
+                                                         "--max_new_space_size=3000",
                                                          "--scavenge_task",
                                                          "--v8-pool-size=8",
                                                          self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
