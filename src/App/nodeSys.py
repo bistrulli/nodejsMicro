@@ -63,11 +63,11 @@ class nodeSys():
                 
                 self.nodeSys[ms]["ports"]+=[port]
                 self.nodeSysProc[ms]+=[subprocess.Popen(["node",
-                                                         # "--min_semi_space_size=2000",
-                                                         # "--max_semi_space_size=2000",
-                                                         # "--initial_old_space_size=2000",
-                                                         # "--max_old_space_size=2000",
-                                                         # "--scavenge_task",
+                                                         "--min_semi_space_size=3000",
+                                                         "--max_semi_space_size=3000",
+                                                         "--initial_old_space_size=3000",
+                                                         "--max_old_space_size=3000",
+                                                         "--scavenge_task",
                                                          "--v8-pool-size=8",
                                                          self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                        "port=%s"%(port)], 
