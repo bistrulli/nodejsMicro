@@ -11,6 +11,7 @@ from scipy.io import savemat
 
 from App import nodeSys
 import numpy as np
+import os
 
 
 if __name__ == '__main__':
@@ -59,7 +60,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/2tier_spring.mat", data)
+            savemat("../data/%s.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
