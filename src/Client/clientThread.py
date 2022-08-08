@@ -43,7 +43,7 @@ class clientThread(Thread):
             
             
             reqTime=time.time_ns() // 1_000_000
-            req.get('http://localhost:%d'%(ms1Obj["prxPort"]))
+            req.get('http://localhost:%d/'%(ms1Obj["prxPort"]))
             end= time.time_ns() // 1_000_000
             self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
     

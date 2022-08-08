@@ -62,16 +62,26 @@ class nodeSys():
                     self.nodeSys[ms]["ports"]=[]
                 
                 self.nodeSys[ms]["ports"]+=[port]
-                self.nodeSysProc[ms]+=[subprocess.Popen(["node",
-                                                         "--min_semi_space_size=2000",
-                                                         "--max_semi_space_size=2000",
-                                                         "--initial_old_space_size=2000",
-                                                         "--max_old_space_size=2000",
-                                                         "--scavenge_task",
-                                                         "--v8-pool-size=8",
-                                                         self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
-                                                       "port=%s"%(port)], 
-                                                      stdout=msOutf, stderr=msErrf)]
+                
+                if(self.nodeSys[ms]["type"]=="node"):
+                    self.nodeSysProc[ms]+=[subprocess.Popen(["node",
+                                                             "--min_semi_space_size=2000",
+                                                             "--max_semi_space_size=2000",
+                                                             "--initial_old_space_size=2000",
+                                                             "--max_old_space_size=2000",
+                                                             "--scavenge_task",
+                                                             "--v8-pool-size=8",
+                                                             self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                           "port=%s"%(port)], 
+                                                          stdout=msOutf, stderr=msErrf)]
+                elif(self.nodeSys[ms]["type"]=="spring"):
+                    self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
+                                                             self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                             "--server.port=%d"%(port),
+                                                             "--ms.name=%s"%(ms),
+                                                             "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
+                                                          stdout=msOutf, stderr=msErrf)]
+                    
                 self.waitMs(ms,port)
                 
                 msOutf.close()
@@ -115,6 +125,8 @@ class nodeSys():
     
     def startClient(self,N):
         
+        print("starting client")
+        
         client=MongoClient("mongodb://localhost:27017/client")
         try:
             client["client"]["rt"].drop()
@@ -136,16 +148,17 @@ class nodeSys():
     
     def waitMs(self,msName=None,port=None):
         atpt = 0
-        limit = 10
+        limit = 60
         connected = False
         r=None
         while(atpt < limit and not connected):
             try:
                 r = req.get("http://%s:%d/mnt"%(self.nodeSys[msName]["addr"],port))
                 connected = True
+                r.close()
                 break
             except:
-                time.sleep(0.2)
+                time.sleep(1.0)
             finally:
                 atpt += 1
         
