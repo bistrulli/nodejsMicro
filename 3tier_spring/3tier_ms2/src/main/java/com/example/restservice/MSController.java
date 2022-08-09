@@ -22,9 +22,7 @@ public class MSController {
 
 	@GetMapping("/")
 	public ResObj ms() {
-		MSController.users.incrementAndGet();
 		this.doWork();
-		MSController.users.decrementAndGet();
 		return new ResObj();
 	}
 
@@ -35,12 +33,15 @@ public class MSController {
 
 	private void doWork() {
 		ExponentialDistribution dist = new ExponentialDistribution(this.stime);
-		Double isTime = dist.sample();
+		Double isTime = dist.getMean();
 		Float d = (float) (isTime.floatValue() * (MSController.users.floatValue() / this.hw));
+		MSController.users.incrementAndGet();
 		try {
 			TimeUnit.MILLISECONDS.sleep(Math.max(Math.round(d), Math.round(isTime)));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		} finally {
+			MSController.users.decrementAndGet();
 		}
 	}
 }

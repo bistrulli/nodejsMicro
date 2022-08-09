@@ -32,7 +32,7 @@ public class MSController {
 	@Autowired
 	private MongoTemplate mt;
 
-	private final Long stime = 100l;
+	private final Long stime = 200l;
 
 	@GetMapping("/")
 	public ResObj ms() {
@@ -48,7 +48,7 @@ public class MSController {
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
 		CompletableFuture<HttpResponse<JsonNode>> resp = Unirest.get(URI.create(requestedURL).toString()).asJsonAsync();
-		this.doWork(100l);
+		this.doWork();
 		try {
 			resp.get();
 		} catch (InterruptedException e) {
@@ -56,7 +56,6 @@ public class MSController {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-		this.doWork(100l);
 		return new ResObj();
 	}
 
@@ -67,7 +66,7 @@ public class MSController {
 
 	private void doWork(long stime) {
 		ExponentialDistribution dist = new ExponentialDistribution(stime);
-		Double isTime = dist.sample();
+		Double isTime = dist.getMean();
 		Float d = (float) (isTime.floatValue() * (MSController.users.floatValue() / this.hw));
 		MSController.users.incrementAndGet();
 		try {
