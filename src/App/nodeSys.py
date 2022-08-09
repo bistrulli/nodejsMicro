@@ -40,9 +40,9 @@ class nodeSys():
     
     def startSys(self):
         
-        mongoCli=MongoClient("mongodb://localhost:27017/sys")
+        mongoCli=MongoClient("mongodb://localhost:27017/") 
         try:
-            mongoCli["sys"].drop()
+            mongoCli.drop_database("sys")
         except:
             pass
         finally:
