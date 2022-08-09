@@ -42,7 +42,7 @@ class nodeSys():
         
         mongoCli=MongoClient("mongodb://localhost:27017/sys")
         try:
-            mongoCli["sys"]["ms"].drop()
+            mongoCli["sys"].drop()
         except:
             pass
         finally:
