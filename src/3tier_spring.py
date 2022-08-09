@@ -30,7 +30,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":20.0
+                          "hw":4.0
                           }
               }
         
