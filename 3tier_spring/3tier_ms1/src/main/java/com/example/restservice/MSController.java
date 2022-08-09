@@ -24,10 +24,13 @@ public class MSController {
 
 	@GetMapping("/")
 	public ResObj ms() {
-
 		// recupero ms1 dal db
-		String msAddr = RestServiceApplication.ms.getString("addr");
-		Integer ms2Port = (Integer) RestServiceApplication.ms.get("prxPort");
+		if(RestServiceApplication.ms==null) {
+			//recupero ms2 dal db
+			RestServiceApplication.ms=RestServiceApplication.msRep.findItemByName("ms2");
+		}
+		String msAddr = RestServiceApplication.ms.getAddr();
+		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
 		Unirest.get(requestedURL);
