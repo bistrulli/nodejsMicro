@@ -114,14 +114,14 @@ class nodeSys():
             for p in self.nodeSysProc[ms]:
                 p.terminate()
                 try:
-                    p.wait(timeout=2)
+                    p.wait(timeout=5)
                 except psutil.TimeoutExpired as e:
                     p.kill()
         
         for ms in self.nodePrxProc:
             self.nodePrxProc[ms].terminate()
             try:
-                self.nodePrxProc[ms].wait(timeout=2)
+                self.nodePrxProc[ms].wait(timeout=5)
             except psutil.TimeoutExpired as e:
                 self.nodePrxProc[ms].kill()
     
