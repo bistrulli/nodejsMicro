@@ -15,7 +15,7 @@ import kong.unirest.Unirest;
 public class RestServiceApplication  implements ApplicationRunner{
 	private static final Logger logger = LoggerFactory.getLogger(RestServiceApplication.class);
 	
-	public static MSModel ms=null;
+	public static Ms ms=null;
     
     public static void main(String[] args) throws Exception {
     	Unirest.config().concurrency(20000, 20000);

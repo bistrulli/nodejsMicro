@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "ms")
-public class MSModel {
+@Document
+public class Ms {
 	@Id
 	private long id;
 
@@ -20,20 +20,20 @@ public class MSModel {
 	private Integer prxPort;
 	private String name;
 
-	public MSModel(long id, String type, String appFile, String addr, Integer replica, String prxFile, Float hw,
-			ArrayList<Integer> ports, Integer prxPort, String name) {
-		super();
-		this.id = id;
-		this.type = type;
-		this.appFile = appFile;
-		this.addr = addr;
-		this.replica = replica;
-		this.prxFile = prxFile;
-		this.hw = hw;
-		this.ports = ports;
-		this.prxPort = prxPort;
-		this.name = name;
-	}
+//	public Ms(long id, String type, String appFile, String addr, Integer replica, String prxFile, Float hw,
+//			ArrayList<Integer> ports, Integer prxPort, String name) {
+//		super();
+//		this.id = id;
+//		this.type = type;
+//		this.appFile = appFile;
+//		this.addr = addr;
+//		this.replica = replica;
+//		this.prxFile = prxFile;
+//		this.hw = hw;
+//		this.ports = ports;
+//		this.prxPort = prxPort;
+//		this.name = name;
+//	}
 
 	public long getId() {
 		return id;
