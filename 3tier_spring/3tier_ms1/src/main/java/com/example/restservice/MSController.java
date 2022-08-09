@@ -42,6 +42,7 @@ public class MSController {
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
+		System.out.println(requestedURL);
 		Unirest.get(requestedURL);
 
 		MSController.users.incrementAndGet();
