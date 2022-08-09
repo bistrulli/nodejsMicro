@@ -1,5 +1,6 @@
 package com.example.restservice;
 
+import java.net.URI;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -42,8 +43,7 @@ public class MSController {
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
-		System.out.println(requestedURL);
-		Unirest.get(requestedURL);
+		Unirest.get(URI.create(requestedURL).toString()).asString();
 
 		MSController.users.incrementAndGet();
 		this.doWork();
