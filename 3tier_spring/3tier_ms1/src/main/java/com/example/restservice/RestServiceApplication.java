@@ -2,28 +2,21 @@ package com.example.restservice;
 
 import java.util.Arrays;
 
-import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import kong.unirest.Unirest;
 
 @SpringBootApplication
-@EnableMongoRepositories
 public class RestServiceApplication  implements ApplicationRunner{
 	private static final Logger logger = LoggerFactory.getLogger(RestServiceApplication.class);
 	
 	public static MSModel ms=null;
-	
-	@Autowired
-    static MSRepository msRep;
-
+    
     public static void main(String[] args) throws Exception {
     	Unirest.config().concurrency(20000, 20000);
 		Unirest.config().automaticRetries(false);

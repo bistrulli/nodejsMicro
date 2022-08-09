@@ -4,7 +4,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.math3.distribution.ExponentialDistribution;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,14 +24,19 @@ public class MSController {
 	@Value("${ms.name}")
 	private static String name;
 
+	@Autowired
+	private MongoTemplate mt;
+
 	private final Long stime = 200l;
 
 	@GetMapping("/")
 	public ResObj ms() {
 		// recupero ms1 dal db
-		if(RestServiceApplication.ms==null) {
-			//recupero ms2 dal db
-			RestServiceApplication.ms=RestServiceApplication.msRep.findItemByName("ms2");
+		if (RestServiceApplication.ms == null) {
+			// recupero ms2 dal db
+			Query query = new Query();
+			query.addCriteria(Criteria.where("name").is("ms2"));
+			RestServiceApplication.ms = this.mt.findOne(null, MSModel.class);
 		}
 		String msAddr = RestServiceApplication.ms.getAddr();
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();

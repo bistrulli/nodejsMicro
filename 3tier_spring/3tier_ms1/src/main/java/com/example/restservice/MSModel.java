@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("ms")
+@Document(collation = "ms")
 public class MSModel {
 	@Id
 	private long id;
@@ -19,8 +19,6 @@ public class MSModel {
 	private ArrayList<Integer> ports;
 	private Integer prxPort;
 	private String name;
-	
-	
 
 	public MSModel(long id, String type, String appFile, String addr, Integer replica, String prxFile, Float hw,
 			ArrayList<Integer> ports, Integer prxPort, String name) {
