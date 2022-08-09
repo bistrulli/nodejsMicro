@@ -61,6 +61,7 @@ if __name__ == '__main__':
                 
             print("####pop %d converged###" % (p))
             savemat("../data/%s.mat"%(os.path.basename(__file__)), data)
+            sys.clearLog()
             
             print("killing clients")
             sys.stopClient()
