@@ -1,6 +1,8 @@
 package com.example.restservice;
 
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,6 +15,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
 @RestController
@@ -28,7 +32,7 @@ public class MSController {
 	@Autowired
 	private MongoTemplate mt;
 
-	private final Long stime = 200l;
+	private final Long stime = 100l;
 
 	@GetMapping("/")
 	public ResObj ms() {
@@ -43,11 +47,16 @@ public class MSController {
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
-		Unirest.get(URI.create(requestedURL).toString()).asString();
-
-		MSController.users.incrementAndGet();
-		this.doWork();
-		MSController.users.decrementAndGet();
+		CompletableFuture<HttpResponse<JsonNode>> resp = Unirest.get(URI.create(requestedURL).toString()).asJsonAsync();
+		this.doWork(100l);
+		try {
+			resp.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		this.doWork(100l);
 		return new ResObj();
 	}
 
@@ -56,14 +65,22 @@ public class MSController {
 		return new ResObj();
 	}
 
-	private void doWork() {
-		ExponentialDistribution dist = new ExponentialDistribution(this.stime);
+	private void doWork(long stime) {
+		ExponentialDistribution dist = new ExponentialDistribution(stime);
 		Double isTime = dist.sample();
 		Float d = (float) (isTime.floatValue() * (MSController.users.floatValue() / this.hw));
+		MSController.users.incrementAndGet();
 		try {
 			TimeUnit.MILLISECONDS.sleep(Math.max(Math.round(d), Math.round(isTime)));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}finally {
+			MSController.users.decrementAndGet();
 		}
 	}
+	
+	private void doWork() {
+		this.doWork(this.stime);
+	}
+	
 }
