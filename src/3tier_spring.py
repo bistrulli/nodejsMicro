@@ -23,14 +23,14 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":20.0
+                          "hw":2.0
                           },
                 "ms1":{  "type":"spring",
                           "appFile":"../3tier_spring/3tier_ms1/target/3tier-ms1-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":2.0
+                          "hw":20.0
                           }
               }
         
