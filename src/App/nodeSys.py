@@ -90,8 +90,8 @@ class nodeSys():
                 msErrf.close()
             
            
-            msPrxOutf = open("../log/%sPrxOut.log"%(ms), "w+")
-            msPrxErrf = open("../log/%sPrxErr.log"%(ms), "w+")
+            msPrxOutf = open("../log/%sPrxOut_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
+            msPrxErrf = open("../log/%sPrxErr_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
             
             self.nodeSys[ms]["prxPort"]=self.getRandomPort()
             self.nodePrxProc[ms]=subprocess.Popen(["java",
