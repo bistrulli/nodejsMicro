@@ -27,8 +27,7 @@ class nodeSys():
     data=None
     startTime=None
     
-    def __init__(self,nodeSys):
-        self.nodeSys=nodeSys
+    def __init__(self):
         self.nodeSysProc={}
         self.nodePrxProc={}
         self.clientThreads=[]
@@ -38,7 +37,9 @@ class nodeSys():
         #self.clearLog()
     
     
-    def startSys(self):
+    def startSys(self,msSys=None):
+        
+        self.nodeSys=msSys
         
         mongoCli=MongoClient("mongodb://localhost:27017/") 
         try:
@@ -211,11 +212,13 @@ class nodeSys():
         clientThread.toStop=False
         clientThread.id=0
         
+        self.nodeSys={}
         self.nodeSysProc={}
         self.clientThreads=[]
         self.mntThreads=[]
         self.data={}
         self.startTime=None
+        self.clearLog()
     
     
     

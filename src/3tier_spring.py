@@ -35,13 +35,13 @@ if __name__ == '__main__':
               }
         
         
-        sys = nodeSys(msSys)
+        sys = nodeSys()
         
         for p in data["Cli"]:
             
             print("####pop %d###" % (p))
             
-            sys.startSys()
+            sys.startSys(msSys=msSys)
             time.sleep(5)
             sys.startClient(p)
             sys.startMNT()
@@ -61,7 +61,6 @@ if __name__ == '__main__':
                 
             print("####pop %d converged###" % (p))
             savemat("../data/%s.mat"%(os.path.basename(__file__)), data)
-            sys.clearLog()
             
             print("killing clients")
             sys.stopClient()
