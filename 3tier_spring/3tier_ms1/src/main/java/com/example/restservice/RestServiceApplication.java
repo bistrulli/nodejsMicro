@@ -20,8 +20,9 @@ public class RestServiceApplication  implements ApplicationRunner{
 	private static final Logger logger = LoggerFactory.getLogger(RestServiceApplication.class);
 	
 	public static MSModel ms=null;
+	
 	@Autowired
-    static MSRepository msRep=null;
+    static MSRepository msRep;
 
     public static void main(String[] args) throws Exception {
     	Unirest.config().concurrency(20000, 20000);
