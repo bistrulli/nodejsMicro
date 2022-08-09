@@ -39,7 +39,7 @@ class nodeSys():
     
     def startSys(self,msSys=None):
         
-        self.nodeSys=msSys
+        self.nodeSys=msSys.copy()
         
         mongoCli=MongoClient("mongodb://localhost:27017/") 
         try:
