@@ -74,6 +74,8 @@ if __name__ == '__main__':
         sys.stopClient()
         print("killing system") 
         sys.stopSys()
+        print("clear saved log")
+        sys.clearLog()
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         
