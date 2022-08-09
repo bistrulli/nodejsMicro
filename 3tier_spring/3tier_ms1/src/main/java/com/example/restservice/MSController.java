@@ -36,7 +36,7 @@ public class MSController {
 			// recupero ms2 dal db
 			Query query = new Query();
 			query.addCriteria(Criteria.where("name").is("ms2"));
-			RestServiceApplication.ms = this.mt.findOne(null, MSModel.class);
+			RestServiceApplication.ms = this.mt.findOne(query, MSModel.class);
 		}
 		String msAddr = RestServiceApplication.ms.getAddr();
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
