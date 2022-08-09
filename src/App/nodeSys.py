@@ -13,6 +13,7 @@ import socket
 import numpy as np
 import json
 import glob
+import copy
 
 class nodeSys():
     
@@ -39,7 +40,7 @@ class nodeSys():
     
     def startSys(self,msSys=None):
         
-        self.nodeSys=msSys.copy()
+        self.nodeSys=copy.deepcopy(msSys)
         
         mongoCli=MongoClient("mongodb://localhost:27017/") 
         try:
