@@ -113,12 +113,10 @@ class nodeSys():
     
     def stopSys(self):
         for ms in self.nodeSysProc:
-            for p in self.nodeSysProc[ms]:
-                try:
-                    print(ms,p.pid)
-                    os.killpg(os.getpgid(p.pid), signal.SIGKILL)
-                except Exception as ex:
-                    traceback.print_exception(type(ex), ex, ex.__traceback__)
+            for p in self.nodeSysProc[ms]:                
+                print("killing proc",ms,p.pid)
+                pU = psutil.Process(p.pid)
+                pU.kill()
         
         for ms in self.nodePrxProc:
             p=self.nodePrxProc[ms]
