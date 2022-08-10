@@ -14,6 +14,8 @@ import numpy as np
 import json
 import glob
 import copy
+import signal
+import traceback
 
 class nodeSys():
     
@@ -112,18 +114,17 @@ class nodeSys():
     def stopSys(self):
         for ms in self.nodeSysProc:
             for p in self.nodeSysProc[ms]:
-                p.terminate()
                 try:
-                    p.wait(timeout=5)
-                except psutil.TimeoutExpired as e:
-                    p.kill()
+                    os.killpg(os.getpgid(p.pid), signal.SIGKILL)
+                except Exception as ex:
+                    traceback.print_exception(type(ex), ex, ex.__traceback__)
         
         for ms in self.nodePrxProc:
-            self.nodePrxProc[ms].terminate()
+            p=self.nodePrxProc[ms]
             try:
-                self.nodePrxProc[ms].wait(timeout=5)
-            except psutil.TimeoutExpired as e:
-                self.nodePrxProc[ms].kill()
+                os.killpg(os.getpgid(p.pid), signal.SIGKILL)
+            except Exception as ex:
+                traceback.print_exception(type(ex), ex, ex.__traceback__)
     
     def startClient(self,N):
         
