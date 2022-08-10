@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[40,45], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":np.linspace(1,140,35), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
 
         msSys = {"ms2":{  "type":"spring",
                           "appFile":"../3tier_spring/3tier_ms2/target/3tier-ms2-0.0.1.jar",
