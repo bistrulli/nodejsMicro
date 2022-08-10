@@ -116,7 +116,7 @@ class mnt_thread(Thread):
     def run(self):
         
         rtConveerged=False
-        trConveerged=True
+        trConveerged=False
         notified=False
         stl=None
         while(self.countDown.getCount()>0):
@@ -134,8 +134,8 @@ class mnt_thread(Thread):
             self.rtBm.samples.extend(data["rt"])
             rtRes=self.rtBm.BM()
             
-            # self.trBm.samples.append(data["nrq"])
-            # trRes=self.trBm.BM()
+            self.trBm.samples.append(data["nrq"])
+            trRes=self.trBm.BM()
             
             ert=None
             if(rtRes is not None):
@@ -149,16 +149,16 @@ class mnt_thread(Thread):
                     rtConveerged=False
                     self.logFile.write("rt-%s converging <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
             
-            # etr=None
-            # if(trRes is not None):
-            #     etr=trRes[1]*100/trRes[0]
-            #     self.trData=trRes
-            #     if(etr<=0.5):
-            #         trConveerged=True
-            #         self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
-            #     else:
-            #         trConveerged=False
-            #         self.logFile.write("tr-%s converging <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
+            etr=None
+            if(trRes is not None):
+                etr=trRes[1]*100/trRes[0]
+                self.trData=trRes
+                if(etr<=0.5):
+                    trConveerged=True
+                    self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
+                else:
+                    trConveerged=False
+                    self.logFile.write("tr-%s converging <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
             
             self.logFile.flush()
             
