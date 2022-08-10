@@ -37,7 +37,7 @@ if __name__ == '__main__':
         
         sys = nodeSys()
         
-        for p in data["Cli"]:
+        for p in data["Cli"][8:]:
             
             print("####pop %d###" % (p))
             
@@ -60,7 +60,7 @@ if __name__ == '__main__':
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_2.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_3.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
