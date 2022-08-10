@@ -41,9 +41,9 @@ class clientThread(Thread):
             #pygame.time.delay(int(np.ceil(d)))
             #self.waitEvent.wait(timeout=d/10000.0);
             
-            
-            reqTime=time.time_ns() // 1_000_000
-            req.get('http://localhost:%d/'%(ms1Obj["prxPort"]))
+            resp=req.get('http://localhost:%d/'%(ms1Obj["prxPort"]))
+            print(resp.status_code)
+            print(resp.text)
             end= time.time_ns() // 1_000_000
             self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
     
