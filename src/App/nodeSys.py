@@ -211,7 +211,7 @@ class nodeSys():
         
     def reset(self):
         clientThread.toStop=False
-        clientThread.id=0
+        clientThread.i=0
         
         self.nodeSys={}
         self.nodeSysProc={}
@@ -219,7 +219,7 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
-        #self.clearLog()
+        self.clearLog()
     
     
     
