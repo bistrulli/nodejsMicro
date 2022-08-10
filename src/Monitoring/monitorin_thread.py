@@ -97,9 +97,9 @@ class mnt_thread(Thread):
         #print(rtData)
             
         if(self.lnrrq is None):
-            Ti=(nrq*1000)/((tsim-self.stime)*self.period)
+            Ti=(nrq*1000)/(tsim-self.stime)
         else:
-            Ti=((nrq-self.lnrrq)*1000)/((tsim-self.lsample)*self.period)
+            Ti=((nrq-self.lnrrq)*1000)/(tsim-self.lsample)
         
         
         self.lnrrq=nrq
