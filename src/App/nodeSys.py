@@ -172,11 +172,11 @@ class nodeSys():
     def startMNT(self):
         latch=CountDownLatch(len(self.nodeSys)+1)
         
-        self.mntThreads.append(mnt_thread({"Client":{}},.1,"client",self.startTime,countDown=latch))
+        self.mntThreads.append(mnt_thread({"Client":{}},1.,"client",self.startTime,countDown=latch))
         self.mntThreads[-1].start()
         
         for ms in self.nodeSys:
-            self.mntThreads.append(mnt_thread(self.nodeSys[ms],.1,ms,self.startTime,countDown=latch))
+            self.mntThreads.append(mnt_thread(self.nodeSys[ms],1.,ms,self.startTime,countDown=latch))
             self.mntThreads[-1].start()
     
         for t in self.mntThreads:
