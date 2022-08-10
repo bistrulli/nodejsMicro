@@ -42,8 +42,9 @@ class clientThread(Thread):
             #self.waitEvent.wait(timeout=d/10000.0);
             
             resp=req.get('http://localhost:%d/'%(ms1Obj["prxPort"]))
-            print(resp.status_code)
-            print(resp.text)
+            if(resp.status_code!=200):
+                raise ValueError("Error while connecting with code %d and message %s"%(resp.status_code,resp.text))
+            
             end= time.time_ns() // 1_000_000
             self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
     
