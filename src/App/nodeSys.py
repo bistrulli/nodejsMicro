@@ -119,12 +119,10 @@ class nodeSys():
                 pU.kill()
         
         for ms in self.nodePrxProc:
-            p=self.nodePrxProc[ms]
-            try:
-                print("killed %s prxProc"%(ms))
-                os.killpg(os.getpgid(p.pid), signal.SIGKILL)
-            except Exception as ex:
-                traceback.print_exception(type(ex), ex, ex.__traceback__)
+            print("killing Prx Proc",ms,self.nodePrxProc[ms].pid)
+            p=psutil.Process(self.nodePrxProc[ms].pid)
+            p.kill()
+            
     
     def startClient(self,N):
         
