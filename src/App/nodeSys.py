@@ -115,16 +115,16 @@ class nodeSys():
         for ms in self.nodeSysProc:
             for p in self.nodeSysProc[ms]:
                 try:
+                    print(ms,p.pid)
                     os.killpg(os.getpgid(p.pid), signal.SIGKILL)
-                    print("killed %s proc"%(ms))
                 except Exception as ex:
                     traceback.print_exception(type(ex), ex, ex.__traceback__)
         
         for ms in self.nodePrxProc:
             p=self.nodePrxProc[ms]
             try:
-                os.killpg(os.getpgid(p.pid), signal.SIGKILL)
                 print("killed %s prxProc"%(ms))
+                os.killpg(os.getpgid(p.pid), signal.SIGKILL)
             except Exception as ex:
                 traceback.print_exception(type(ex), ex, ex.__traceback__)
     
