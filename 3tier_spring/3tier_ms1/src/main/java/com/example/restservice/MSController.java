@@ -1,8 +1,6 @@
 package com.example.restservice;
 
 import java.net.URI;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,15 +45,8 @@ public class MSController {
 		Integer ms2Port = (Integer) RestServiceApplication.ms.getPrxPort();
 		// faccio la richiesta
 		String requestedURL = "http://%s:%d%s".formatted(new Object[] { msAddr, ms2Port, "/" });
-		CompletableFuture<HttpResponse<JsonNode>> resp = Unirest.get(URI.create(requestedURL).toString()).asJsonAsync();
+		HttpResponse<JsonNode> resp = Unirest.get(URI.create(requestedURL).toString()).asJson();
 		this.doWork();
-		try {
-			resp.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
 		return new ResObj();
 	}
 
