@@ -186,12 +186,16 @@ class nodeSys():
             self.data[t.name]={"rt":d[0],"tr":d[1]}
     
     def is_port_in_use(self,port: int) -> bool:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            res=s.connect_ex(('localhost', port))
-            if(res==0):
-                s.close()
-                return res
-            
+        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        inUse=None
+        try:
+            s.bind(('', port))
+            s.close()
+            inUse=False
+        except OSError:
+            inUse=True
+        return inUse
+        
     
     def getRandomPort(self) -> int:
         port=np.random.randint(low=3000,high=65535)
