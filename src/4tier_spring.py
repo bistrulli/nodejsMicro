@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[]}
+        data = {"Cli":np.linspace(1,150,35,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
 
         msSys = {"ms1":{  "type":"spring",
                           "appFile":"../4tier_spring/ms1/target/4tier-ms1-0.0.1.jar",
@@ -57,6 +57,7 @@ if __name__ == '__main__':
             data["Tm"].append([])
             data["rtCI"].append([])
             data["trCI"].append([])
+            data["NC"].append([])
             
             for ms in  data["ms"]:
                 data["RTm"][-1].append(sys.data[ms]["rt"][0])
@@ -64,6 +65,11 @@ if __name__ == '__main__':
                 
                 data["rtCI"][-1].append(sys.data[ms]["rt"][1])
                 data["trCI"][-1].append(sys.data[ms]["tr"][1])
+                
+                if(ms=="client"):
+                    data["NC"][-1].append(1000)
+                else:
+                    data["NC"][-1].append(msSys[ms]["hw"])
                 
             print("####pop %d converged###" % (p))
             savemat("../data/%s.mat"%(os.path.basename(__file__)), data)
