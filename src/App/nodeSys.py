@@ -154,7 +154,7 @@ class nodeSys():
         r=None
         while(atpt < limit and not connected):
             try:
-                r = req.get("http://%s:%d/"%(self.nodeSys[msName]["addr"],port))
+                r = req.get("http://%s:%d/mnt"%(self.nodeSys[msName]["addr"],port))
                 connected = True
                 r.close()
                 break
