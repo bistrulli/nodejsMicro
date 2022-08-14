@@ -1,6 +1,6 @@
 clear
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py.mat");
+load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi.mat");
 
 % P=[0,1,0;
 %    0,0,1;
@@ -15,6 +15,8 @@ load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py.mat");
 % NC(:,1)=1000.0;
 % NC(:,2)=8.0;
 % NC(:,3)=4.0;
+
+Tmax=NC(1,:).* MU';
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;

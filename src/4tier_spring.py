@@ -37,7 +37,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":8.0
+                          "hw":12.0
                           }
               }
         
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_wi.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_wi2.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
