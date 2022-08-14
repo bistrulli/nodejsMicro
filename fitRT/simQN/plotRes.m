@@ -17,6 +17,7 @@ load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi.mat");
 % NC(:,3)=4.0;
 
 Tmax=NC(1,:).* MU';
+U=Tm./Tmax;
 
 CIdx=sum(sum(RTm,2)~=0);
 RTm=RTm/1000;
