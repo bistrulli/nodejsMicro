@@ -23,21 +23,21 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":1.0
+                          "hw":5.8834
                           },
                 "ms2":{  "type":"spring",
                           "appFile":"../4tier_spring/ms2/target/4tier-ms2-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":10
+                          "hw":9.8322
                           },
                 "ms3":{  "type":"spring",
                           "appFile":"../4tier_spring/ms3/target/4tier-ms3-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":12.0
+                          "hw":2.5678
                           }
               }
         
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_wi3.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_wi4.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
