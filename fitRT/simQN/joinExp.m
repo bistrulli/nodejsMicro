@@ -1,7 +1,7 @@
 clear
 
-e1=load("/Users/emilio/git/nodejsMicro/data/4tier_all.mat");
-e2=load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi3.mat");
+e1=load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi2.mat");
+e2=load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py.mat");
 
 e1CIdx=sum(sum(e1.RTm,2)~=0);
 e2CIdx=sum(sum(e2.RTm,2)~=0);

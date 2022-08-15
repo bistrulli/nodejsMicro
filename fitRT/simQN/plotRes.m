@@ -1,6 +1,6 @@
 clear
 load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/4tier_all.mat");
+load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi3.mat");
 
 % P=[0,1,0;
 %    0,0,1;
@@ -65,7 +65,7 @@ for cmp=1:size(Tm,2)
 end
 
 figure
-boxplot(abs(RTm(1:CIdx,:)-RTl),'Labels',labels)
+boxplot(abs(RTm(1:CIdx,:)-RTl)*100./RTm,'Labels',labels)
 title("Relative Prediction Error (Response Time)")
 box on
 grid on
