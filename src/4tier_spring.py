@@ -16,28 +16,28 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(1,120,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-
+        data = {"Cli":np.linspace(1,140,35,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        
         msSys = {"ms1":{  "type":"spring",
                           "appFile":"../4tier_spring/ms1/target/4tier-ms1-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":5.8834
+                          "hw":15.0253
                           },
                 "ms2":{  "type":"spring",
                           "appFile":"../4tier_spring/ms2/target/4tier-ms2-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":9.8322
+                          "hw":5.1019 
                           },
                 "ms3":{  "type":"spring",
                           "appFile":"../4tier_spring/ms3/target/4tier-ms3-0.0.1.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":2.5678
+                          "hw":10.1191
                           }
               }
         

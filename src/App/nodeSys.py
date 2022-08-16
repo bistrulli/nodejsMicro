@@ -98,6 +98,7 @@ class nodeSys():
             
             self.nodePrxProc[ms]=subprocess.Popen(["java",
                                                    "-Xmx6g",
+                                                   "-Djdk.tls.acknowledgeCloseNotify=true",
                                                    "-jar",self.nodeSys[ms]["prxFile"]
                                                    ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
                                                    "--msName","%s"%(ms)],
