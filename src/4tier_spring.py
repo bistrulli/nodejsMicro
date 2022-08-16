@@ -72,7 +72,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
                 
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_wi4.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_wi5.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
