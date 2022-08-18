@@ -80,6 +80,7 @@ class nodeSys():
                                                           stdout=msOutf, stderr=msErrf)]
                 elif(self.nodeSys[ms]["type"]=="spring"):
                     self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
+                                                             "-Xmx10g",
                                                              self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                              "--server.port=%d"%(port),
                                                              "--ms.name=%s"%(ms),
@@ -97,8 +98,7 @@ class nodeSys():
             msPrxErrf = open("../log/%sPrxErr_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
             
             self.nodePrxProc[ms]=subprocess.Popen(["java",
-                                                   "-Xmx6g",
-                                                   "-Djdk.tls.acknowledgeCloseNotify=true",
+                                                   "-Xmx10g",
                                                    "-jar",self.nodeSys[ms]["prxFile"]
                                                    ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
                                                    "--msName","%s"%(ms)],
