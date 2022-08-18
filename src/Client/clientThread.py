@@ -50,5 +50,6 @@ class clientThread(Thread):
                 self.mongoClient["client"]["rt"].insert_one({"st":st,"end":end})
             except:
                 #print(self.id,"error")
+                pass
     
     
