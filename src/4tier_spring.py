@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(1,140,35,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":[140], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {"ms1":{  "type":"spring",
                           "appFile":"../4tier_spring/ms1/target/4tier-ms1-0.0.1.jar",
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         
         
         sys = nodeSys()
-        for p in data["Cli"][24:]:
+        for p in data["Cli"]:
             
             print("####pop %d###" % (p))
             
