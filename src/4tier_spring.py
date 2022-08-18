@@ -43,7 +43,7 @@ if __name__ == '__main__':
         
         
         sys = nodeSys()
-        for p in data["Cli"]:
+        for p in data["Cli"][24:]:
             
             print("####pop %d###" % (p))
             
