@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[140], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":[130], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {"ms1":{  "type":"spring",
                           "appFile":"../4tier_spring/ms1/target/4tier-ms1-0.0.1.jar",
@@ -48,7 +48,7 @@ if __name__ == '__main__':
             print("####pop %d###" % (p))
             
             sys.startSys(msSys=msSys)
-            time.sleep(10)
+            time.sleep(5)
             sys.startClient(p)
             sys.startMNT()
             
