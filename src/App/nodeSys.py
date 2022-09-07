@@ -3,6 +3,7 @@ import subprocess
 import time
 import psutil
 from Client import clientThread
+from Client import clientThread_acme
 from Monitoring import mnt_thread
 from pymongo import MongoClient
 import pymongo
@@ -16,6 +17,8 @@ import glob
 import copy
 import signal
 import traceback
+import tempfile
+import re
 
 class nodeSys():
     
@@ -53,63 +56,73 @@ class nodeSys():
             mongoCli["sys"].create_collection("ms")
         
         for ms in self.nodeSys:
-            
-            port=None
-            for rep in range(self.nodeSys[ms]["replica"]):
-                port=self.getRandomPort()
-                msOutf = open("../log/%sOut_%d.log"%(ms,port), "w+")
-                msErrf = open("../log/%sErr_%d.log"%(ms,port), "w+")
-                
-                if(not ms in self.nodeSysProc):
-                    self.nodeSysProc[ms]=[]
-                if(not "ports" in self.nodeSys[ms]):
-                    self.nodeSys[ms]["ports"]=[]
-                
-                self.nodeSys[ms]["ports"]+=[port]
-                
-                if(self.nodeSys[ms]["type"]=="node"):
-                    self.nodeSysProc[ms]+=[subprocess.Popen(["node",
-                                                             "--min_semi_space_size=2000",
-                                                             "--max_semi_space_size=2000",
-                                                             "--initial_old_space_size=2000",
-                                                             "--max_old_space_size=2000",
-                                                             "--scavenge_task",
-                                                             "--v8-pool-size=8",
-                                                             self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
-                                                           "port=%s"%(port)], 
-                                                          stdout=msOutf, stderr=msErrf)]
-                elif(self.nodeSys[ms]["type"]=="spring"):
-                    self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
-                                                             "-Xmx10g",
-                                                             self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
-                                                             "--server.port=%d"%(port),
-                                                             "--ms.name=%s"%(ms),
-                                                             "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
-                                                          stdout=msOutf, stderr=msErrf)]
+            if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
+                port=None
+                for rep in range(self.nodeSys[ms]["replica"]):
+                    port=self.getRandomPort()
+                    msOutf = open("../log/%sOut_%d.log"%(ms,port), "w+")
+                    msErrf = open("../log/%sErr_%d.log"%(ms,port), "w+")
                     
-                self.waitMs(ms,port)
-                
-                msOutf.close()
-                msErrf.close()
+                    if(not ms in self.nodeSysProc):
+                        self.nodeSysProc[ms]=[]
+                    if(not "ports" in self.nodeSys[ms]):
+                        self.nodeSys[ms]["ports"]=[]
+                    
+                    self.nodeSys[ms]["ports"]+=[port]
+                    
+                    if(self.nodeSys[ms]["type"]=="node"):
+                        self.nodeSysProc[ms]+=[subprocess.Popen(["node",
+                                                                 "--min_semi_space_size=2000",
+                                                                 "--max_semi_space_size=2000",
+                                                                 "--initial_old_space_size=2000",
+                                                                 "--max_old_space_size=2000",
+                                                                 "--scavenge_task",
+                                                                 "--v8-pool-size=8",
+                                                                 self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                               "port=%s"%(port)], 
+                                                              stdout=msOutf, stderr=msErrf)]
+                    elif(self.nodeSys[ms]["type"]=="spring"):
+                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
+                                                                 "-Xmx10g",
+                                                                 self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                                 "--server.port=%d"%(port),
+                                                                 "--ms.name=%s"%(ms),
+                                                                 "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
+                                                              stdout=msOutf, stderr=msErrf)]
+                        
+                    self.waitMs(ms,port)
+                    
+                    msOutf.close()
+                    msErrf.close()
             
            
-            self.nodeSys[ms]["prxPort"]=self.getRandomPort()
-            msPrxOutf = open("../log/%sPrxOut_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
-            msPrxErrf = open("../log/%sPrxErr_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
+                self.nodeSys[ms]["prxPort"]=self.getRandomPort()
+                msPrxOutf = open("../log/%sPrxOut_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
+                msPrxErrf = open("../log/%sPrxErr_%d.log"%(ms,self.nodeSys[ms]["prxPort"]), "w+")
+                
+                self.nodePrxProc[ms]=subprocess.Popen(["java",
+                                                       "-Xmx10g",
+                                                       "-jar",self.nodeSys[ms]["prxFile"]
+                                                       ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
+                                                       "--msName","%s"%(ms)],
+                                                       stdout=msPrxOutf, stderr=msPrxErrf)
+                
+                msPrxOutf.close()
+                msPrxErrf.close()
+                
+                #salvo le informazioni di questo microservizio
+                self.nodeSys[ms]["name"]=ms;
+                mongoCli["sys"]["ms"].insert_one(self.nodeSys[ms])
             
-            self.nodePrxProc[ms]=subprocess.Popen(["java",
-                                                   "-Xmx10g",
-                                                   "-jar",self.nodeSys[ms]["prxFile"]
-                                                   ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
-                                                   "--msName","%s"%(ms)],
-                                                   stdout=msPrxOutf, stderr=msPrxErrf)
-            
-            msPrxOutf.close()
-            msPrxErrf.close()
-            
-            #salvo le informazioni di questo microservizio
-            self.nodeSys[ms]["name"]=ms;
-            mongoCli["sys"]["ms"].insert_one(self.nodeSys[ms])
+        #se sto valutando acmeair allora lancio il proxy con la configurazione opportuna
+        #--> in base alle porte generate genero il template della cofigurazione
+        #--> lancio haproxy dovrebbe funzioanre tutto
+        
+        if("acmeair" in self.nodeSys and self.nodeSys["acmeair"]):
+            #sto valutando acmeair
+            cfg=self.updateHaPrxPort()
+            self.startHaPrx(cfg);
+                
             
     
     def stopSys(self):
@@ -139,7 +152,7 @@ class nodeSys():
         
         self.startTime=time.time_ns() // 1_000_000 
         for n in range(N):
-            self.clientThreads.append(clientThread(ttime=200))
+            self.clientThreads.append(clientThread_acme(ttime=200))
             self.clientThreads[-1].start()
     
     def stopClient(self):
@@ -171,14 +184,20 @@ class nodeSys():
         
     
     def startMNT(self):
-        latch=CountDownLatch(len(self.nodeSys)+1)
+        nms=0
+        for ms in self.nodeSys:
+            if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
+                nms+=1
+        
+        latch=CountDownLatch(nms+1)
         
         self.mntThreads.append(mnt_thread({"Client":{}},1.,"client",self.startTime,countDown=latch))
         self.mntThreads[-1].start()
         
         for ms in self.nodeSys:
-            self.mntThreads.append(mnt_thread(self.nodeSys[ms],1.,ms,self.startTime,countDown=latch))
-            self.mntThreads[-1].start()
+            if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
+                self.mntThreads.append(mnt_thread(self.nodeSys[ms],1.,ms,self.startTime,countDown=latch))
+                self.mntThreads[-1].start()
     
         for t in self.mntThreads:
             t.join()
@@ -211,7 +230,33 @@ class nodeSys():
                 os.remove(os.path.abspath(f))
             except OSError as e:
                 print("Error: %s : %s" % (f, e.strerror))
+                
+    
+    def updateHaPrxPort(self):
+        cfgfile=open("../cfgTmp/acmeair.cfg","r")
+        cfg = cfgfile.read()
+        cfgfile.close()
         
+        for ms in self.nodeSys:
+            if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
+                cfg = re.sub(r"\$%s"%(ms), str(self.nodeSys["%s"%(ms)]["prxPort"]),str(cfg))
+        
+        cfgFile = tempfile.NamedTemporaryFile(suffix='.cfg',mode='w+', encoding='utf-8')
+        f=open(cfgFile.name,"w")
+        f.write(cfg)
+        f.close()
+        
+        return cfgFile
+        
+    
+    def startHaPrx(self,cfgFile):
+        haOutf = open("../log/haOut.log", "w+")
+        haErrf = open("../log/haErr.log", "w+")
+        
+        self.nodePrxProc["haPrx"]=subprocess.Popen(["haproxy","-f",cfgFile.name], 
+                                                    stdout=haOutf, stderr=haErrf)
+        
+        print("started HaProxy")
         
     def reset(self):
         clientThread.toStop=False
