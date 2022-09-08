@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":np.linspace(1,140,35,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {"MSauth":{ "type":"spring",
                           "appFile":"../../acmeair-authservice-springboot/target/acmeair-authservice-springboot-2.1.1-SNAPSHOT.jar",
