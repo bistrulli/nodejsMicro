@@ -16,35 +16,35 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(1,20,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":np.linspace(1,140,35,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {"MSauth":{ "type":"spring",
                           "appFile":"../../acmeair-authservice-springboot/target/acmeair-authservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":1.0
+                          "hw":15.0
                           },
                 "MSvalidateid":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":1.0 
+                          "hw":15.0
                           },
                 "MSviewprofile":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":1.0
+                          "hw":15.0
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":1.0
+                          "hw":15.0
                           },
                 "acmeair":True
               }
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
             
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_test.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_4b.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
