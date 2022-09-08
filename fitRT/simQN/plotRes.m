@@ -1,6 +1,6 @@
 clear
-load("/Users/emilio/git/MS-App/fitLQN/fromJulia.mat")
-load("/Users/emilio/git/nodejsMicro/data/4tier_spring.py_wi5.mat");
+load("../fromJulia.mat")
+load("../../data/acmeAir.py_test.mat");
 
 % P=[0,1,0;
 %    0,0,1;
