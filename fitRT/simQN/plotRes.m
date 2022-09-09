@@ -1,6 +1,6 @@
 clear
 load("../fromJulia.mat")
-load("../../data/acmeAir.py_4b.mat");
+load("../../data/acmeair_data.mat");
 
 % P=[0,1,0;
 %    0,0,1;
