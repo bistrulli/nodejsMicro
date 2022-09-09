@@ -1,7 +1,7 @@
 clear
 
-e1=load("acmeAir.py_3b.mat");
-e2=load("acmeAir.py_4b.mat");
+e1=load("acmeAir.py_4b.mat");
+e2=load("acmeAir.py_3b.mat");
 
 e1CIdx=sum(sum(e1.RTm,2)~=0);
 e2CIdx=sum(sum(e2.RTm,2)~=0);

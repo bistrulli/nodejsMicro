@@ -46,7 +46,7 @@ end
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPLapackCPU,max_iter=100000))
 model = Model(Ipopt.Optimizer)
-set_optimizer_attribute(model, "linear_solver", "pardiso")
+#set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 20000)
 # set_optimizer_attribute(model, "derivative_test", "first-order")
 # set_optimizer_attribute(model, "check_derivatives_for_naninf", "yes")
@@ -103,7 +103,7 @@ for p=1:npoints
         for i=1:size(jump,2)
                 #mi salvo l'espressione per il min(X[i,p],NC[i,p])
                 if(i!=1)
-                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-10)^(1.0/2))/2.0+NC[p,i]))
+                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-40)^(1.0/2))/2.0+NC[p,i]))
                 else
                         minExp[i,p]=@NLexpression(model,X[i,p]+0.0)
                 end
