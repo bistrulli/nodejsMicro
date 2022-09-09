@@ -7,7 +7,7 @@ using NLopt,AmplNLWriter,Couenne_jll,Printf,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,
 
 #devo modificare lo script in modo da fare predizione a partire da altri parametri
 
-DATA = matread("../data/acmeAir.py_test.mat")
+DATA = matread("../data/acmeAir.py_4b.mat")
 
 #genero la matrice dei jump in modo automatico a seconda della dimensione
 function genStoich(n)
@@ -74,7 +74,6 @@ mmu=1 ./minimum(RTm,dims=1)
 @variable(model,RTlqn[i=1:size(jump,2),p=1:npoints]>=0)
 
 @variable(model,MU[i=1:size(jump,2)]>=0)
-#MU=[1/0.1,1/0.3,1/0.7]
 @variable(model,X[i=1:size(jump,2),j=1:npoints]>=0)
 @variable(model,P[i=1:size(jump,2),j=1:size(jump,2)]>=0)
 @variable(model,P2[i=1:size(jump,2),j=1:size(jump,2)]>=0)
