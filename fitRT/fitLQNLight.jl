@@ -53,7 +53,7 @@ set_optimizer_attribute(model, "max_iter", 20000)
 
 # set_optimizer_attribute(model, "tol", 10^-15)
 # set_optimizer_attribute(model, "acceptable_tol", 10^-15)
-#set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
+set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
 #set_optimizer_attribute(model, "print_level", 0)
 
 jump=genStoich(size(Tm,2))
