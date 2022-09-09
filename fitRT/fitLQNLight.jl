@@ -46,10 +46,10 @@ end
 
 #model = Model(()->MadNLP.Optimizer(linear_solver=MadNLPLapackCPU,max_iter=100000))
 model = Model(Ipopt.Optimizer)
-#set_optimizer_attribute(model, "linear_solver", "pardiso")
+set_optimizer_attribute(model, "linear_solver", "pardiso")
 set_optimizer_attribute(model, "max_iter", 20000)
-# set_optimizer_attribute(model, "derivative_test", "first-order")
-# set_optimizer_attribute(model, "check_derivatives_for_naninf", "yes")
+#set_optimizer_attribute(model, "derivative_test", "first-order")
+#set_optimizer_attribute(model, "check_derivatives_for_naninf", "yes")
 
 # set_optimizer_attribute(model, "tol", 10^-15)
 #set_optimizer_attribute(model, "acceptable_tol", 10^-15)
@@ -88,6 +88,19 @@ mmu=1 ./minimum(RTm,dims=1)
 @constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
 @constraint(model,[i=1:size(P,1)],P2[i,i]==0)
+
+P2_t=[0 1. 0 1. 1.
+    0 0 1. 0 0
+    0 0 0 0 0
+    0 0 0 0 0
+    0 0 0 0 0];
+
+#@constraint(model,[i=1:size(P,1),j=1:size(P,2)],P2[i,i]==P2_t[i,j])
+for i=1:size(P,1)
+        for j=1:size(P,1)
+                set_start_value(P2[i,j],P2_t[i,j])
+        end
+end
 
 for idx=1:size(MU,1)
         set_start_value(MU[idx],mmu[idx])
@@ -135,8 +148,8 @@ for p=1:npoints
 
                 #constraints per definire la norma L1 sul tempo di risposta
                 #lego le grandezze con la nuova relazione
-                @NLconstraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:size(jump,2))+RTs[i,p])
-                #@constraint(model,RTlqn[i,p]==sum(P2[i,j]*RTm[p,j] for j=1:size(jump,2))+RTs[i,p])
+                #@NLconstraint(model,RTlqn[i,p]==sum(P2[i,j]*RTlqn[j,p] for j=1:size(jump,2))+RTs[i,p])
+                @constraint(model,RTlqn[i,p]==sum(P2[i,j]*RTm[p,j] for j=1:size(jump,2))+RTs[i,p])
                 @constraint(model,ERT_abs[i,p]>=(RTlqn[i,p]-RTm[p,i])/RTm[p,i])
                 @constraint(model,ERT_abs[i,p]>=(-RTlqn[i,p]+RTm[p,i])/RTm[p,i])
         end
@@ -145,7 +158,7 @@ end
 
 
 #@objective(model,Min, sum(E_abs2[i,p] for i=1:size(E_abs2,1) for p=1:size(E_abs2,2))+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
-@objective(model,Min, 0.001*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
+@objective(model,Min, 0.0001*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 #@objective(model,Min, sum(E_abs2))
 JuMP.optimize!(model)
 
