@@ -23,21 +23,21 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":8.0
+                          "hw":33.9066
                           },
                 "MSvalidateid":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":15.0
+                          "hw":21.6489
                           },
                 "MSviewprofile":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":15.0
+                          "hw":16.6092
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
             
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_1b.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_wi.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
