@@ -1,13 +1,8 @@
 using NLopt,AmplNLWriter,Couenne_jll,Printf,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,Statistics
 
-#riscrivo il problema non cercandolo di risolverlo per mu
-#a partre dai throughput misurati cerco di capire tutte le P
-#imposto le P2 (posso farlo sia lineare che non, )
-#calolo i MU grazie alle P2 e i tempi di riposta misurati a singolo client (altrimenti li risolvo con un problema di ottimizzazione sucessivo)
+mname="acmeair_data"
 
-#devo modificare lo script in modo da fare predizione a partire da altri parametri
-
-DATA = matread("../data/acmeair_data.mat")
+DATA = matread(@sprintf("../data/%s.mat",mname))
 
 #genero la matrice dei jump in modo automatico a seconda della dimensione
 function genStoich(n)
@@ -79,12 +74,11 @@ mmu=1 ./minimum(RTm,dims=1)
 @variable(model,P2[i=1:size(jump,2),j=1:size(jump,2)]>=0)
 
 @variable(model,E_abs[i=1:(size(jump,2)),j=1:npoints]>=0)
-#@variable(model,E_abs2[i=1:size(jump,2),j=1:npoints]>=0)
 @variable(model,ERT_abs[i=1:size(jump,2),j=1:npoints]>=0)
 @variable(model,RTs[i=1:size(jump,2),j=1:npoints]>=0)
 
 @constraint(model,sum(P,dims=2).==1)
-#@constraint(model,P2.<=1)
+@constraint(model,P2.<=1)
 @constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
 
@@ -102,7 +96,7 @@ for p=1:npoints
         for i=1:size(jump,2)
                 #mi salvo l'espressione per il min(X[i,p],NC[i,p])
                 if(i!=1)
-                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-3)^(1.0/2))/2.0+NC[p,i]))
+                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-4)^(1.0/2))/2.0+NC[p,i]))
                 else
                         minExp[i,p]=@NLexpression(model,X[i,p]+0.0)
                 end
@@ -146,9 +140,9 @@ end
 #@objective(model,Min, sum(E_abs2[i,p] for i=1:size(E_abs2,1) for p=1:size(E_abs2,2))+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 @objective(model,Min, 0.0001*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 #@objective(model,Min, sum(E_abs2))
-JuMP.optimize!(model)
+runtime=@elapsed JuMP.optimize!(model)
 
-matwrite("fromJulia.mat", Dict(
+matwrite(@sprintf("../data/%s_out.mat",mname), Dict(
 "RTlqn" => value.(RTlqn),
 "T" => value.(EgressExp),
 "MU" => value.(MU),

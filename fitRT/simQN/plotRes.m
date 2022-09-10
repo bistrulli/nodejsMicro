@@ -1,5 +1,5 @@
 clear
-load("../fromJulia.mat")
+load("../../data/acmeair_data_out.mat")
 load("../../data/acmeair_data.mat");
 
 % P=[0,1,0,1,1;
@@ -71,7 +71,7 @@ for cmp=1:size(Tm,2)
 end
 
 figure
-boxplot(abs(RTm(1:CIdx,:)-RTl)*100./RTm,'Labels',labels)
+boxplot(abs(RTm(1:CIdx,:)-RTl)*100./RTm(1:CIdx,:),'Labels',labels)
 title("Relative Prediction Error (Response Time)")
 box on
 grid on
