@@ -84,22 +84,9 @@ mmu=1 ./minimum(RTm,dims=1)
 @variable(model,RTs[i=1:size(jump,2),j=1:npoints]>=0)
 
 @constraint(model,sum(P,dims=2).==1)
-@constraint(model,P2.<=1)
+#@constraint(model,P2.<=1)
 @constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
-
-# P2_t=[0 1. 0 1. 1.
-#     0 0 1. 0 0
-#     0 0 0 0 0
-#     0 0 0 0 0
-#     0 0 0 0 0];
-
-#@constraint(model,[i=1:size(P,1),j=1:size(P,2)],P2[i,i]==P2_t[i,j])
-# for i=1:size(P,1)
-#         for j=1:size(P,1)
-#                 set_start_value(P2[i,j],P2_t[i,j])
-#         end
-# end
 
 for idx=1:size(MU,1)
         set_start_value(MU[idx],mmu[idx])
