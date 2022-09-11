@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(10,200,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":[250], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {"MSauth":{ "type":"spring",
                           "appFile":"../../acmeair-authservice-springboot/target/acmeair-authservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
             
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_wi.mat"%(os.path.basename(__file__)), data)
+            #savemat("../data/%s_wi.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()

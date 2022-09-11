@@ -48,7 +48,7 @@ set_optimizer_attribute(model, "max_iter", 20000)
 
 # set_optimizer_attribute(model, "tol", 10^-15)
 #set_optimizer_attribute(model, "acceptable_tol", 10^-15)
-set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
+#set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
 #set_optimizer_attribute(model, "print_level", 0)
 
 jump=genStoich(size(Tm,2))
@@ -96,7 +96,7 @@ for p=1:npoints
         for i=1:size(jump,2)
                 #mi salvo l'espressione per il min(X[i,p],NC[i,p])
                 if(i!=1)
-                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-4)^(1.0/2))/2.0+NC[p,i]))
+                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-2)^(1.0/2))/2.0+NC[p,i]))
                 else
                         minExp[i,p]=@NLexpression(model,X[i,p]+0.0)
                 end
@@ -138,7 +138,7 @@ end
 
 
 #@objective(model,Min, sum(E_abs2[i,p] for i=1:size(E_abs2,1) for p=1:size(E_abs2,2))+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
-@objective(model,Min, 0.0001*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
+@objective(model,Min, 0.1*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 #@objective(model,Min, sum(E_abs2))
 runtime=@elapsed JuMP.optimize!(model)
 
