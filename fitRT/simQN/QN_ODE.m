@@ -25,7 +25,7 @@ pfun = eval(propensities_2state);
 T = @(X)pfun(X,p);
 
 opts = odeset('Events',@(t,y)eventfun(t,y,jump,T));
-[t,y]=ode15s(@(t,y) jump'*T(y),[0,1000], X0,opts);
+[t,y]=ode15s(@(t,y) jump'*T(y),[0,inf], X0,opts);
 
 Ts=T(y(end,:));
 Ts=sum(reshape(Ts',size(P,1)-1,size(P,1))',2);
@@ -50,7 +50,7 @@ end
 function [x,isterm,dir] = eventfun(t,y,jump,T)    
     dy = jump'*T(y);
 %     x = norm(dy) - 1e-20;
-    x=max(abs(dy)) - 1e-20;
+    x=max(abs(dy)) - 1e-10;
     isterm = 1;
     dir = 0;
 end

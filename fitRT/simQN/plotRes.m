@@ -42,7 +42,7 @@ for i=1:CIdx
     X0=[Cli(1,i),zeros(1,size(P,2)-1)];
     [t,y,T,RT]=QN_ODE(X0,NC(i,:),P,MU,inf);
     
-    RTl(i,:)=solveRT2(P2,RT');
+    RTl(i,:)=solveRT(P2,RT');
     Tl(i,:)=T;
 end
 
@@ -52,8 +52,8 @@ for cmp=1:size(RTm,2)
     hold on
     box on
     grid on
-    stem(RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
-    stem(RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
+    stem(Cli(1:CIdx),RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
+    stem(Cli(1:CIdx),RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
     %stem(RTlqn_Ode(cmp,1:CIdx)',"--","linewidth",1.3,'LineStyle','none')
     legend(["RT_m","RT_p"])
 end
@@ -65,8 +65,8 @@ for cmp=1:size(Tm,2)
     hold on
     box on
     grid on
-    stem(Tm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
-    stem(Tl(1:CIdx,cmp),"-.","linewidth",1.3,'LineStyle','none')
+    stem(Cli(1:CIdx),Tm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
+    stem(Cli(1:CIdx),Tl(1:CIdx,cmp),"-.","linewidth",1.3,'LineStyle','none')
     legend(["T_m","T_p"])
 end
 
