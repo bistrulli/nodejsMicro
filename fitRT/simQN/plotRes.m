@@ -42,7 +42,7 @@ for i=1:CIdx
     X0=[Cli(1,i),zeros(1,size(P,2)-1)];
     [t,y,T,RT]=QN_ODE(X0,NC(i,:),P,MU,inf);
     
-    RTl(i,:)=solveRT(P2,RT');
+    RTl(i,:)=solveRT2(P2,RT');
     Tl(i,:)=T;
 end
 
