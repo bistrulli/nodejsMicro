@@ -18,26 +18,28 @@ if __name__ == '__main__':
     try:
         data = {"Cli":np.linspace(200,250,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
-        msSys = {"MSauth":{ "type":"spring",
+        msSys = {#auth service
+                "MSauth":{ "type":"spring",
                           "appFile":"../../acmeair-authservice-springboot/target/acmeair-authservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":20.00
+                          "hw":15
                           },
+                #customeService
                 "MSvalidateid":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":21.6489
+                          "hw":15
                           },
                 "MSviewprofile":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":16.6092
+                          "hw":15
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -46,6 +48,51 @@ if __name__ == '__main__':
                           "prxFile":"../prx/proxy.jar",
                           "hw":15.0
                           },
+                #booking service
+                "MSbookflights":{  "type":"spring",
+                          "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                "MSbybookingnumber":{  "type":"spring",
+                          "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                "MSbyuser":{  "type":"spring",
+                          "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                "MScancelbooking":{  "type":"spring",
+                          "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                #flight service
+                "MSqueryflights":{  "type":"spring",
+                          "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                "MSgetrewardmiles":{  "type":"spring",
+                          "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
+                          "addr":"localhost",
+                          "replica":1,
+                          "prxFile":"../prx/proxy.jar",
+                          "hw":15
+                          },
+                
                 "acmeair":True
               }
         
