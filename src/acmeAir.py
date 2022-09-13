@@ -16,7 +16,7 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+        data = {"Cli":np.linspace(1,140,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
         
         msSys = {#auth service
                 "MSauth":{ "type":"spring",
@@ -133,7 +133,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
             
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_wi.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_full.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
