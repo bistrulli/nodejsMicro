@@ -25,11 +25,11 @@ class clientThread_acme(clientThread):
                         "password":"password"}
     
                 r = s.post(url="http://localhost:80/auth/login", data=data)
-                print("login req", r)
-                print(r.text)
+                #print("login req", r)
+                #print(r.text)
                 r = s.get(url="http://localhost/customer/byid/%s" % (data["login"]), data={})
-                print("view profile req", r)
-                print(r.text)
+                #print("view profile req", r)
+                #print(r.text)
                 
                 userData = json.loads(r.text);
                 number = "".join(map(str, np.random.randint(low=0, high=9, size=9)))
@@ -37,12 +37,12 @@ class clientThread_acme(clientThread):
                 userData["password"] = data["password"];
                 r = s.post(url="http://localhost/customer/byid/%s" % (data["login"]), headers={"Content-Type": "application/json; charset=utf-8"},
                          json=userData)
-                print("update profile req", r)
-                print(r.text)
+                #print("update profile req", r)
+                #print(r.text)
                 userData = json.loads(r.text);
                 r = s.get(url="http://localhost/customer/byid/%s" % (data["login"]), data={})
-                print("view profile req2", r)
-                print(r.text)
+                #print("view profile req2", r)
+                #print(r.text)
                 
                 # query flight
                 queryData = {"fromAirport": "FCO",
@@ -53,7 +53,7 @@ class clientThread_acme(clientThread):
                 r = s.post(url="http://localhost/flight/queryflights", data=queryData)
             
                 flightData = json.loads(r.text);
-                print(flightData)
+                #print(flightData)
                                       
                 # book flight
                 toFlight = flightData["tripFlights"][0]["flightsOptions"][0]
@@ -67,18 +67,18 @@ class clientThread_acme(clientThread):
                           "oneWayFlight": False
                     }
                 r = s.post(url="http://localhost/booking/bookflights", data=bookingData)
-                print("booking")
+                #print("booking")
                 bookingRes = json.loads(r.text)
-                print(bookingRes)
+                #print(bookingRes)
                 
                 # cancel booking
                 bookToCancel = {"userid": userData["_id"],
                                 "number": bookingRes["departBookingId"]}
                 r = s.post(url="http://localhost/booking/cancelbooking", data=bookToCancel)
-                print(r.text)
+                #print(r.text)
                 bookToCancel["number"] = bookingRes["returnBookingId"]
                 r = s.post(url="http://localhost/booking/cancelbooking", data=bookToCancel)
-                print(r.text)
+                #print(r.text)
                 
                 s.close()
                 
