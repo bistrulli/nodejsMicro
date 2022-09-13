@@ -109,8 +109,8 @@ if __name__ == '__main__':
             print("####pop %d###" % (p))
             
             sys.startSys(msSys=msSys)
-            # time.sleep(5)
-            # sys.startClient(p)
+            time.sleep(5)
+            sys.startClient(p)
             # sys.startMNT()
             #
             # data["ms"] = list(sys.data.keys())

@@ -25,11 +25,11 @@ class clientThread_acme(clientThread):
                         "password":"password"}
     
                 r = s.post(url="http://localhost:80/auth/login",data=data)
-                #print("login req",r)
-                #print(r.text)
+                print("login req",r)
+                print(r.text)
                 r=s.get(url="http://localhost/customer/byid/%s"%(data["login"]),data={})
-                #print("view profile req",r)
-                #print(r.text)
+                print("view profile req",r)
+                print(r.text)
                 
                 userData=json.loads(r.text);
                 number="".join(map(str,np.random.randint(low=0,high=9,size=9)))
@@ -37,12 +37,12 @@ class clientThread_acme(clientThread):
                 userData["password"]=data["password"];
                 r=s.post(url="http://localhost/customer/byid/%s"%(data["login"]),headers={"Content-Type": "application/json; charset=utf-8"},
                          json=userData)
-                #print("update profile req",r)
-                #print(r.text)
-                #userData=json.loads(r.text);
-                #r=s.get(url="http://localhost/customer/byid/%s"%(data["login"]),data={})
-                #print("view profile req2",r)
-                #print(r.text)
+                print("update profile req",r)
+                print(r.text)
+                userData=json.loads(r.text);
+                r=s.get(url="http://localhost/customer/byid/%s"%(data["login"]),data={})
+                print("view profile req2",r)
+                print(r.text)
                 
                 s.close()
                 
