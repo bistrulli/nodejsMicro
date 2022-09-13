@@ -241,6 +241,8 @@ class nodeSys():
             if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
                 cfg = re.sub(r"\$%s"%(ms), str(self.nodeSys["%s"%(ms)]["prxPort"]),str(cfg))
         
+        print(cfg)
+        
         cfgFile = tempfile.NamedTemporaryFile(suffix='.cfg',mode='w+', encoding='utf-8')
         f=open(cfgFile.name,"w")
         f.write(cfg)

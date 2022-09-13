@@ -99,7 +99,6 @@ if __name__ == '__main__':
                           "prxFile":"../prx/proxy.jar",
                           "hw":15
                           },
-                
                 "acmeair":True
               }
         
