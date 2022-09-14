@@ -246,7 +246,7 @@ class nodeSys():
         # f.write(cfg)
         # f.close()
         
-        cfgFile=open("../log/ha.cfg".name,"w")
+        cfgFile=open("../log/ha.cfg","w")
         cfgFile.write(cfg)
         cfgFile.close()
         
