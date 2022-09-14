@@ -241,10 +241,14 @@ class nodeSys():
             if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
                 cfg = re.sub(r"\$%s"%(ms), str(self.nodeSys["%s"%(ms)]["prxPort"]),str(cfg))
         
-        cfgFile = tempfile.NamedTemporaryFile(suffix='.cfg',mode='w+', encoding='utf-8')
-        f=open(cfgFile.name,"w")
-        f.write(cfg)
-        f.close()
+        # cfgFile = tempfile.NamedTemporaryFile(suffix='.cfg',mode='w+', encoding='utf-8')
+        # f=open(cfgFile.name,"w")
+        # f.write(cfg)
+        # f.close()
+        
+        cfgFile=open("../log/ha.cfg".name,"w")
+        cfgFile.write(cfg)
+        cfgFile.close()
         
         return cfgFile
         
@@ -253,7 +257,7 @@ class nodeSys():
         haOutf = open("../log/haOut.log", "w+")
         haErrf = open("../log/haErr.log", "w+")
         
-        self.nodePrxProc["haPrx"]=subprocess.Popen(["haproxy","-f",cfgFile.name], 
+        self.nodePrxProc["haPrx"]=subprocess.Popen(["haproxy","-f",os.path.abspath(cfgFile.name)], 
                                                     stdout=haOutf, stderr=haErrf)
         
         print("started HaProxy")
