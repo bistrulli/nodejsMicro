@@ -1,6 +1,6 @@
 clear
-load("../../data/acmeair_data_out.mat")
-load("../../data/acmeAir.py_wi.mat");
+load("../../data/acmeAir.py_full_out.mat")
+load("../../data/acmeAir.py_full.mat");
 
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;

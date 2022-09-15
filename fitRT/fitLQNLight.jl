@@ -48,7 +48,7 @@ set_optimizer_attribute(model, "max_iter", 20000)
 
 # set_optimizer_attribute(model, "tol", 10^-15)
 #set_optimizer_attribute(model, "acceptable_tol", 10^-15)
-set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
+#set_optimizer_attribute(model, "hessian_approximation", "limited-memory")
 #set_optimizer_attribute(model, "print_level", 0)
 
 jump=genStoich(size(Tm,2))
@@ -78,7 +78,7 @@ mmu=1 ./minimum(RTm,dims=1)
 @variable(model,RTs[i=1:size(jump,2),j=1:npoints]>=0)
 
 @constraint(model,sum(P,dims=2).==1)
-#@constraint(model,P2.<=1)
+@constraint(model,P2.<=1)
 @constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
 
@@ -96,7 +96,7 @@ for p=1:npoints
         for i=1:size(jump,2)
                 #mi salvo l'espressione per il min(X[i,p],NC[i,p])
                 if(i!=1)
-                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-1)^(1.0/2))/2.0+NC[p,i]))
+                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-2)^(1.0/2))/2.0+NC[p,i]))
                 else
                         minExp[i,p]=@NLexpression(model,X[i,p]+0.0)
                 end
