@@ -1,6 +1,6 @@
 using NLopt,AmplNLWriter,Couenne_jll,Printf,Ipopt,MadNLP,Plots,MadNLPMumps,JuMP,MAT,ProgressBars,ParameterJuMP,Statistics
 
-mname="acmeair_data"
+mname="acmeAir.py_full"
 
 DATA = matread(@sprintf("../data/%s.mat",mname))
 
@@ -96,7 +96,7 @@ for p=1:npoints
         for i=1:size(jump,2)
                 #mi salvo l'espressione per il min(X[i,p],NC[i,p])
                 if(i!=1)
-                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-3)^(1.0/2))/2.0+NC[p,i]))
+                        minExp[i,p]=@NLexpression(model,(-(-(X[i,p]-NC[p,i])+((-(X[i,p]-NC[p,i]))^2+10^-1)^(1.0/2))/2.0+NC[p,i]))
                 else
                         minExp[i,p]=@NLexpression(model,X[i,p]+0.0)
                 end
