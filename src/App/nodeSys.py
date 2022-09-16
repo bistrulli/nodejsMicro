@@ -191,12 +191,12 @@ class nodeSys():
         
         latch=CountDownLatch(nms+1)
         
-        self.mntThreads.append(mnt_thread({"Client":{}},.5,"client",self.startTime,countDown=latch))
+        self.mntThreads.append(mnt_thread({"Client":{}},1.,"client",self.startTime,countDown=latch))
         self.mntThreads[-1].start()
         
         for ms in self.nodeSys:
             if(type(self.nodeSys[ms])==dict and "type" in self.nodeSys[ms]):
-                self.mntThreads.append(mnt_thread(self.nodeSys[ms],.5,ms,self.startTime,countDown=latch))
+                self.mntThreads.append(mnt_thread(self.nodeSys[ms],1.,ms,self.startTime,countDown=latch))
                 self.mntThreads[-1].start()
     
         for t in self.mntThreads:
