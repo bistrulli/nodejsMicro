@@ -1,6 +1,6 @@
 clear
-load("../../data/acmeAir.py_full_out.mat")
-load("../../data/acmeAir.py_full.mat");
+load("../../data/acmeAir.py_full_data_out.mat")
+load("../../data/acmeAir.py_full_data.mat");
 
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;
@@ -52,8 +52,8 @@ for cmp=1:size(RTm,2)
     hold on
     box on
     grid on
-    stem(Cli(1:CIdx),RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
-    stem(Cli(1:CIdx),RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
+    stem(RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
+    stem(RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
     %stem(RTlqn_Ode(cmp,1:CIdx)',"--","linewidth",1.3,'LineStyle','none')
     legend(["RT_m","RT_p"])
 end

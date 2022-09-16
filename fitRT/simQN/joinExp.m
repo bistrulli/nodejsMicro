@@ -1,7 +1,7 @@
 clear
 
-e1=load("../data/acmeAir/acmeAir.py_full_7b.mat");
-e2=load("../data/acmeAir/acmeAir.py_full_6b.mat");
+e1=load("../../data/acmeAir/acmeAir.py_full_7b.mat");
+e2=load("../../data/acmeAir/acmeAir.py_full_6b.mat");
 
 e1CIdx=sum(sum(e1.RTm,2)~=0);
 e2CIdx=sum(sum(e2.RTm,2)~=0);
@@ -18,4 +18,4 @@ ms=e1.ms;
 
 clear e1 e2
 
-save("../data/acmeAir_full_data.mat");
+save("../../data/acmeAir.py_full_data.mat");
