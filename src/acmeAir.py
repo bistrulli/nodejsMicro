@@ -82,7 +82,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":4.0
+                          "hw":15.0
                           },
                 #flight service
                 "MSqueryflights":{  "type":"spring",
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":15.0
+                          "hw":4.0
                           },
                 "MSgetrewardmiles":{  "type":"spring",
                           "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -133,7 +133,7 @@ if __name__ == '__main__':
                     data["NC"][-1].append(msSys[ms]["hw"])
             
             print("####pop %d converged###" % (p))
-            savemat("../data/%s_full_8b.mat"%(os.path.basename(__file__)), data)
+            savemat("../data/%s_full_9b.mat"%(os.path.basename(__file__)), data)
             
             print("killing clients")
             sys.stopClient()
