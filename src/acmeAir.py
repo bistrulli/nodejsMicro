@@ -97,49 +97,58 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":"../prx/proxy.jar",
-                          "hw":4.0
+                          "hw":15.0
                           },
                 "acmeair":True
               }
         
         
-        sys = nodeSys()
-        for p in data["Cli"]:
+        msNames=list(msSys.keys());
+        
+        for exp in range(1,5):
             
-            print("####pop %d###" % (p))
+            if(exp>1):
+                msSys[msNames[exp-2]]["hw"]=15.0
             
-            sys.startSys(msSys=msSys)
-            time.sleep(5)
-            sys.startClient(p)
-            sys.startMNT()
+            msSys[msNames[exp-1]]["hw"]=4.0
             
-            data["ms"] = list(sys.data.keys())
-            data["RTm"].append([])
-            data["Tm"].append([])
-            data["rtCI"].append([])
-            data["trCI"].append([])
-            data["NC"].append([])
-            
-            for ms in  data["ms"]:
-                data["RTm"][-1].append(sys.data[ms]["rt"][0])
-                data["Tm"][-1].append(sys.data[ms]["tr"][0])
-            
-                data["rtCI"][-1].append(sys.data[ms]["rt"][1])
-                data["trCI"][-1].append(sys.data[ms]["tr"][1])
-            
-                if(ms=="client"):
-                    data["NC"][-1].append(1000)
-                else:
-                    data["NC"][-1].append(msSys[ms]["hw"])
-            
-            print("####pop %d converged###" % (p))
-            savemat("../data/%s_full_10b.mat"%(os.path.basename(__file__)), data)
-            
-            print("killing clients")
-            sys.stopClient()
-            print("killing system") 
-            sys.stopSys()
-            sys.reset()
+            sys = nodeSys()
+            for p in data["Cli"]:
+                
+                print("####pop %d###" % (p))
+                
+                sys.startSys(msSys=msSys)
+                time.sleep(5)
+                sys.startClient(p)
+                sys.startMNT()
+                
+                data["ms"] = list(sys.data.keys())
+                data["RTm"].append([])
+                data["Tm"].append([])
+                data["rtCI"].append([])
+                data["trCI"].append([])
+                data["NC"].append([])
+                
+                for ms in  data["ms"]:
+                    data["RTm"][-1].append(sys.data[ms]["rt"][0])
+                    data["Tm"][-1].append(sys.data[ms]["tr"][0])
+                
+                    data["rtCI"][-1].append(sys.data[ms]["rt"][1])
+                    data["trCI"][-1].append(sys.data[ms]["tr"][1])
+                
+                    if(ms=="client"):
+                        data["NC"][-1].append(1000)
+                    else:
+                        data["NC"][-1].append(msSys[ms]["hw"])
+                
+                print("####pop %d converged###" % (p))
+                savemat("../data/%s_full_%db.mat"%(os.path.basename(__file__)), data,exp+1)
+                
+                print("killing clients")
+                sys.stopClient()
+                print("killing system") 
+                sys.stopSys()
+                sys.reset()
     
     except Exception as ex:
         print("Error")
