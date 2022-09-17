@@ -16,8 +16,6 @@ import os
 
 if __name__ == '__main__':
     try:
-        data = {"Cli":np.linspace(1,180,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-        
         msSys = {#auth service
                 "MSauth":{ "type":"spring",
                           "appFile":"../../acmeair-authservice-springboot/target/acmeair-authservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -111,6 +109,8 @@ if __name__ == '__main__':
                 msSys[msNames[exp-2]]["hw"]=15.0
             
             msSys[msNames[exp-1]]["hw"]=4.0
+            
+            data = {"Cli":np.linspace(1,180,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
