@@ -48,8 +48,8 @@ class mnt_thread(Thread):
         self.logFile=open("../log/%sStats.log"%(self.name),"w+")
         self.countDown=countDown
         
-        self.rtBm=BM(B=10,K=2,P=.95,wupH=100,name="rt-"+self.name,logFile=self.logFile)
-        self.trBm=BM(B=10,K=2,P=.95,wupH=100,name="tr-"+self.name,logFile=self.logFile)
+        self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name,logFile=self.logFile)
+        self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name,logFile=self.logFile)
     
     def getTRData(self):
         res = req.get("http://%s:%d/Events/"%(self.ms["addr"],self.ms["mntPort"]))
@@ -142,7 +142,7 @@ class mnt_thread(Thread):
                 #ert=rtRes[1]*100/rtRes[0]
                 ert=rtRes[1]
                 self.rtData=rtRes
-                if(ert<=100.):
+                if(ert<=1.):
                     rtConveerged=True
                     self.logFile.write("rt-%s converged <%.4f +/- %.4f>\n"%(self.name,rtRes[0],rtRes[1]))
                 else:
@@ -153,7 +153,7 @@ class mnt_thread(Thread):
             if(trRes is not None):
                 etr=trRes[1]*100/trRes[0]
                 self.trData=trRes
-                if(etr<=100):
+                if(etr<=0.5):
                     trConveerged=True
                     self.logFile.write("tr-%s converged <%.4f +/- %.4f>\n"%(self.name,trRes[0],trRes[1]))
                 else:
