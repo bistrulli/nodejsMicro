@@ -115,7 +115,7 @@ if __name__ == '__main__':
             for msn in msNames:
                 if(msn=="acmeair"):
                     continue
-                msSys[msn]["hw"]=NCrnd[ncIdx]
+                msSys[msn]["hw"]=(NCrnd[ncIdx]+10)
                 ncIdx+=1
                 
             data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
