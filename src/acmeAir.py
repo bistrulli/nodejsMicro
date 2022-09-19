@@ -103,7 +103,7 @@ if __name__ == '__main__':
         
         msNames=list(msSys.keys());
         
-        for exp in range(1):
+        for exp in range(3):
             
             # if(exp>1):
             #     msSys[msNames[exp-2]]["hw"]=15.0
@@ -112,9 +112,8 @@ if __name__ == '__main__':
             NCrnd=np.random.rand(10)*9;
             print(NCrnd)
             ncIdx=0;
-            for key, value in enumerate(msSys):
-                print(msSys[value],NCrnd[ncIdx])
-                msSys[value]["hw"]=NCrnd[ncIdx]
+            for msn in msNames:
+                msSys[msn]["hw"]=NCrnd[ncIdx]
                 ncIdx+=1
                 
             data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
