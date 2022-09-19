@@ -112,7 +112,7 @@ if __name__ == '__main__':
             NCrnd=np.random.rand(10)*9;
             print(NCrnd)
             ncIdx=0;
-            for key, value in msSys:
+            for key, value in enumerate(msSys):
                 msSys[key]["hw"]=NCrnd[ncIdx]
                 ncIdx+=1
                 
