@@ -1,7 +1,7 @@
 clear
 load("../../data/acmeAir.py_full_data_out.mat")
 load("../../data/acmeAir.py_full_data.mat");
-MSN
+
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;
 %    0,0,0,0,0;
@@ -70,8 +70,8 @@ for cmp=1:size(Tm,2)
     hold on
     box on
     grid on
-    stem(Cli(1:CIdx),Tm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
-    stem(Cli(1:CIdx),Tl(1:CIdx,cmp),"-.","linewidth",1.3,'LineStyle','none')
+    stem(Tm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
+    stem(Tl(1:CIdx,cmp),"-.","linewidth",1.3,'LineStyle','none')
     legend(["T_m","T_p"])
 end
 
