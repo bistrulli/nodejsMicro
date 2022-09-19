@@ -113,6 +113,8 @@ if __name__ == '__main__':
             print(NCrnd)
             ncIdx=0;
             for msn in msNames:
+                if(msn=="acmeair"):
+                    continue
                 msSys[msn]["hw"]=NCrnd[ncIdx]
                 ncIdx+=1
                 
