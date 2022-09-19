@@ -1,6 +1,6 @@
 clear
 load("../../data/acmeAir.py_full_data_out.mat")
-load("../../data/acmeAir.py_full_data.mat");
+load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_1wi.mat");
 
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;
