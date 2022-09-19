@@ -113,6 +113,7 @@ if __name__ == '__main__':
             print(NCrnd)
             ncIdx=0;
             for key, value in enumerate(msSys):
+                print(key,value)
                 msSys[key]["hw"]=NCrnd[ncIdx]
                 ncIdx+=1
                 
