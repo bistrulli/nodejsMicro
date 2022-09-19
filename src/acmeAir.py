@@ -113,8 +113,7 @@ if __name__ == '__main__':
             print(NCrnd)
             ncIdx=0;
             for key, value in enumerate(msSys):
-                print(key,value)
-                msSys[key]["hw"]=NCrnd[ncIdx]
+                msSys[value]["hw"]=NCrnd[ncIdx]
                 ncIdx+=1
                 
             data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
