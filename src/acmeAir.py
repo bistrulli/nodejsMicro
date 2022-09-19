@@ -103,14 +103,20 @@ if __name__ == '__main__':
         
         msNames=list(msSys.keys());
         
-        for exp in range(1,5):
+        for exp in range(1):
             
-            if(exp>1):
-                msSys[msNames[exp-2]]["hw"]=15.0
+            # if(exp>1):
+            #     msSys[msNames[exp-2]]["hw"]=15.0
+            # msSys[msNames[exp-1]]["hw"]=4.0
             
-            msSys[msNames[exp-1]]["hw"]=4.0
-            
-            data = {"Cli":np.linspace(1,180,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            NCrnd=np.random.rand(10)*9;
+            print(NCrnd)
+            ncIdx=0;
+            for key, value in msSys:
+                msSys[key]["hw"]=NCrnd[ncIdx]
+                ncIdx+=1
+                
+            data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -142,7 +148,7 @@ if __name__ == '__main__':
                         data["NC"][-1].append(msSys[ms]["hw"])
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/%s_full_%db.mat"%(os.path.basename(__file__),exp+1), data)
+                savemat("../data/%s_full_%dwi.mat"%(os.path.basename(__file__),exp+1), data)
                 
                 print("killing clients")
                 sys.stopClient()
