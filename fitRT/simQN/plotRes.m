@@ -57,6 +57,17 @@ for cmp=1:size(RTm,2)
     hold on
     box on
     grid on
+    
+     L=RTm(1:CIdx,cmp)-rtCI(1:CIdx,cmp);
+     H=RTm(1:CIdx,cmp)+rtCI(1:CIdx,cmp);
+%     
+      plot(H,"-.") %H
+      plot(L,"-.") %L
+%     
+%     x2 = [Cli'; flipud(Cli')];
+%     x3=  [linspace(0,size(Cli,2),size(Cli,2))';flipud(linspace(0,size(Cli,2),size(Cli,2))')];
+%     fill(x3, [L; flipud(H)], 'g', 'FaceAlpha',0.5);
+    
     stem(RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
     stem(RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
     %stem(RTlqn_Ode(cmp,1:CIdx)',"--","linewidth",1.3,'LineStyle','none')
