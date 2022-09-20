@@ -1,6 +1,6 @@
 clear
 load("../../data/acmeAir.py_full_data_out.mat")
-load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_2wi.mat");
+load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_3wi.mat");
 
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;
@@ -18,8 +18,6 @@ load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_2wi.mat");
 %     0,0,0,0,0,0,0,0,0,0;
 %     0,0,0,0,0,0,0,0,0,0;
 %     0,0,0,0,0,0,0,0,0,0;];
-
-P2=round(P2);
 
 %MU=[1/0.2,1/0.150,1/0.080,1/0.150,1/0.200]';
 % MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);
@@ -60,23 +58,23 @@ for cmp=1:size(RTm,2)
     box on
     grid on
     
-     L=RTm(1:CIdx,cmp)-rtCI(1:CIdx,cmp);
-     H=RTm(1:CIdx,cmp)+rtCI(1:CIdx,cmp);
-%     
-      plot(H,"-.") %H
-      plot(L,"-.") %L
-%     
-%     x2 = [Cli'; flipud(Cli')];
-%     x3=  [linspace(0,size(Cli,2),size(Cli,2))';flipud(linspace(0,size(Cli,2),size(Cli,2))')];
-%     fill(x3, [L; flipud(H)], 'g', 'FaceAlpha',0.5);
+    L=RTm(1:CIdx,cmp)-rtCI(1:CIdx,cmp);
+    H=RTm(1:CIdx,cmp)+rtCI(1:CIdx,cmp);
+    %
+    plot(H,"-.") %H
+    plot(L,"-.") %L
+    %
+    %     x2 = [Cli'; flipud(Cli')];
+    %     x3=  [linspace(0,size(Cli,2),size(Cli,2))';flipud(linspace(0,size(Cli,2),size(Cli,2))')];
+    %     fill(x3, [L; flipud(H)], 'g', 'FaceAlpha',0.5);
     
     stem(RTm(1:CIdx,cmp),"linewidth",1.1,'LineStyle','none')
     stem(RTl(:,cmp),"-.","linewidth",1.3,'LineStyle','none')
     %stem(RTlqn_Ode(cmp,1:CIdx)',"--","linewidth",1.3,'LineStyle','none')
     legend(["RT_m","RT_p"])
 end
-% 
-% 
+%
+%
 for cmp=1:size(Tm,2)
     figure
     title(sprintf("Troughput Dynamics of MS %s",labels{cmp}))
@@ -101,5 +99,14 @@ title("Relative Prediction Error (Throughput)")
 box on
 grid on
 ylabel("(%)")
+
+testClient(RTm,P2)
+
+function [RT]=testClient(RTm,P2)
+    RT=[];
+    for i =1:size(RTm,1)
+        RT=[RT;RTm(i,1)-P2(1,:)*(RTm(i,:)')];
+    end
+end
 
 
