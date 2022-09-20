@@ -81,6 +81,7 @@ mmu=1 ./minimum(RTm,dims=1)
 #@constraint(model,P2.<=1)
 @constraint(model,P.<=1)
 @constraint(model,[i=1:size(P2,1)],P2[i,i]==0)
+@constraint(model,MU[1])
 
 for idx=1:size(MU,1)
         set_start_value(MU[idx],mmu[idx])
@@ -138,7 +139,7 @@ end
 
 
 #@objective(model,Min, sum(E_abs2[i,p] for i=1:size(E_abs2,1) for p=1:size(E_abs2,2))+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
-@objective(model,Min,0.001*sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
+@objective(model,Min,sum(MU)+sum(E_abs[i,p] for i=1:size(E_abs,1) for p=1:size(E_abs,2))+sum(ERT_abs[i,p] for i=1:size(ERT_abs,1) for p=1:size(E_abs,2)))
 #@objective(model,Min, sum(E_abs2))
 runtime=@elapsed JuMP.optimize!(model)
 

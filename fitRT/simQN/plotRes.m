@@ -1,6 +1,6 @@
 clear
 load("../../data/acmeAir.py_full_data_out.mat")
-load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_3wi.mat");
+load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_2wi.mat");
 
 % P=[0,1,0,1,1;
 %    0,0,1,0,0;
@@ -18,6 +18,8 @@ load("/Users/emilio/git/nodejsMicro/data/acmeAir.py_full_3wi.mat");
 %     0,0,0,0,0,0,0,0,0,0;
 %     0,0,0,0,0,0,0,0,0,0;
 %     0,0,0,0,0,0,0,0,0,0;];
+
+P2=round(P2);
 
 %MU=[1/0.2,1/0.150,1/0.080,1/0.150,1/0.200]';
 % MU=1./([flip(diff(flip(RTm(1,:)))),RTm(1,end)]/1000);

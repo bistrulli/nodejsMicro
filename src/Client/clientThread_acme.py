@@ -21,6 +21,10 @@ class clientThread_acme(clientThread):
                 self.think()
                 
                 s = req.Session()
+                
+                adapter = req.adapters.HTTPAdapter(pool_connections=200, pool_maxsize=200)
+                s.mount('http://', adapter)
+                
                 data = {"login":"uid0@email.com",
                         "password":"password"}
     
