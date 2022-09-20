@@ -25,8 +25,8 @@ class clientThread(Thread):
         self.mongoClient=MongoClient("mongodb://localhost:27017/")
     
     def think(self):
-        d = np.random.exponential(scale=self.ttime)
-        time.sleep(d/1000.0)
+        #d = np.random.exponential(scale=self.ttime)
+        time.sleep(self.ttime/1000.0)
         
     
     def run(self):
