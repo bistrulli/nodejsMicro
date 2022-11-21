@@ -6,12 +6,48 @@ Created on 2 lug 2022
 
 import time
 import traceback
+import datetime
 
 from scipy.io import savemat
 
 from App import nodeSys
 import numpy as np
 import os
+
+from pymongo import MongoClient
+import pymongo
+import subprocess
+
+
+def extractKPI(msname):
+    subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","../data/ICDCS/%s.csv"%(msname)]);
+    
+def waitExp():
+    mongoClient=MongoClient("mongodb://localhost:27017/")
+    
+    print("experiment running")
+    sim=mongoClient["sys"]["sim"].find_one({})
+    while(sim["toStop"]==0):
+        time.sleep(1)
+        sim=mongoClient["sys"]["sim"].find_one({})
+    mongoClient.close()
+    
+def setStart():
+    mongoClient=MongoClient("mongodb://localhost:27017/")
+    collist = mongoClient["sys"].list_collection_names()
+    # if "sim" in collist:
+    #     mongoClient["sys"]["sim"].drop()
+    mongoClient["sys"]["sim"].insert_one({"started":1,"toStop":0})
+    mongoClient.close()
+    
+def resetSim():
+    mongoClient=MongoClient("mongodb://localhost:27017/")
+    collist = mongoClient["sys"].list_collection_names()
+    if "sim" in collist:
+        mongoClient["sys"]["sim"].drop()
+    mongoClient.close()
+
+    
 
 
 if __name__ == '__main__':
@@ -120,7 +156,7 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[30], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -130,9 +166,12 @@ if __name__ == '__main__':
                 sys.startSys(msSys=msSys)
                 time.sleep(5)
                 sys.startClient(p)
-                sys.startMNT()
+                #creo la cartella sim e setto a true il fato che sia parti
+                setStart()
+                waitExp()
                 
-                data["ms"] = list(sys.data.keys())
+                
+                data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
                 data["Tm"].append([])
                 data["rtCI"].append([])
@@ -140,25 +179,27 @@ if __name__ == '__main__':
                 data["NC"].append([])
                 
                 for ms in  data["ms"]:
-                    data["RTm"][-1].append(sys.data[ms]["rt"][0])
-                    data["Tm"][-1].append(sys.data[ms]["tr"][0])
+                    if(ms=="acmeair"):
+                        continue
+                    
+                    print("saving",ms)
+                    extractKPI(ms)
+                    # if(ms=="client"):
+                    #     data["NC"][-1].append(1000)
+                    # else:
+                    #     data["NC"][-1].append(msSys[ms]["hw"])
                 
-                    data["rtCI"][-1].append(sys.data[ms]["rt"][1])
-                    data["trCI"][-1].append(sys.data[ms]["tr"][1])
-                
-                    if(ms=="client"):
-                        data["NC"][-1].append(1000)
-                    else:
-                        data["NC"][-1].append(msSys[ms]["hw"])
+                extractKPI("client")
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/%s_full_%d_m1.mat"%(os.path.basename(__file__),exp+1), data)
+                #savemat("../data/ICDCS/%s_full_%d_m1.mat"%(os.path.basename(__file__),exp+1), data)
                 
                 print("killing clients")
                 sys.stopClient()
                 print("killing system") 
                 sys.stopSys()
                 sys.reset()
+                resetSim()
     
     except Exception as ex:
         print("Error")
@@ -166,6 +207,7 @@ if __name__ == '__main__':
         sys.stopClient()
         print("killing system") 
         sys.stopSys()
+        resetSim()
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         
