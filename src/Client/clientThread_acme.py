@@ -51,8 +51,8 @@ class clientThread_acme(clientThread):
                 # query flight
                 queryData = {"fromAirport": "FCO",
                             "toAirport": "LHR",
-                            "fromDate": "Thu Nov 17 2022 00:00:00 GMT+0100 (Ora standard dell’Europa centrale)",
-                            "returnDate": "Thu Nov 17 2022 00:00:00 GMT+0100 (Ora standard dell’Europa centrale)",
+                            "fromDate": "Fri Sep 02 2022 00:00:00 GMT+0200 (Ora standard dell’Europa centrale)",
+                            "returnDate": "Sat Sep 03 2022 00:00:00 GMT+0200 (Ora standard dell’Europa centrale)",
                             "oneWay": False}
                 r = s.post(url="http://localhost/flight/queryflights", data=queryData)
             
