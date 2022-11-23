@@ -8,6 +8,10 @@ if(~isopen(conn))
 end
 
 %inizializzo la simulazione
+%devo recuperare il numero di client inizili dal db
+%devo impostare le configurazioni del numero di core iniziali su redis
+%perchè è li le che verranno lette
+updateShare("MSauth",15);
 initSim(conn)
 
 % lancio il sistema
@@ -16,7 +20,15 @@ startSystem(conn)
 %ora posso comunicare con i diversi microservizi aggiornando il campo hw
 %del rispettivo document nella collection ms del database sys
 disp("doing things")
-pause(180)
+disp(datetime)
+pause(60*3)
+%vario i core del microservizio auth per farlo diventare bottleneck
+updateShare("MSauth",1);
+disp(datetime)
+pause(60*3)
+updateShare("MSauth",2);
+disp(datetime)
+pause(60*3)
 
 %stoppo il sistrema settamndo a 1 il campo toStop
 stopStystem(conn);
@@ -99,4 +111,17 @@ while(i<=size(cmp_evt,1))
         kidx=kidx+1;
     end
 end
+end
+
+function updateShare(msname,share)
+fprintf("update share of %s to %.3f",msname,share);
+%     findquery = sprintf("{""name"":""%s""}",msname);
+%     updatequery = sprintf("{""$set"":{""hw"":%.3f}}",max(0,share));
+%     update(conn,"ms",findquery,updatequery);
+
+r = Redis("localhost",6379);
+r.set(sprintf("%s_hw",msname),sprintf("%.3f",share));
+
+%lo lasico solo come esempio per fare una query
+%find(conn,"ms",Query=mongoquery);
 end
