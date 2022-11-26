@@ -81,7 +81,7 @@ class clientThread_acme(clientThread):
             # print(r.text)
 
             s.close()
-        except:
+        except Exception as ex:
             # print(self.id, "error")
             # pass
             traceback.print_exception(type(ex), ex, ex.__traceback__)
