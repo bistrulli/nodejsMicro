@@ -6,6 +6,7 @@ from pymongo import MongoClient
 import pymongo
 from Client import clientThread
 import json
+import traceback
 
 
 class clientThread_acme(clientThread):
@@ -81,6 +82,7 @@ class clientThread_acme(clientThread):
 
             s.close()
         except:
-            print(self.id, "error")
-            pass
+            # print(self.id, "error")
+            # pass
+            traceback.print_exception(type(ex), ex, ex.__traceback__)
     
