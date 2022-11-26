@@ -4,6 +4,7 @@ import time
 import psutil
 from Client import clientThread
 from Client import clientThread_acme
+from Client import loadShapeAcme_step
 from Monitoring import mnt_thread
 from pymongo import MongoClient
 import pymongo
@@ -152,14 +153,19 @@ class nodeSys():
         
         self.startTime=time.time_ns() // 1_000_000 
         for n in range(N):
-            self.clientThreads.append(clientThread_acme(ttime=200))
-            self.clientThreads[-1].start()
+            ct=clientThread_acme(ttime=200)
+            ct.start()
     
     def stopClient(self):
-        clientThread.toStop=True
-        for c in self.clientThreads:
+        #print(clientThread.userCount,"to stop")
+        clientThread.toStop=clientThread.userCount
+        for c in clientThread.usersThreads:
             c.join()
             print("stopped client %d"%(c.id))
+            
+    def startLoadShape(self,maxt):
+        lshape=loadShapeAcme_step(maxt)
+        lshape.start()
     
     def waitMs(self,msName=None,port=None):
         atpt = 0

@@ -7,6 +7,7 @@ Created on 2 lug 2022
 import time
 import traceback
 import datetime
+import redis
 
 from scipy.io import savemat
 
@@ -59,7 +60,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15
+                          "hw":1
                           },
                 #customeService
                 "MSvalidateid":{  "type":"spring",
@@ -67,28 +68,28 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15
+                          "hw":1
                           },
                 "MSviewprofile":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15
+                          "hw":1
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 "MSupdateMiles":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 #booking service
                 "MSbookflights":{  "type":"spring",
@@ -96,7 +97,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 # "MSbybookingnumber":{  "type":"spring",
                 #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -117,7 +118,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 #flight service
                 "MSqueryflights":{  "type":"spring",
@@ -125,20 +126,21 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 "MSgetrewardmiles":{  "type":"spring",
                           "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":15.0
+                          "hw":1
                           },
                 "acmeair":True
               }
         
         
         msNames=list(msSys.keys());
+        pedis=redis.Redis(host='localhost', port=6379)
         
         for exp in range(1):
             
@@ -156,7 +158,7 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":[30], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -165,8 +167,11 @@ if __name__ == '__main__':
                 
                 sys.startSys(msSys=msSys)
                 time.sleep(5)
+                
+                pedis.publish("users","%d"%(p))
+                
                 sys.startClient(p)
-                #creo la cartella sim e setto a true il fato che sia parti
+                sys.startLoadShape(180)
                 setStart()
                 waitExp()
                 

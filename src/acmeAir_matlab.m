@@ -33,14 +33,7 @@ pause(60*3)
 %stoppo il sistrema settamndo a 1 il campo toStop
 stopStystem(conn);
 
-msFiles=dir("../data/ICDCS/*.csv");
-msData=struct("name",[],"rt",[],"tr",[]);
-for i=1:size(msFiles,1)
-    msData(i).name=msFiles(i).name;
-    msData(i).rt=getMSRt(sprintf("%s/%s",msFiles(i).folder,msFiles(i).name));
-    msData(i).tr=getMSTr(sprintf("%s/%s",msFiles(i).folder,msFiles(i).name));
-end
-
+msData=readData("../data/ICDCS/*.csv");
 
 %per visualizzare i risultati importo i csv che sono stati esportati dal
 %sisrtema
@@ -88,29 +81,6 @@ while(simDoc.started~=1)
     end
 end
 disp("system started")
-end
-
-function rt=getMSRt(dataPath)
-cmp_evt = readmatrix(dataPath);
-rt=(cmp_evt(:,2)-cmp_evt(:,1))/10^3;
-end
-
-function tr=getMSTr(dataPath)
-cmp_evt = readmatrix(dataPath);
-kidx=1;
-tcmp=0;
-tr=[];
-i=1;
-while(i<=size(cmp_evt,1))
-    if((kidx-1)<=(cmp_evt(i,2)-min(cmp_evt(:,2)))/10^3 && (cmp_evt(i,2)-min(cmp_evt(:,2)))/10^3<=(kidx))
-        tcmp=tcmp+1;
-        i=i+1;
-    else
-        tr=[tr,tcmp];
-        tcmp=0;
-        kidx=kidx+1;
-    end
-end
 end
 
 function updateShare(msname,share)
