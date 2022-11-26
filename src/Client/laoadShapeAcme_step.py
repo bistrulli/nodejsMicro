@@ -11,7 +11,7 @@ class loadShapeAcme_step(loadShape):
         super().__init__(maxt)
         
     def gen(self,t):
-        if((self.t) % 1000==0):
+        if((self.t) % 1000000==0):
             return clientThread.userCount+20
         else:
             return clientThread.userCount
