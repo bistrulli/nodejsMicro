@@ -25,6 +25,7 @@ class loadShape(Thread):
         if(clientThread.toStop>0):
             raise ValueError("trying to update users when old changes are still doing")
         
+        self.r.set("users","%d"%(users))
         self.r.publish("users", "%d"%(users))
         if(clientThread.userCount<users):
             self.addUsers(users-clientThread.userCount)

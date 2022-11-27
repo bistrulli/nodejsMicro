@@ -83,7 +83,7 @@ class nodeSys():
                                                                "port=%s"%(port)], 
                                                               stdout=msOutf, stderr=msErrf)]
                     elif(self.nodeSys[ms]["type"]=="spring"):
-                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
+                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar","-Djava.compiler=NONE","-Xint",
                                                                  "-Xmx10g",
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
