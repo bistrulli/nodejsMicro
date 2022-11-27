@@ -120,7 +120,7 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[15,20,25,30], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -152,7 +152,7 @@ if __name__ == '__main__':
                         data["NC"][-1].append(msSys[ms]["hw"])
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/%s_full_%d_icdcs_val_nojit.mat"%(os.path.basename(__file__),exp+1), data)
+                savemat("../data/%s_full_%d_icdcs_val_nojit_wi.mat"%(os.path.basename(__file__),exp+1), data)
                 
                 print("killing clients")
                 sys.stopClient()
