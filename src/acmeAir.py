@@ -152,7 +152,7 @@ if __name__ == '__main__':
                         data["NC"][-1].append(msSys[ms]["hw"])
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/%s_full_%d_icdcs_val_nojit_wi.mat"%(os.path.basename(__file__),exp+1), data)
+                savemat("../data/%s_full_%d_icdcs_val_server.mat"%(os.path.basename(__file__),exp+1), data)
                 
                 print("killing clients")
                 sys.stopClient()
