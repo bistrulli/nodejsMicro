@@ -1,36 +1,38 @@
-from threading import Thread, Lock
+from threading import Thread
 import time
 import redis
 import numpy as np
 
-from Client import clientThread
-from pymongo import MongoClient
+from Client import clientProcess
 
 
 class loadShape(Thread):
     
     t=None
     maxt=None
+    sys=None
     
-    def __init__(self,maxt):
+    def __init__(self,maxt,sys):
         Thread.__init__(self)
         self.t=0
+        self.sys=sys
         self.maxt=maxt
-        self.mongoClient = MongoClient("mongodb://localhost:27017/")
         self.r=redis.Redis(host='localhost', port=6379)
     
     def updateUser(self,users):
         users=int(np.round(users))
         
-        if(clientThread.toStop>0):
+        if(self.sys.toStop>0):
             raise ValueError("trying to update users when old changes are still doing")
         
         self.r.set("users","%d"%(users))
         self.r.publish("users", "%d"%(users))
-        if(clientThread.userCount<users):
-            self.addUsers(users-clientThread.userCount)
+        if(self.sys.userCount<users):
+            self.addUsers(users-self.sys.userCount)
         else:
-            clientThread.toStop=clientThread.userCount-users;
+            self.stopUsers(self.sys.userCount-users)
+            
+       
         
     def tick(self):
         print("tick %d"%(self.t))
@@ -56,4 +58,7 @@ class loadShape(Thread):
         pass
     
     def addUsers(self,u):
+        pass
+    
+    def stopUsers(self,u):
         pass

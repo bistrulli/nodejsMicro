@@ -2,7 +2,7 @@ clear
 
 load('../data/acmeAir.py_full_10b.mat');
 load('../data/acmeAir.py_full_data_out');
-load('../data/acmeAir.py_full_1_icdcs_val_nojit.mat');
+load('../data/acmeAir.py_full_1_icdcs_val_nojit_server.mat');
 
 msname=strtrim(string(ms)); 
 st_est=zeros(1,length(msname));

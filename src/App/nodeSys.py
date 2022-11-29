@@ -3,7 +3,7 @@ import subprocess
 import time
 import psutil
 from Client import clientThread
-from Client import clientThread_acme
+from Client import clientProcess_acme
 from Client import loadShapeAcme_step
 from Monitoring import mnt_thread
 from pymongo import MongoClient
@@ -13,10 +13,8 @@ import shutil
 import os
 import socket
 import numpy as np
-import json
 import glob
 import copy
-import signal
 import traceback
 import tempfile
 import re
@@ -33,6 +31,9 @@ class nodeSys():
     mntThreads=None
     data=None
     startTime=None
+    clientsProc=None
+    userCount=0
+    userId=0
     
     def __init__(self):
         self.nodeSysProc={}
@@ -41,6 +42,8 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
+        self.clientsProc=[]
+        nodeSys.userId=0
         #self.clearLog()
     
     
@@ -83,7 +86,7 @@ class nodeSys():
                                                                "port=%s"%(port)], 
                                                               stdout=msOutf, stderr=msErrf)]
                     elif(self.nodeSys[ms]["type"]=="spring"):
-                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar","-Djava.compiler=NONE","-Xint",
+                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
                                                                  "-Xmx10g",
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
@@ -153,15 +156,30 @@ class nodeSys():
         
         self.startTime=time.time_ns() // 1_000_000 
         for n in range(N):
-            ct=clientThread_acme(ttime=200)
-            ct.start()
+            self.clientsProc.append(clientProcess_acme(ttime=200,id=nodeSys.userId)) 
+            self.clientsProc[-1].start()
+            nodeSys.userCount+=1 
+            nodeSys.userId+=1
     
     def stopClient(self):
         #print(clientThread.userCount,"to stop")
-        clientThread.toStop=clientThread.userCount
-        for c in clientThread.usersThreads:
-            c.join()
-            print("stopped client %d"%(c.id))
+        for p in self.clientsProc:
+            p.terminate()
+            p.join()
+            print("stopped client %d"%(p.id))
+    
+    
+    def decreaseUser(self):
+        clientThread.l2.acquire()
+        clientThread.userCount-=1
+        clientThread.l2.release()
+    
+    def increaseUser(self):
+        print("added user %d"%(self.id))
+        clientThread.l2.acquire()
+        clientThread.usersThreads.append(self)
+        clientThread.userCount+=1
+        clientThread.l2.release()
             
     def startLoadShape(self,maxt):
         lshape=loadShapeAcme_step(maxt)

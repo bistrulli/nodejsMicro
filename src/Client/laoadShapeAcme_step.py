@@ -1,8 +1,6 @@
-from threading import Thread, Lock
-
 from Client import loadShape
-from Client import clientThread_acme
-from Client import clientThread
+from Client import clientProcess_acme
+from App import nodeSys
 
 
 class loadShapeAcme_step(loadShape):
@@ -12,11 +10,18 @@ class loadShapeAcme_step(loadShape):
         
     def gen(self,t):
         if((self.t) % 30==0):
-            return clientThread.userCount+30
+            return nodeSys.userCount+30
         else:
-            return clientThread.userCount
+            return nodeSys.userCount
     
     def addUsers(self,nusers):
         for i in range(nusers):
-            u=clientThread_acme(ttime=200)
+            u=clientProcess_acme(ttime=200)
             u.start()
+            nodeSys.userCount*=1
+    
+    def stopUsers(self,u):
+        for i in range(u):
+            nodeSys.clientProc[i].terminate();
+            nodeSys.clientProc[i].join()
+            nodeSys.userCount-=1;
