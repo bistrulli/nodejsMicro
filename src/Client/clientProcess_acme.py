@@ -20,10 +20,10 @@ class clientProcess_acme(clientProcess):
             data = {"login":"uid0@email.com",
                     "password":"password"}
 
-            r = s.post(url="http://localhost:80/auth/login", data=data)
+            r = s.post(url="http://localhost:3000/auth/login", data=data)
             # print("login req", r)
             # print(r.text)
-            r = s.get(url="http://localhost/customer/byid/%s" % (data["login"]), data={})
+            r = s.get(url="http://localhost:3000/customer/byid/%s" % (data["login"]), data={})
             # print("view profile req", r)
             # print(r.text)
 
@@ -31,12 +31,12 @@ class clientProcess_acme(clientProcess):
             number = "".join(map(str, np.random.randint(low=0, high=9, size=9)))
             userData["phoneNumber"] = number
             userData["password"] = data["password"];
-            r = s.post(url="http://localhost/customer/byid/%s" % (data["login"]), headers={"Content-Type": "application/json; charset=utf-8"},
+            r = s.post(url="http://localhost:3000/customer/byid/%s" % (data["login"]), headers={"Content-Type": "application/json; charset=utf-8"},
                      json=userData)
             # print("update profile req", r)
             # print(r.text)
             userData = json.loads(r.text);
-            r = s.get(url="http://localhost/customer/byid/%s" % (data["login"]), data={})
+            r = s.get(url="http://localhost:3000/customer/byid/%s" % (data["login"]), data={})
             # print("view profile req2", r)
             # print(r.text)
 
@@ -46,7 +46,7 @@ class clientProcess_acme(clientProcess):
                         "fromDate": "Fri Sep 02 2022 00:00:00 GMT+0200 (Ora standard dell’Europa centrale)",
                         "returnDate": "Sat Sep 03 2022 00:00:00 GMT+0200 (Ora standard dell’Europa centrale)",
                         "oneWay": False}
-            r = s.post(url="http://localhost/flight/queryflights", data=queryData)
+            r = s.post(url="http://localhost:3000/flight/queryflights", data=queryData)
 
             flightData = json.loads(r.text);
             # print(flightData)
@@ -62,7 +62,7 @@ class clientProcess_acme(clientProcess):
                       "retFlightSegId": retFlight["flightSegmentId"],
                       "oneWayFlight": False
                 }
-            r = s.post(url="http://localhost/booking/bookflights", data=bookingData)
+            r = s.post(url="http://localhost:3000/booking/bookflights", data=bookingData)
             # print("booking")
             bookingRes = json.loads(r.text)
             # print(bookingRes)
@@ -70,10 +70,10 @@ class clientProcess_acme(clientProcess):
             # cancel booking
             bookToCancel = {"userid": userData["_id"],
                             "number": bookingRes["departBookingId"]}
-            r = s.post(url="http://localhost/booking/cancelbooking", data=bookToCancel)
+            r = s.post(url="http://localhost:3000/booking/cancelbooking", data=bookToCancel)
             # print(r.text)
             bookToCancel["number"] = bookingRes["returnBookingId"]
-            r = s.post(url="http://localhost/booking/cancelbooking", data=bookToCancel)
+            r = s.post(url="http://localhost:3000/booking/cancelbooking", data=bookToCancel)
             # print(r.text)
 
             s.close()
