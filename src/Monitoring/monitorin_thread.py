@@ -48,8 +48,8 @@ class mnt_thread(Thread):
         self.logFile=open("../log/%sStats.log"%(self.name),"w+")
         self.countDown=countDown
         
-        self.rtBm=BM(B=30,K=30,P=.95,wupH=100,name="rt-"+self.name,logFile=self.logFile)
-        self.trBm=BM(B=30,K=30,P=.95,wupH=100,name="tr-"+self.name,logFile=self.logFile)
+        self.rtBm=BM(B=30,K=10,P=.95,wupH=50,name="rt-"+self.name,logFile=self.logFile)
+        self.trBm=BM(B=30,K=10,P=.95,wupH=50,name="tr-"+self.name,logFile=self.logFile)
     
     def getTRData(self):
         res = req.get("http://%s:%d/Events/"%(self.ms["addr"],self.ms["mntPort"]))
