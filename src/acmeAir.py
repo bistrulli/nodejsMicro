@@ -124,7 +124,7 @@ if __name__ == '__main__':
             #data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
-            for p in data["Cli"]:
+            for p in data["Cli"][14:]:
                 
                 print("####pop %d###" % (p))
                 
