@@ -152,6 +152,10 @@ if __name__ == '__main__':
                     else:
                         data["NC"][-1].append(msSys[ms]["hw"])
                 
+                
+                
+                os.makedirs("../data/ICDCS/validation/m1/",exist_ok=True)
+                
                 print("####pop %d converged###" % (p))
                 savemat("../data/ICDCS/validation/m1/validation.mat", data)
                 
