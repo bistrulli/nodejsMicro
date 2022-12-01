@@ -153,7 +153,7 @@ if __name__ == '__main__':
                         data["NC"][-1].append(msSys[ms]["hw"])
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/ICDCS/validation/m1/validation.mat"%(os.path.basename(__file__),exp+1), data)
+                savemat("../data/ICDCS/validation/m1/validation.mat", data)
                 
                 print("killing clients")
                 sys.stopClient()
