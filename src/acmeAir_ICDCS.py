@@ -158,7 +158,7 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[30], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -174,7 +174,7 @@ if __name__ == '__main__':
                 sys.startClient(p)
                 # sys.startLoadShape(180)
                 setStart()
-                # waitExp()
+                #waitExp()
                 time.sleep(180)
                 
                 data["ms"] = list(msSys.keys())
