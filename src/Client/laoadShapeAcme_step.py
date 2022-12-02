@@ -10,15 +10,16 @@ class loadShapeAcme_step(loadShape):
         
     def gen(self,t):
         if((self.t) % 30==0):
-            return nodeSys.userCount+30
+            return nodeSys.userCount+20
         else:
             return nodeSys.userCount
     
     def addUsers(self,nusers):
         for i in range(nusers):
-            u=clientProcess_acme(ttime=200)
+            u=clientProcess_acme(ttime=200,id=nodeSys.userId)
             u.start()
-            nodeSys.userCount*=1
+            nodeSys.userCount+=1
+            nodeSys.userId+=1
     
     def stopUsers(self,u):
         for i in range(u):

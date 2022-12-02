@@ -167,19 +167,6 @@ class nodeSys():
             p.terminate()
             p.join()
             print("stopped client %d"%(p.id))
-    
-    
-    def decreaseUser(self):
-        clientThread.l2.acquire()
-        clientThread.userCount-=1
-        clientThread.l2.release()
-    
-    def increaseUser(self):
-        print("added user %d"%(self.id))
-        clientThread.l2.acquire()
-        clientThread.usersThreads.append(self)
-        clientThread.userCount+=1
-        clientThread.l2.release()
             
     def startLoadShape(self,maxt):
         lshape=loadShapeAcme_step(maxt)
