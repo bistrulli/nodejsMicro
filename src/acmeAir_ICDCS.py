@@ -169,10 +169,10 @@ if __name__ == '__main__':
                 time.sleep(5)
                 
                 pedis.set("users","%d"%(p))
-                pedis.publish("users","%d"%(p))
+                pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p)
-                sys.startLoadShape(180)
+                sys.startLoadShape(maxt=180,sys=sys)
                 setStart()
                 waitExp()
                 #time.sleep(180)
