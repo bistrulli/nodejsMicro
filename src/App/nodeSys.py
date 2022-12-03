@@ -180,7 +180,7 @@ class nodeSys():
             
     
     def stopClient(self):
-        self.stopUsers(len(self.clientsProc))
+        self.stopUsers(self.clientsProc.qsize())
             
     def startLoadShape(self,maxt):
         lshape=loadShapeAcme_step(maxt=maxt,sys=self)
