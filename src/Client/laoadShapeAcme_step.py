@@ -12,6 +12,7 @@ class loadShapeAcme_step(loadShape):
         if((self.t) % 30==0):
             return nodeSys.userCount+20
         else:
+            print(nodeSys)
             return nodeSys.userCount
     
     def addUsers(self,nusers):
