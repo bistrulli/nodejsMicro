@@ -170,7 +170,7 @@ class nodeSys():
             self.userId+=1
     
     def stopUsers(self,nusers):
-        if(nusers>len(self.clientsProc)):
+        if(nusers>self.clientsProc.qsize()):
             raise ValueError("less users than what required")
         for uIdx in range(nusers):
             u=self.clientsProc.get()
