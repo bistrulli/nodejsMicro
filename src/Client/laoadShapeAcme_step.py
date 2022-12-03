@@ -1,6 +1,6 @@
 from Client import loadShape
 from Client import clientProcess_acme
-from App import nodeSys
+from App import nodeSys.nodeSys
 
 
 class loadShapeAcme_step(loadShape):
@@ -12,7 +12,6 @@ class loadShapeAcme_step(loadShape):
         if((self.t) % 30==0):
             return nodeSys.userCount+20
         else:
-            print(nodeSys)
             return nodeSys.userCount
     
     def addUsers(self,nusers):
