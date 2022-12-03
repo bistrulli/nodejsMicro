@@ -30,7 +30,6 @@ class loadShape(Thread):
             self.stopUsers(self.sys.userCount-users)
             
        
-        
     def tick(self):
         print("tick %d"%(self.t))
         self.t+=1

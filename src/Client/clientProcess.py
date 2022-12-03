@@ -16,6 +16,7 @@ class clientProcess(multiprocessing.Process):
         super().__init__()
         self.ttime = ttime
         self.id = id
+        print("started process id=%d"%(self.id))
         
     def think(self):
         d = np.random.exponential(scale=self.ttime)

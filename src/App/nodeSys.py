@@ -172,7 +172,7 @@ class nodeSys():
             u=self.clientsProc[uIdx]
             u.terminate()
             u.join()
-            self.clientsProc.remove(u)
+            #self.clientsProc.remove(u)
             print("stopped client %d"%(u.id))
             
     
