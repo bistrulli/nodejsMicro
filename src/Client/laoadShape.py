@@ -21,9 +21,6 @@ class loadShape(Thread):
     def updateUser(self,users):
         users=int(np.round(users))
         
-        if(self.sys.toStop>0):
-            raise ValueError("trying to update users when old changes are still doing")
-        
         self.r.set("users","%d"%(users))
         self.r.publish("users", "%d"%(users))
         if(self.sys.userCount<users):
