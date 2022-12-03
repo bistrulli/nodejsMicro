@@ -2,7 +2,7 @@ from threading import Thread
 import time
 import redis
 import numpy as np
-from App import nodeSys
+from pymongo import MongoClient
 
 
 class loadShape(Thread):
@@ -17,6 +17,7 @@ class loadShape(Thread):
         self.sys=sys
         self.maxt=maxt
         self.r=redis.Redis(host='localhost', port=6379)
+        self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
     
     def updateUser(self,users):
         users=int(np.round(users))
@@ -33,7 +34,7 @@ class loadShape(Thread):
     def tick(self):
         print("tick %d"%(self.t))
         self.t+=1
-        return self.gen(self.t);
+        return self.gen();
     
     def stopSim(self):
         print("stopping simulation")
@@ -50,7 +51,7 @@ class loadShape(Thread):
             time.sleep(1)
         self.stopSim()
             
-    def gen(self,t):
+    def gen(self):
         pass
     
     def addUsers(self,u):

@@ -35,27 +35,6 @@ class clientProcess(multiprocessing.Process):
         
     def userLogic(self):
         print("should subclass")
-    
-    # def isToKill(self):
-    #     toKill=False;
-    #     clientThread.l1.acquire()
-    #     if(clientThread.toStop is not None and clientThread.toStop>0):
-    #         clientThread.toStop-=1
-    #         toKill=True
-    #     clientThread.l1.release()
-    #     return toKill
-    #
-    # def decreaseUser(self):
-    #     clientThread.l2.acquire()
-    #     clientThread.userCount-=1
-    #     clientThread.l2.release()
-    #
-    # def increaseUser(self):
-    #     print("added user %d"%(self.id))
-    #     clientThread.l2.acquire()
-    #     clientThread.usersThreads.append(self)
-    #     clientThread.userCount+=1
-    #     clientThread.l2.release()
 
 if __name__ == '__main__':
     p=clientProcess(500.0,1)
