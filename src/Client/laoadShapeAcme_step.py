@@ -5,24 +5,17 @@ from App import nodeSys
 
 class loadShapeAcme_step(loadShape):
     
-    def __init__(self,maxt):
-        super().__init__(maxt)
+    def __init__(self,maxt,sys):
+        super().__init__(maxt,sys)
         
     def gen(self,t):
         if((self.t) % 30==0):
-            return nodeSys.nodeSys.userCount+20
+            return self.sys.userCount+20
         else:
-            return nodeSys.nodeSys.userCount
+            return self.sys.userCount
     
     def addUsers(self,nusers):
-        for i in range(nusers):
-            u=clientProcess_acme(ttime=200,id=nodeSys.userId)
-            u.start()
-            nodeSys.nodeSys.userCount+=1
-            nodeSys.nodeSys.userId+=1
+        self.sys.addUsers(nusers)
     
-    def stopUsers(self,u):
-        for i in range(u):
-            nodeSys.clientProc[i].terminate();
-            nodeSys.clientProc[i].join()
-            nodeSys.nodeSys.userCount-=1;
+    def stopUsers(self,users):
+        self.sys.stopUsers(users)

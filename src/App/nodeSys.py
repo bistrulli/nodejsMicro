@@ -32,7 +32,7 @@ class nodeSys():
     data=None
     startTime=None
     clientsProc=None
-    userCount=0
+    userCount=None
     userId=0
     
     def __init__(self):
@@ -44,6 +44,7 @@ class nodeSys():
         self.startTime=None
         self.clientsProc=[]
         nodeSys.userId=0
+        self.userCount=0
         #self.clearLog()
     
     
@@ -155,18 +156,28 @@ class nodeSys():
             client["client"].create_collection("rt")
         
         self.startTime=time.time_ns() // 1_000_000 
-        for n in range(N):
-            self.clientsProc.append(clientProcess_acme(ttime=200,id=nodeSys.userId)) 
+        self.addUsers(N)
+    
+    def addUsers(self,nusers):
+        for i in range(nusers):
+            self.clientsProc.append(clientProcess_acme(ttime=200,id=self.userId))
             self.clientsProc[-1].start()
-            nodeSys.userCount+=1 
-            nodeSys.userId+=1
+            self.userCount+=1
+            self.userId+=1
+    
+    def stopUsers(self,nusers):
+        if(nusers>len(self.clientsProc)):
+            raise ValueError("less users than what required")
+        for uIdx in range(nusers):
+            u=self.clientsProc[uIdx]
+            u.terminate()
+            u.join()
+            self.clientsProc.remove(u)
+            print("stopped client %d"%(u.id))
+            
     
     def stopClient(self):
-        #print(clientThread.userCount,"to stop")
-        for p in self.clientsProc:
-            p.terminate()
-            p.join()
-            print("stopped client %d"%(p.id))
+        self.stopUsers(len(self.clientsProc))
             
     def startLoadShape(self,maxt):
         lshape=loadShapeAcme_step(maxt)

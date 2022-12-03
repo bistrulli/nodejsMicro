@@ -11,9 +11,10 @@ class loadShape(Thread):
     maxt=None
     sys=None
     
-    def __init__(self,maxt):
+    def __init__(self,maxt,sys):
         Thread.__init__(self)
         self.t=0
+        self.sys=sys
         self.maxt=maxt
         self.r=redis.Redis(host='localhost', port=6379)
     
@@ -25,10 +26,10 @@ class loadShape(Thread):
         
         self.r.set("users","%d"%(users))
         self.r.publish("users", "%d"%(users))
-        if(nodeSys.userCount<users):
-            self.addUsers(users-nodeSys.userCount)
+        if(self.sys.userCount<users):
+            self.addUsers(users-self.sys.userCount)
         else:
-            self.stopUsers(nodeSys.userCount-users)
+            self.stopUsers(self.sys.userCount-users)
             
        
         
