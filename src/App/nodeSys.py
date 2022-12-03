@@ -18,6 +18,7 @@ import copy
 import traceback
 import tempfile
 import re
+from queue import Queue
 
 class nodeSys():
     
@@ -42,7 +43,7 @@ class nodeSys():
         self.mntThreads=[]
         self.data={}
         self.startTime=None
-        self.clientsProc=[]
+        self.clientsProc=Queue()
         nodeSys.userId=0
         self.userCount=0
         #self.clearLog()
@@ -157,11 +158,14 @@ class nodeSys():
         
         self.startTime=time.time_ns() // 1_000_000 
         self.addUsers(N)
+        
+    
     
     def addUsers(self,nusers):
         for i in range(nusers):
-            self.clientsProc.append(clientProcess_acme(ttime=200,id=self.userId))
-            self.clientsProc[-1].start()
+            u=clientProcess_acme(ttime=200,id=self.userId)
+            self.clientsProc.put(u)
+            u.start()
             self.userCount+=1
             self.userId+=1
     
@@ -169,10 +173,9 @@ class nodeSys():
         if(nusers>len(self.clientsProc)):
             raise ValueError("less users than what required")
         for uIdx in range(nusers):
-            u=self.clientsProc[uIdx]
+            u=self.clientsProc.get()
             u.terminate()
             u.join()
-            #self.clientsProc.remove(u)
             print("stopped client %d"%(u.id))
             
     
