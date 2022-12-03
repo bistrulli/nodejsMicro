@@ -2,8 +2,7 @@ from threading import Thread
 import time
 import redis
 import numpy as np
-
-from Client import clientProcess
+from App import nodeSys
 
 
 class loadShape(Thread):
@@ -12,10 +11,9 @@ class loadShape(Thread):
     maxt=None
     sys=None
     
-    def __init__(self,maxt,sys):
+    def __init__(self,maxt):
         Thread.__init__(self)
         self.t=0
-        self.sys=sys
         self.maxt=maxt
         self.r=redis.Redis(host='localhost', port=6379)
     
@@ -27,10 +25,10 @@ class loadShape(Thread):
         
         self.r.set("users","%d"%(users))
         self.r.publish("users", "%d"%(users))
-        if(self.sys.userCount<users):
-            self.addUsers(users-self.sys.userCount)
+        if(nodeSys.userCount<users):
+            self.addUsers(users-nodeSys.userCount)
         else:
-            self.stopUsers(self.sys.userCount-users)
+            self.stopUsers(nodeSys.userCount-users)
             
        
         
