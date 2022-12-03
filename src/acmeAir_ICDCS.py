@@ -172,7 +172,7 @@ if __name__ == '__main__':
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p)
-                sys.startLoadShape(maxt=180,sys=sys)
+                sys.startLoadShape(180)
                 setStart()
                 waitExp()
                 #time.sleep(180)

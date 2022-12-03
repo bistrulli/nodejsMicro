@@ -180,7 +180,7 @@ class nodeSys():
         self.stopUsers(len(self.clientsProc))
             
     def startLoadShape(self,maxt):
-        lshape=loadShapeAcme_step(maxt)
+        lshape=loadShapeAcme_step(maxt=maxt,sys=self)
         lshape.start()
     
     def waitMs(self,msName=None,port=None):
