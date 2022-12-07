@@ -36,12 +36,4 @@ class clientProcess(multiprocessing.Process):
         
     def userLogic(self):
         print("should subclass")
-
-if __name__ == '__main__':
-    p=clientProcess(500.0,1)
-    p.start()
-    time.sleep(10)
-    p.terminate()
-    p.join()
-    print("exit")
     
