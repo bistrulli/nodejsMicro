@@ -174,8 +174,8 @@ if __name__ == '__main__':
                 sys.startClient(p)
                 #sys.startLoadShape(180)
                 setStart()
-                waitExp()
-                #time.sleep(180)
+                #waitExp()
+                time.sleep(180)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
