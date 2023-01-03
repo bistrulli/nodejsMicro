@@ -41,4 +41,4 @@ rates=1./(st_est'/1000);
 MU=zeros(1,30);
 MU([5,6,9,12,15,20,23,24,29,30])=rates([3,2,4,5,9,6,10,7,8,1]);
 
-save("params.mat","MU");
+% save("params.mat","MU");

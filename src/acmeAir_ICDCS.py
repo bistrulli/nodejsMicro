@@ -158,7 +158,7 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":[30], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[30.0], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -172,10 +172,10 @@ if __name__ == '__main__':
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p)
-                sys.startLoadShape(180)
+                #sys.startLoadShape(180)
                 setStart()
-                waitExp()
-                #time.sleep(180)
+                #waitExp()
+                time.sleep(180)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
