@@ -95,6 +95,8 @@ class clientProcess_sock(clientProcess):
             cards=json.loads(r.text)
             print(len(cards["_embedded"]["card"]))
             
+            #qui aggiungere un po di chiamate per la ricerca, acquisto e checkout di un prodotto
+            
             # print("add cards")
             # cardsData = {
             #           "longNum": "19394949272",

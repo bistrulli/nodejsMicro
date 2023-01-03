@@ -8,9 +8,9 @@ sudo pkill -9 -f haproxy
 sh ./start_cart.sh &
 sh ./start_catalogue.sh &
 sh ./start_users.sh &
-#sh ./start_orders.sh &
-#sh ./start_payment.sh &
-#sh ./start_shipping.sh &
+sh ./start_orders.sh &
+sh ./start_payment.sh &
+sh ./start_shipping.sh &
 
 echo "staring haproxy"
 haproxy -f ../cfgTmp/sockshop.cfg
