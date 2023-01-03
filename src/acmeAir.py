@@ -120,11 +120,11 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            data = {"Cli":np.linspace(5,90,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            #data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            #data = {"Cli":np.linspace(5,90,20,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":np.linspace(1,10,10,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
-            for p in data["Cli"][14:]:
+            for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
                 
@@ -157,7 +157,7 @@ if __name__ == '__main__':
                 os.makedirs("../data/ICDCS/validation/m1/",exist_ok=True)
                 
                 print("####pop %d converged###" % (p))
-                savemat("../data/ICDCS/validation/m1/validation.mat", data)
+                savemat("../data/ICDCS/validation/m1/validation_2.mat", data)
                 
                 print("killing clients")
                 sys.stopClient()
