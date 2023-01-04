@@ -2,7 +2,7 @@ clear
 
 load('../data/acmeAir.py_full_10b.mat');
 load('../data/acmeAir.py_full_data_out');
-load('/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/validation.mat');
+load('/Users/emilio-imt/git/nodejsMicro/data/ICDCS/validation/m1/validation_2.mat');
 
 msname=strtrim(string(ms)); 
 st_est=zeros(1,length(msname));
@@ -28,12 +28,12 @@ st_est=zeros(1,length(msname));
 
 P2=round(P2); 
 for i=1:size(P2,1)
-    disp(msname(i))
     for j=1:size(P2,2)
         %st_est(i)=st_est(i)+mean(msdata(mappingMat(j)).rt())*P2(i,j);
         st_est(i)=st_est(i)+RTm(1,j)*P2(i,j);
     end
     st_est(i)=RTm(1,i)-st_est(i);
+    disp([msname(i),1/(st_est(i)/1000)])
 end
 
 rates=1./(st_est'/1000);
@@ -41,4 +41,4 @@ rates=1./(st_est'/1000);
 MU=zeros(1,30);
 MU([5,6,9,12,15,20,23,24,29,30])=rates([3,2,4,5,9,6,10,7,8,1]);
 
-% save("params.mat","MU");
+save("params.mat","MU");
