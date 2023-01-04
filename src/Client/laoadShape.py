@@ -22,7 +22,8 @@ class loadShape(Thread):
         self.sys=sys
         self.maxt=maxt
         self.mntData=[];
-        self.r=redis.Redis(host='localhost', port=6379)
+        #self.r=redis.Redis(host='localhost', port=6379)
+        self.r=redis.StrictRedis(host='localhost', port=6379, charset="utf-8", decode_responses=True)
         self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
     
     def updateUser(self,users):
