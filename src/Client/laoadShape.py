@@ -66,6 +66,7 @@ class loadShape(Thread):
         self.mntData+=[[str(ctrl_t)]+hws];
     
     def saveMntData(self):
+        print(self.mntData)
         np.savetxt('ctrldata.csv', np.array(self.mntData), delimiter=",")
             
     def gen(self):
