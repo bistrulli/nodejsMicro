@@ -1,6 +1,6 @@
-% clear
+clear
 
-% msdata=readData("../data/ICDCS/ctrl_2/*.csv");
+msdata=readData("../data/ICDCS/ctrl_2/*.csv");
 msdata_noctrl=readData("../data/ICDCS/no_ctrl2/*.csv");
 % 
 % figure
