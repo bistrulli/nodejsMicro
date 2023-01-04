@@ -61,7 +61,8 @@ class loadShape(Thread):
     def mntShares(self):
         ctrl_t=time.time()
         hws=self.r.mget(self.keys)
-        self.mntData+=[[str(ctrl_t)]+str(hws)];
+        print([str(ctrl_t)]+hws)
+        self.mntData+=[[str(ctrl_t)]+hws];
     
     def saveMntData(self):
         savemat("ctrldata.mat", {"data":np.array(self.mntData)})
