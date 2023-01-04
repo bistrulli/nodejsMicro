@@ -1,6 +1,6 @@
 % clear
 
-% msdata=readData("../data/ICDCS/ctrl_2/*.csv");
+msdata=readData("../data/ICDCS/ctrl_2/*.csv");
 
 figure
 hold on
