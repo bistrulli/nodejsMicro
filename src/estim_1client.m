@@ -33,7 +33,7 @@ for i=1:size(P2,1)
         st_est(i)=st_est(i)+RTm(1,j)*P2(i,j);
     end
     st_est(i)=RTm(1,i)-st_est(i);
-    disp([msname(i),1/(st_est(i)/1000)])
+    disp([msname(i),(st_est(i)/1000)])
 end
 
 rates=1./(st_est'/1000);
@@ -41,4 +41,4 @@ rates=1./(st_est'/1000);
 MU=zeros(1,30);
 MU([5,6,9,12,15,20,23,24,29,30])=rates([3,2,4,5,9,6,10,7,8,1]);
 
-save("params.mat","MU");
+%save("params.mat","MU");

@@ -12,10 +12,11 @@ class clientProcess(multiprocessing.Process):
     mongoClient = None
     ttime = None
     
-    def __init__(self, ttime,id):
+    def __init__(self, ttime,cId,dry=False):
         super().__init__()
         self.ttime = ttime
-        self.id = id
+        self.id = cId
+        self.dry = dry
         print("started process id=%d"%(self.id))
         
     def think(self):
@@ -30,7 +31,8 @@ class clientProcess(multiprocessing.Process):
         while(True):
             st = time.time_ns() // 1_000_000 
             self.think()
-            self.userLogic()
+            if(not self.dry):
+                self.userLogic()
             end = time.time_ns() // 1_000_000
             self.mongoClient["client"]["rt"].insert_one({"st":st, "end":end})
         

@@ -7,8 +7,8 @@ import traceback
 
 class clientProcess_acme(clientProcess):
     
-    def __init__(self, ttime,id):
-        super().__init__(ttime,id)
+    def __init__(self, ttime,cId,dry=False):
+        super().__init__(ttime,cId,dry)
         
     def userLogic(self):
         try:

@@ -141,6 +141,7 @@ if __name__ == '__main__':
         
         msNames=list(msSys.keys());
         pedis=redis.Redis(host='localhost', port=6379)
+        dry=True
         
         for exp in range(1):
             
@@ -158,6 +159,9 @@ if __name__ == '__main__':
             #     ncIdx+=1
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            
+            dry=True
+            
             data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
@@ -171,7 +175,7 @@ if __name__ == '__main__':
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))  
                 
-                sys.startClient(p)
+                sys.startClient(p,dry=dry)
                 sys.startLoadShape(180)
                 setStart()
                 waitExp()
@@ -184,22 +188,19 @@ if __name__ == '__main__':
                 data["trCI"].append([])
                 data["NC"].append([])
                 
-                for ms in  data["ms"]:
-                    if(ms=="acmeair"):
-                        continue
+                if(not dry):
+                    for ms in  data["ms"]:
+                        if(ms=="acmeair"):
+                            continue
+                        
+                        print("saving",ms)
+                        extractKPI(ms)
+                        # if(ms=="client"):
+                        #     data["NC"][-1].append(1000)
+                        # else:
+                        #     data["NC"][-1].append(msSys[ms]["hw"])
+                    extractKPI("client")
                     
-                    print("saving",ms)
-                    extractKPI(ms)
-                    # if(ms=="client"):
-                    #     data["NC"][-1].append(1000)
-                    # else:
-                    #     data["NC"][-1].append(msSys[ms]["hw"])
-                
-                extractKPI("client")
-                
-                print("####pop %d converged###" % (p))
-                #savemat("../data/ICDCS/%s_full_%d_m1.mat"%(os.path.basename(__file__),exp+1), data)
-                
                 print("killing clients")
                 sys.stopClient()
                 print("killing system") 

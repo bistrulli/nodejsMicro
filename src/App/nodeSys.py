@@ -144,7 +144,7 @@ class nodeSys():
             p.kill()
             
     
-    def startClient(self,N):
+    def startClient(self,N,dry=False):
         
         print("starting client")
         
@@ -157,13 +157,13 @@ class nodeSys():
             client["client"].create_collection("rt")
         
         self.startTime=time.time_ns() // 1_000_000 
-        self.addUsers(N)
+        self.addUsers(N,dry)
         
     
     
-    def addUsers(self,nusers):
+    def addUsers(self,nusers,dry):
         for i in range(nusers):
-            u=clientProcess_acme(ttime=200,id=self.userId)
+            u=clientProcess_acme(ttime=200,cId=self.userId,dry=dry)
             self.clientsProc.put(u)
             u.start()
             self.userCount+=1
