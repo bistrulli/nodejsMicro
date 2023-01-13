@@ -16,12 +16,13 @@ class loadShape(Thread):
           "MSupdateMiles_hw","MScancelbooking_hw","MSgetrewardmiles_hw",
           "MSqueryflights_hw","MSviewprofile_hw","MSupdateprofile_hw"]
     
-    def __init__(self,maxt,sys):
+    def __init__(self,maxt,sys,dry=False):
         Thread.__init__(self)
         self.t=0
         self.sys=sys
         self.maxt=maxt
         self.mntData=[];
+        self.dry=dry
         #self.r=redis.Redis(host='localhost', port=6379)
         self.r=redis.StrictRedis(host='localhost', port=6379, charset="utf-8", decode_responses=True)
         self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
