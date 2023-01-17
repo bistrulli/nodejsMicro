@@ -162,7 +162,7 @@ if __name__ == '__main__':
             
             dry=False
             
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
