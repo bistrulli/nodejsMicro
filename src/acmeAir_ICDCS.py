@@ -160,9 +160,9 @@ if __name__ == '__main__':
                 
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
-            dry=True
+            dry=False
             
-            data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -176,7 +176,7 @@ if __name__ == '__main__':
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p,dry=dry)
-                sys.startLoadShape(2000,dry=dry)
+                sys.startLoadShape(180,dry=dry)
                 setStart()
                 waitExp()
                 #time.sleep(180)
