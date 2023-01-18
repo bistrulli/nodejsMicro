@@ -168,13 +168,13 @@ if __name__ == '__main__':
                 
                 print("####pop %d###" % (p))
                 
-                sys.startSys(msSys=msSys)
-                time.sleep(5)
+                #sys.startSys(msSys=msSys)
+                #time.sleep(5)
                 
                 # pedis.set("users","%d"%(p))
                 # pedis.publish("users","%d"%(p))  
                 
-                #sys.startClient(p,dry=dry)
+                sys.startClient(p,dry=dry)
                 #sys.startLoadShape(300,dry=dry)
                 #setStart()
                 #waitExp()
