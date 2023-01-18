@@ -11,6 +11,8 @@ class clientProcess(multiprocessing.Process):
     id = None
     mongoClient = None
     ttime = None
+    dbHost="185.154.155.43"
+    remoteHost="185.154.155.43"
     
     def __init__(self, ttime,cId,dry=False):
         super().__init__()
@@ -27,7 +29,7 @@ class clientProcess(multiprocessing.Process):
         self.toStop=True
     
     def run(self):
-        self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
+        self.mongoClient = MongoClient(host="mongodb://%s:27017/"%(clientProcess.dbHost))
         while(True):
             st = time.time_ns() // 1_000_000 
             self.think()
