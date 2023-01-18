@@ -17,8 +17,7 @@ class clientProcess_acme(clientProcess):
             adapter = req.adapters.HTTPAdapter(pool_connections=200, pool_maxsize=200)
             s.mount('http://', adapter)
 
-            data = {"login":"uid0@email.com",
-                    "password":"password"}
+            data = {"login":"uid0@email.com","password":"password"}
 
             r = s.post(url="http://%s:80/auth/login"%(clientProcess.remoteHost), data=data)
             print("login req", r)
