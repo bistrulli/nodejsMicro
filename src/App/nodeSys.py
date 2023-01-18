@@ -35,8 +35,9 @@ class nodeSys():
     clientsProc=None
     userCount=None
     userId=0
+    dbHost=None
     
-    def __init__(self):
+    def __init__(self,dbHost="localhost"):
         self.nodeSysProc={}
         self.nodePrxProc={}
         self.clientThreads=[]
@@ -46,6 +47,7 @@ class nodeSys():
         self.clientsProc=Queue()
         nodeSys.userId=0
         self.userCount=0
+        self.dbHost=dbHost;
         #self.clearLog()
     
     
@@ -53,7 +55,7 @@ class nodeSys():
         
         self.nodeSys=copy.deepcopy(msSys)
         
-        mongoCli=MongoClient("mongodb://localhost:27017/") 
+        mongoCli=MongoClient("mongodb://%s:27017/"%(self.dbHost)) 
         try:
             mongoCli.drop_database("sys")
         except:
@@ -148,7 +150,7 @@ class nodeSys():
         
         print("starting client")
         
-        client=MongoClient("mongodb://localhost:27017/client")
+        client=MongoClient("mongodb://%s:27017/client"%(self.dbHost))
         try:
             client["client"]["rt"].drop()
         except:

@@ -163,7 +163,7 @@ if __name__ == '__main__':
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
-            sys = nodeSys()
+            sys = nodeSys(dbHost="185.154.155.43")
             for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
