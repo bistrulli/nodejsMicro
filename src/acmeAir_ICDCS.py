@@ -175,11 +175,11 @@ if __name__ == '__main__':
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))  
                 
-                sys.startClient(p,dry=dry)
-                sys.startLoadShape(300,dry=dry)
-                setStart()
-                waitExp()
-                #time.sleep(180)
+                #sys.startClient(p,dry=dry)
+                #sys.startLoadShape(300,dry=dry)
+                #setStart()
+                #waitExp()
+                time.sleep(180)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
