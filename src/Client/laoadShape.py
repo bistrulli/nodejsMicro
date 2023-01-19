@@ -2,7 +2,7 @@ from threading import Thread
 import time
 import redis
 import numpy as np
-from pymongo import MongoClient
+#from pymongo import MongoClient
 from scipy.io import savemat
 
 
@@ -16,7 +16,7 @@ class loadShape(Thread):
           "MSupdateMiles_hw","MScancelbooking_hw","MSgetrewardmiles_hw",
           "MSqueryflights_hw","MSviewprofile_hw","MSupdateprofile_hw"]
     
-    def __init__(self,maxt,sys,dry=False):
+    def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1"):
         Thread.__init__(self)
         self.t=0
         self.sys=sys
@@ -24,8 +24,8 @@ class loadShape(Thread):
         self.mntData=[];
         self.dry=dry
         #self.r=redis.Redis(host='localhost', port=6379)
-        self.r=redis.StrictRedis(host='localhost', port=6379, charset="utf-8", decode_responses=True)
-        self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
+        self.r=redis.StrictRedis(host=dbHost, port=6379, charset="utf-8", decode_responses=True)
+        #self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
     
     def updateUser(self,users):
         users=int(np.round(users))
@@ -47,11 +47,12 @@ class loadShape(Thread):
     def stopSim(self):
         print("stopping simulation")
         # Updating fan quantity form 10 to 25.
-        filter = {'started': 1 }
+        #filter = {'started': 1 }
         # Values to be updated.
-        newvalues = {"$set":{"toStop":1}}
-        self.mongoClient["sys"]["sim"].update_one(filter, newvalues)
-        self.saveMntData()
+        #newvalues = {"$set":{"toStop":1}}
+        #self.mongoClient["sys"]["sim"].update_one(filter, newvalues)
+        #self.saveMntData()
+        self.r.set("toStop","1")
         print("stopped simulation")
     
     def run(self):

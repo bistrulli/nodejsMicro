@@ -23,23 +23,31 @@ import subprocess
 def extractKPI(msname):
     subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","../data/ICDCS/%s.csv"%(msname)]);
     
-def waitExp():
-    mongoClient=MongoClient("mongodb://localhost:27017/")
+# def waitExp():
+#     mongoClient=MongoClient("mongodb://localhost:27017/")
+#
+#     print("experiment running")
+#     sim=mongoClient["sys"]["sim"].find_one({})
+#     while(sim["toStop"]==0):
+#         time.sleep(1)
+#         sim=mongoClient["sys"]["sim"].find_one({})
+#     mongoClient.close()
+
+def waitExp(redisCon):
+    toStop=redisCon.get("toStop")
+    while(toStop!="1"):
+        toStop=redisCon.get("toStop")
     
-    print("experiment running")
-    sim=mongoClient["sys"]["sim"].find_one({})
-    while(sim["toStop"]==0):
-        time.sleep(1)
-        sim=mongoClient["sys"]["sim"].find_one({})
-    mongoClient.close()
-    
-def setStart():
-    mongoClient=MongoClient("mongodb://localhost:27017/")
-    collist = mongoClient["sys"].list_collection_names()
-    # if "sim" in collist:
-    #     mongoClient["sys"]["sim"].drop()
-    mongoClient["sys"]["sim"].insert_one({"started":1,"toStop":0})
-    mongoClient.close()
+# def setStart():
+#     mongoClient=MongoClient("mongodb://localhost:27017/")
+#     collist = mongoClient["sys"].list_collection_names()
+#     # if "sim" in collist:
+#     #     mongoClient["sys"]["sim"].drop()
+#     mongoClient["sys"]["sim"].insert_one({"started":1,"toStop":0})
+#     mongoClient.close()
+
+def setStart(redisCon):
+    redisCon.set("toStop","0")
     
 def resetSim():
     mongoClient=MongoClient("mongodb://localhost:27017/")
@@ -141,7 +149,7 @@ if __name__ == '__main__':
         
         redisHost="185.10.16.192"
         msNames=list(msSys.keys());
-        pedis=redis.Redis(host=redisHost, port=6379)
+        pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
         for exp in range(1):
@@ -162,7 +170,7 @@ if __name__ == '__main__':
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             
-            data = {"Cli":[15], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys(dbHost="185.10.16.192")
             for p in data["Cli"]:
@@ -176,10 +184,10 @@ if __name__ == '__main__':
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p,dry=dry)
-                #sys.startLoadShape(300,dry=dry)
-                #setStart()
-                #waitExp()
-                time.sleep(360)
+                sys.startLoadShape(300,dry=dry,dbHost=redisHost)
+                setStart(pedis)
+                waitExp(pedis)
+                #time.sleep(360)
                 
                 # data["ms"] = list(msSys.keys())
                 # data["RTm"].append([])

@@ -23,15 +23,20 @@ import subprocess
 def extractKPI(msname):
     subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","../data/ICDCS/%s.csv"%(msname)]);
     
-def waitExp():
-    mongoClient=MongoClient("mongodb://localhost:27017/")
-    
-    print("experiment running")
-    sim=mongoClient["sys"]["sim"].find_one({})
-    while(sim["toStop"]==0):
-        time.sleep(1)
-        sim=mongoClient["sys"]["sim"].find_one({})
-    mongoClient.close()
+# def waitExp():
+#     mongoClient=MongoClient("mongodb://localhost:27017/")
+#
+#     print("experiment running")
+#     sim=mongoClient["sys"]["sim"].find_one({})
+#     while(sim["toStop"]==0):
+#         time.sleep(1)
+#         sim=mongoClient["sys"]["sim"].find_one({})
+#     mongoClient.close()
+
+def waitExp(redisCon):
+    toStop=redisCon.get("toStop")
+    while(toStop!="1"):
+        toStop=redisCon.get("toStop")
     
 def setStart():
     mongoClient=MongoClient("mongodb://localhost:27017/")
@@ -140,7 +145,8 @@ if __name__ == '__main__':
         
         
         msNames=list(msSys.keys());
-        pedis=redis.Redis(host='localhost', port=6379)
+        redisHost="localhost"
+        pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=True
         
         for exp in range(1):
@@ -172,14 +178,14 @@ if __name__ == '__main__':
                 sys.startSys(msSys=msSys)
                 time.sleep(5)
                 
-                pedis.set("users","%d"%(p))
-                pedis.publish("users","%d"%(p))  
+                #pedis.set("users","%d"%(p))
+                #pedis.publish("users","%d"%(p))  
                 
                 #sys.startClient(p,dry=dry)
                 #sys.startLoadShape(300,dry=dry)
                 #setStart()
-                #waitExp()
-                time.sleep(380)
+                waitExp(pedis)
+                #time.sleep(380)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
