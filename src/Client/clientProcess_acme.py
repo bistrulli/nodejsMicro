@@ -20,11 +20,11 @@ class clientProcess_acme(clientProcess):
             data = {"login":"uid0@email.com","password":"password"}
 
             r = s.post(url="http://%s:80/auth/login"%(clientProcess.remoteHost), data=data)
-            print("login req", r)
-            print(r.text)
+            #print("login req", r)
+            #print(r.text)
             r = s.get(url="http://%s:80/customer/byid/%s" % (clientProcess.remoteHost,data["login"]), data={})
-            print("view profile req", r)
-            print(r.text)
+            #print("view profile req", r)
+            #print(r.text)
 
             userData = json.loads(r.text);
             number = "".join(map(str, np.random.randint(low=0, high=9, size=9)))
@@ -32,12 +32,12 @@ class clientProcess_acme(clientProcess):
             userData["password"] = data["password"];
             r = s.post(url="http://%s:80/customer/byid/%s" % (clientProcess.remoteHost,data["login"]), headers={"Content-Type": "application/json; charset=utf-8"},
                      json=userData)
-            print("update profile req", r)
-            print(r.text)
+            #print("update profile req", r)
+            #print(r.text)
             userData = json.loads(r.text);
             r = s.get(url="http://%s:80/customer/byid/%s" % (clientProcess.remoteHost,data["login"]), data={})
-            print("view profile req2", r)
-            print(r.text)
+            #print("view profile req2", r)
+            #print(r.text)
 
             # query flight
             queryData = {"fromAirport": "FCO",
@@ -48,7 +48,7 @@ class clientProcess_acme(clientProcess):
             r = s.post(url="http://%s:80/flight/queryflights"%(clientProcess.remoteHost), data=queryData)
 
             flightData = json.loads(r.text);
-            print(flightData)
+            #print(flightData)
 
             # book flight
             toFlight = flightData["tripFlights"][0]["flightsOptions"][0]
@@ -62,18 +62,18 @@ class clientProcess_acme(clientProcess):
                       "oneWayFlight": False
                 }
             r = s.post(url="http://%s:80/booking/bookflights"%(clientProcess.remoteHost), data=bookingData)
-            print("booking")
+            #print("booking")
             bookingRes = json.loads(r.text)
-            print(bookingRes)
+            #print(bookingRes)
 
             # cancel booking
             bookToCancel = {"userid": userData["_id"],
                             "number": bookingRes["departBookingId"]}
             r = s.post(url="http://%s:80/booking/cancelbooking"%(clientProcess.remoteHost), data=bookToCancel)
-            print(r.text)
+            #print(r.text)
             bookToCancel["number"] = bookingRes["returnBookingId"]
             r = s.post(url="http://%s:80/booking/cancelbooking"%(clientProcess.remoteHost), data=bookToCancel)
-            print(r.text)
+            #print(r.text)
 
             s.close()
         except Exception as ex:
