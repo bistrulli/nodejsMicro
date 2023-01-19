@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 #sys.startLoadShape(300,dry=dry)
                 #setStart()
                 #waitExp()
-                time.sleep(190)
+                time.sleep(380)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])

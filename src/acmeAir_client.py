@@ -161,7 +161,7 @@ if __name__ == '__main__':
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             
-            data = {"Cli":[20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys(dbHost="185.154.155.43")
             for p in data["Cli"]:
@@ -178,7 +178,7 @@ if __name__ == '__main__':
                 #sys.startLoadShape(300,dry=dry)
                 #setStart()
                 #waitExp()
-                time.sleep(180)
+                time.sleep(360)
                 
                 # data["ms"] = list(msSys.keys())
                 # data["RTm"].append([])
