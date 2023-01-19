@@ -162,7 +162,7 @@ if __name__ == '__main__':
             
             dry=False
             
-            data = {"Cli":[10], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys()
             for p in data["Cli"]:
@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 #sys.startLoadShape(300,dry=dry)
                 #setStart()
                 #waitExp()
-                time.sleep(180)
+                time.sleep(180000)
                 
                 data["ms"] = list(msSys.keys())
                 data["RTm"].append([])
