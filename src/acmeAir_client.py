@@ -139,8 +139,9 @@ if __name__ == '__main__':
               }
         
         
+        redisHost="185.10.16.192"
         msNames=list(msSys.keys());
-        # pedis=redis.Redis(host='localhost', port=6379)
+        pedis=redis.Redis(host=redisHost, port=6379)
         dry=False
         
         for exp in range(1):
@@ -163,7 +164,7 @@ if __name__ == '__main__':
             
             data = {"Cli":[15], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
-            sys = nodeSys(dbHost="185.154.155.43")
+            sys = nodeSys(dbHost="185.10.16.192")
             for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
@@ -171,8 +172,8 @@ if __name__ == '__main__':
                 #sys.startSys(msSys=msSys)
                 #time.sleep(5)
                 
-                # pedis.set("users","%d"%(p))
-                # pedis.publish("users","%d"%(p))  
+                pedis.set("users","%d"%(p))
+                pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p,dry=dry)
                 #sys.startLoadShape(300,dry=dry)
