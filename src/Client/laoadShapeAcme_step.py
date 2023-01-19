@@ -3,8 +3,8 @@ from Client import loadShape
 
 class loadShapeAcme_step(loadShape):
     
-    def __init__(self,maxt,sys,dry=False):
-        super().__init__(maxt,sys,dry)
+    def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1"):
+        super().__init__(maxt,sys,dry,dbHost)
         
     def gen(self):
         if(self.t % 30==0 and self.t<=180):
