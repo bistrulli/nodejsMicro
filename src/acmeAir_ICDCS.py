@@ -148,7 +148,7 @@ if __name__ == '__main__':
         msNames=list(msSys.keys());
         redisHost="localhost"
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
-        dry=True
+        dry=False
         
         for exp in range(1):
             
