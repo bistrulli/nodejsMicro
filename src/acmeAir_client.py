@@ -37,6 +37,7 @@ def waitExp(redisCon):
     toStop=redisCon.get("toStop")
     while(toStop!="1"):
         toStop=redisCon.get("toStop")
+        time.sleep(2)
     
 # def setStart():
 #     mongoClient=MongoClient("mongodb://localhost:27017/")
