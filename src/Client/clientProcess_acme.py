@@ -20,7 +20,6 @@ class clientProcess_acme(clientProcess):
         
         
     def userLogic(self):
-        print("called")
         try:
             s = req.Session()
 
