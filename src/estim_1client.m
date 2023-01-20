@@ -10,7 +10,7 @@ msname=strtrim(string(ms));
 st_est=zeros(1,length(msname));
 
 
-msdata=readData("../data/ICDCS/no_ctrl3/*.csv");
+msdata=readData("../data/ICDCS/validation/30_client/*.csv");
 
 %mi mappa gli indici della matrice di routing in quella delle misure che st
 % sto prendendo adesso
