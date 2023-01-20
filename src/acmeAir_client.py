@@ -171,7 +171,7 @@ if __name__ == '__main__':
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             
-            data = {"Cli":[20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[40], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys(dbHost=redisHost)
             for p in data["Cli"]:
