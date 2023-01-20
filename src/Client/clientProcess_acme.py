@@ -7,8 +7,16 @@ import traceback
 
 class clientProcess_acme(clientProcess):
     
+    logEnable=True
+    
+    
     def __init__(self, ttime,cId,dry=False):
         super().__init__(ttime,cId,dry)
+    
+    
+    def log(self,msg):
+        print(msg)
+        
         
     def userLogic(self):
         try:
@@ -20,11 +28,11 @@ class clientProcess_acme(clientProcess):
             data = {"login":"uid0@email.com","password":"password"}
 
             r = s.post(url="http://%s:80/auth/login"%(clientProcess.remoteHost), data=data)
-            #print("login req", r)
-            #print(r.text)
+            self.log("login req "+str(r))
+            self.log(r.text)
             r = s.get(url="http://%s:80/customer/byid/%s" % (clientProcess.remoteHost,data["login"]), data={})
-            #print("view profile req", r)
-            #print(r.text)
+            self.log("view profile req"+str(r))
+            self.log(r.text)
 
             userData = json.loads(r.text);
             number = "".join(map(str, np.random.randint(low=0, high=9, size=9)))
