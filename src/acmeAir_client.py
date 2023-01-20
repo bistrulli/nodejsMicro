@@ -147,7 +147,7 @@ if __name__ == '__main__':
               }
         
         
-        redisHost="185.10.16.192"
+        redisHost="185.10.17.121"
         msNames=list(msSys.keys());
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
@@ -170,9 +170,9 @@ if __name__ == '__main__':
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[20], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
-            sys = nodeSys(dbHost="185.10.16.192")
+            sys = nodeSys(dbHost=redisHost)
             for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
