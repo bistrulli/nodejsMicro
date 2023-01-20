@@ -15,10 +15,12 @@ class clientProcess_acme(clientProcess):
     
     
     def log(self,msg):
-        print(msg)
+        if(clientProcess_acme.logEnable):
+            print(msg)
         
         
     def userLogic(self):
+        print("called")
         try:
             s = req.Session()
 
