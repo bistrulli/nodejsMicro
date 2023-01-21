@@ -29,11 +29,11 @@ class clientProcess_acme(clientProcess):
             data = {"login":"uid0@email.com","password":"password"}
 
             r = s.post(url="http://%s:80/auth/login"%(clientProcess.remoteHost), data=data)
-            # self.log("login req "+str(r))
-            # self.log(r.text)
+            self.log("login req "+str(r))
+            self.log(r.text)
             r = s.get(url="http://%s:80/customer/byid/%s" % (clientProcess.remoteHost,data["login"]), data={})
-            # self.log("view profile req"+str(r))
-            # self.log(r.text)
+            self.log("view profile req"+str(r))
+            self.log(r.text)
 
             userData = json.loads(r.text);
             number = "".join(map(str, np.random.randint(low=0, high=9, size=9)))
