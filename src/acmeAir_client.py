@@ -148,7 +148,7 @@ if __name__ == '__main__':
               }
         
         
-        redisHost="185.10.17.121"
+        redisHost="10.162.0.2"
         msNames=list(msSys.keys());
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
