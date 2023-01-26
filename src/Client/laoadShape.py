@@ -51,7 +51,7 @@ class loadShape(Thread):
         # Values to be updated.
         #newvalues = {"$set":{"toStop":1}}
         #self.mongoClient["sys"]["sim"].update_one(filter, newvalues)
-        #self.saveMntData()
+        self.saveMntData()
         self.r.set("toStop","1")
         print("stopped simulation")
     
