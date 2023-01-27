@@ -9,6 +9,8 @@ class loadShapeAcme_step(loadShape):
     def gen(self):
         if(self.t % 30==0 and self.t<=600):
             return self.sys.userCount+10
+        elif(self.t % 30==0 and self.t>=700):
+            return max(self.sys.userCount-10,10)
         else:
             return self.sys.userCount
     
