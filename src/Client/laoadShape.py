@@ -31,11 +31,11 @@ class loadShape(Thread):
         users=int(np.round(users))
         
         if(self.sys.userCount<users):
-            #self.notifyCtrl(users)
             self.addUsers(users-self.sys.userCount)
-        else:
+        elif(self.sys.userCount>users):
             self.stopUsers(self.sys.userCount-users)
-            #self.notifyCtrl(users)
+        else:
+            self.notifyCtrl(self.sys.userCount)
     
     def notifyCtrl(self,users):
         self.r.set("users","%d"%(users))
