@@ -150,13 +150,13 @@ class nodeSys():
         
         print("starting client")
         
-        #client=MongoClient("mongodb://%s:27017/client"%(self.dbHost))
-        # try:
-        #     client["client"]["rt"].drop()
-        # except:
-        #     pass
-        # finally:
-        #     client["client"].create_collection("rt")
+        client=MongoClient("mongodb://%s:27017/client"%(self.dbHost))
+        try:
+            client["client"]["rt"].drop()
+        except:
+            pass
+        finally:
+            client["client"].create_collection("rt")
         
         self.startTime=time.time_ns() // 1_000_000 
         self.addUsers(N,dry)

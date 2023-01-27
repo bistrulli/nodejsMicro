@@ -206,7 +206,7 @@ if __name__ == '__main__':
                         #     data["NC"][-1].append(1000)
                         # else:
                         #     data["NC"][-1].append(msSys[ms]["hw"])
-                    #extractKPI("client")
+                    extractKPI("client")
                     
                 #print("killing clients")
                 #sys.stopClient()

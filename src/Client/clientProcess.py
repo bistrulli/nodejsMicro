@@ -1,7 +1,7 @@
 import time
 import numpy as np
 
-#from pymongo import MongoClient
+from pymongo import MongoClient
 import multiprocessing
 
 
@@ -29,14 +29,14 @@ class clientProcess(multiprocessing.Process):
         self.toStop=True
     
     def run(self):
-        #self.mongoClient = MongoClient(host="mongodb://%s:27017/"%(clientProcess.dbHost))
+        self.mongoClient = MongoClient(host="mongodb://%s:27017/"%(clientProcess.dbHost))
         while(True):
             st = time.time_ns() // 1_000_000 
             self.think()
             if(not self.dry):
                 self.userLogic()
             end = time.time_ns() // 1_000_000
-            #self.mongoClient["client"]["rt"].insert_one({"st":st, "end":end})
+            self.mongoClient["client"]["rt"].insert_one({"st":st, "end":end})
         
     def userLogic(self):
         print("should subclass")
