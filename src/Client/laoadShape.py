@@ -30,12 +30,16 @@ class loadShape(Thread):
     def updateUser(self,users):
         users=int(np.round(users))
         
-        self.r.set("users","%d"%(users))
-        self.r.publish("users", "%d"%(users))
         if(self.sys.userCount<users):
+            self.notifyCtrl(users)
             self.addUsers(users-self.sys.userCount)
         else:
             self.stopUsers(self.sys.userCount-users)
+            self.notifyCtrl(users)
+    
+    def notifyCtrl(self,users):
+        self.r.set("users","%d"%(users))
+        self.r.publish("users", "%d"%(users))
             
        
     def tick(self):

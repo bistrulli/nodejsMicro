@@ -1,15 +1,17 @@
 clear
 
-msdata=readData("../data/ICDCS/ctrl_2/*.csv");
-msdata_noctrl=readData("../data/ICDCS/no_ctrl2/*.csv");
+ctrlMU=readmatrix("../data/ICDCS/ctrl/step_ctrl/ctrldata.csv");
+mudata=readData("../data/ICDCS/ctrl/step_ctrl/*.csv");
 
-ctrldata=readmatrix("ctrldata.csv");
+ctrlMAX=readmatrix("../data/ICDCS/validation/step/ctrldata.csv");
+maxdata=readData("../data/ICDCS/validation/step/*.csv");
 
 
-% 
-% figure
-% hold on
-% plot(cumsum(msdata(end).rt)'./linspace(1,size(cumsum(msdata(10).rt),1),size(cumsum(msdata(10).rt),1)))
-% plot(cumsum(msdata2(10).rt)'./linspace(1,size(cumsum(msdata2(10).rt),1),size(cumsum(msdata2(10).rt),1)))
-% plot(cumsum(msdata3(10).rt)'./linspace(1,size(cumsum(msdata3(10).rt),1),size(cumsum(msdata3(10).rt),1)))
-% legend("ctrl","noctrl","delayed")
+Tmax = smoothdata(maxdata(end).tr,'movmean',10);
+Tctrl = smoothdata(mudata(end).tr,'movmean',10);
+
+figure
+hold on
+stairs(Tmax)
+stairs(Tctrl)
+legend("Ground thruth","muOpt")
