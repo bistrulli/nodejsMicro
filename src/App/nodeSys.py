@@ -176,8 +176,10 @@ class nodeSys():
             raise ValueError("less users than what required")
         for uIdx in range(nusers):
             u=self.clientsProc.get()
-            u.terminate()
+            u.kill()
+            #u.terminate()
             u.join()
+            self.userCount-=1
             print("stopped client %d"%(u.id))
             
     
