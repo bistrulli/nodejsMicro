@@ -66,7 +66,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":1.9673
+                          "hw":300
                           },
                 #customeService
                 "MSvalidateid":{  "type":"spring",
@@ -74,28 +74,28 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":1.0081
+                          "hw":300
                           },
                 "MSviewprofile":{  "type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":3.9118
+                          "hw":300
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw": 2.6084
+                          "hw": 300
                           },
                 "MSupdateMiles":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":2.1743
+                          "hw":300
                           },
                 #booking service
                 "MSbookflights":{  "type":"spring",
@@ -103,7 +103,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":1.3543
+                          "hw":300
                           },
                 # "MSbybookingnumber":{  "type":"spring",
                 #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
@@ -124,7 +124,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":2.2932
+                          "hw":300
                           },
                 #flight service
                 "MSqueryflights":{  "type":"spring",
@@ -132,14 +132,14 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":1.1923
+                          "hw":300
                           },
                 "MSgetrewardmiles":{  "type":"spring",
                           "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":2.6343
+                          "hw":300
                           },
                 "acmeair":True
               }
