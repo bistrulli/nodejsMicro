@@ -11,8 +11,8 @@ class clientProcess(multiprocessing.Process):
     id = None
     mongoClient = None
     ttime = None
-    dbHost="185.10.19.213"
-    remoteHost="185.10.19.213"
+    dbHost="185.10.19.105"
+    remoteHost="185.10.19.105"
     
     def __init__(self, ttime,cId,dry=False):
         super().__init__()
