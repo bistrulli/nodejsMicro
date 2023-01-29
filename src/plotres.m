@@ -1,28 +1,22 @@
 clear
 
-% ctrlMU=readmatrix("../data/ICDCS/ctrl/step_ctrl/ctrldata.csv");
-% mudata=readData("../data/ICDCS/ctrl/step_ctrl/*.csv");
+ctrlMU=readmatrix("../data/ICDCS/ctrl/step_ctrl_fast/ctrldata.csv");
+mudata=readData("../data/ICDCS/ctrl/step_ctrl_fast/*.csv");
 
 % ctrlMU2=readmatrix("../data/ICDCS/ctrl/step_ctrl7/ctrldata.csv");
 % mudata2=readData("../data/ICDCS/ctrl/step_ctrl7/*.csv");
 
 ctrlMAX=readmatrix("../data/ICDCS/validation/step_fast/ctrldata.csv");
 maxdata=readData("../data/ICDCS/validation/step_fast/*.csv");
- 
-% Tmax = smoothdata(maxdata(end).tr,'movmean');
-% Tctrl = smoothdata(mudata(end).tr,'movmean');
-% Tctrl2 = smoothdata(mudata2(end).tr,'movmean');
 
-% ctrlmu=readmatrix("../data/ICDCS/ctrl/step_ctrl_fast/ctrldata.csv");
-% mudata=readData("../data/ICDCS/ctrl/step_ctrl_fast/*.csv");
 
-Tmax = smoothdata(maxdata(end).tr,'movmean');
-% Tctrl = smoothdata(mudata(end).tr,'movmean');
-% Tctrl2 = smoothdata(mudata2(end).tr,'movmean');
+Tmax = smoothdata(maxdata(end).tr,'movmean',3);
+Tctrl = smoothdata(mudata(end).tr,'movmean',3);
+% Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
 
 figure
 hold on
 stairs(Tmax)
-% stairs(Tctrl)
+stairs(Tctrl)
 % stairs(Tctrl2)
 legend("Ground thruth","muOpt","muOpt2")
