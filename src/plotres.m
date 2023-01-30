@@ -10,8 +10,8 @@ ctrlMAX=readmatrix("../data/ICDCS/validation/step_fast/ctrldata.csv");
 maxdata=readData("../data/ICDCS/validation/step_fast/*.csv");
 
 
-Tmax = smoothdata(maxdata(1).tr,'movmean',10);
-Tctrl = smoothdata(mudata(1).tr,'movmean',10);
+Tmax = smoothdata(maxdata(1).tr,'movmean',1);
+Tctrl = smoothdata(mudata(1).tr,'movmean',1);
 % Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
 
 figure
