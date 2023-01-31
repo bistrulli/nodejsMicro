@@ -91,7 +91,7 @@ class nodeSys():
                                                               stdout=msOutf, stderr=msErrf)]
                     elif(self.nodeSys[ms]["type"]=="spring"):
                         self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
-                                                                 "-XX:+UseEpsilonGC",
+                                                                 #"-XX:+UseEpsilonGC",
                                                                  "-Xmx10g",
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
@@ -111,7 +111,7 @@ class nodeSys():
                 
                 self.nodePrxProc[ms]=subprocess.Popen(["java",
                                                        "-Xmx10g",
-                                                       "-XX:+UseEpsilonGC",
+                                                       #"-XX:+UseEpsilonGC",
                                                        "-jar",self.nodeSys[ms]["prxFile"]
                                                        ,"--prxPort","%d"%(self.nodeSys[ms]["prxPort"]),
                                                        "--msName","%s"%(ms)],
