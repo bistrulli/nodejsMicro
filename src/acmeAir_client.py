@@ -148,7 +148,7 @@ if __name__ == '__main__':
               }
         
         
-        redisHost="185.10.16.192"
+        redisHost="127.0.0.1"
         msNames=list(msSys.keys());
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
@@ -171,7 +171,7 @@ if __name__ == '__main__':
             #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys(dbHost=redisHost)
             for p in data["Cli"]:
@@ -185,10 +185,10 @@ if __name__ == '__main__':
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p,dry=dry)
-                sys.startLoadShape(600,dry=dry,dbHost=redisHost)
+                #sys.startLoadShape(600,dry=dry,dbHost=redisHost)
                 setStart(pedis)
                 waitExp(pedis)
-                #time.sleep(360)
+                time.sleep(60)
                 
                 # data["ms"] = list(msSys.keys())
                 # data["RTm"].append([])
