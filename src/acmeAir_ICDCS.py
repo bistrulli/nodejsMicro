@@ -178,6 +178,7 @@ if __name__ == '__main__':
                 
                 sys.startSys(msSys=msSys)
                 time.sleep(5)
+                print("sys started")
                 
                 #pedis.set("users","%d"%(p))
                 #pedis.publish("users","%d"%(p))  
