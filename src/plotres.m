@@ -10,9 +10,9 @@ ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns/ctrldata.csv");
 maxdata=readData("../data/ICDCS/validation/step_gns/*.csv");
 
 
-Tmax = smoothdata(maxdata(1).tr,'movmean',5);
+Tmax = smoothdata(maxdata(1).tr,'movmean');
 %Tctrl = smoothdata(mudata(1).tr,'movmean',1);
-Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
+Tctrl2 = smoothdata(mudata2(end).tr,'movmean');
 
 figure
 hold on
