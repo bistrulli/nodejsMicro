@@ -6,17 +6,17 @@ clear
 ctrlMU2=readmatrix("../data/ICDCS/ctrl/step_ctrl_gns2/ctrldata.csv");
 mudata2=readData("../data/ICDCS/ctrl/step_ctrl_gns2/*.csv");
 
-% ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns/ctrldata.csv");
-% maxdata=readData("../data/ICDCS/validation/step_gns/*.csv");
+ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns2/ctrldata.csv");
+maxdata=readData("../data/ICDCS/validation/step_gns2/*.csv");
 
 
-% Tmax = smoothdata(maxdata(1).tr,'movmean');
+Tmax = smoothdata(maxdata(1).tr,'movmean',3);
 %Tctrl = smoothdata(mudata(1).tr,'movmean',1);
-Tctrl2 = smoothdata(mudata2(end).tr,'movmean');
+Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
 
 figure
 hold on
-% stairs(Tmax)
+stairs(Tmax)
 %stairs(ctrlMAX(:,2)*0.77)
 %stairs(Tctrl)
 stairs(Tctrl2)
