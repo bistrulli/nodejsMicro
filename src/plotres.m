@@ -16,7 +16,7 @@ Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
 figure
 hold on
 stairs(Tmax)
-%stairs(ctrlMAX(:,2)*0.77)
+stairs(ctrlMAX(:,2)*0.77)
 %stairs(Tctrl)
 stairs(Tctrl2)
 legend("Ground thruth","muOpt")
