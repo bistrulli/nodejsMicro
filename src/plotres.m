@@ -10,6 +10,7 @@ ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns2/ctrldata.csv");
 maxdata=readData("../data/ICDCS/validation/step_gns2/*.csv");
 
 
+
 Tmax = smoothdata(maxdata(1).tr,'movmean',3);
 %Tctrl = smoothdata(mudata(1).tr,'movmean',1);
 Tctrl2 = smoothdata(mudata2(end).tr,'movmean',3);
@@ -21,3 +22,10 @@ stairs(Tmax)
 %stairs(Tctrl)
 stairs(Tctrl2)
 legend("Ground thruth","muOpt")
+
+
+s=min(size(mudata2(end).rt,1),size(maxdata(end).rt,1));
+x = [mudata2(end).rt(1:s),maxdata(end).rt(1:s)];
+g = [ones(s,1); 2*ones(s,1);];
+figure
+boxplot(x,g)
