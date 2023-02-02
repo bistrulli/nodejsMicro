@@ -10,7 +10,7 @@ msname=strtrim(string(ms));
 st_est=zeros(1,length(msname));
 
 
-msdata=readData("../data/ICDCS/validation/1_client_gns/*.csv");
+msdata=readData("../data/ICDCS/validation/step_gns/*.csv");
 
 %mi mappa gli indici della matrice di routing in quella delle misure che st
 % sto prendendo adesso
@@ -47,7 +47,7 @@ end
 
 rates=1./(st_est');
 
-% MU=zeros(1,30);
-% MU([5,6,9,12,15,20,23,24,29,30])=rates([3,2,4,5,9,6,10,7,8,1]);
-% MU(end)=3.8;
-% save("params.mat","MU");
+MU=zeros(1,30);
+MU([5,6,9,12,15,20,23,24,29,30])=rates([3,2,4,5,9,6,10,7,8,1]);
+MU(end)=3.8;
+save("params.mat","MU");

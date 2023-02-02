@@ -3,8 +3,8 @@ clear
 % ctrlMU=readmatrix("../data/ICDCS/ctrl/step_ctrl_fast/ctrldata.csv");
 % mudata=readData("../data/ICDCS/ctrl/step_ctrl_fast/*.csv");
 
-ctrlMU2=readmatrix("../data/ICDCS/ctrl/step_ctrl_gns/ctrldata.csv");
-mudata2=readData("../data/ICDCS/ctrl/step_ctrl_gns/*.csv");
+ctrlMU2=readmatrix("../data/ICDCS/ctrl/step_ctrl_gns2/ctrldata.csv");
+mudata2=readData("../data/ICDCS/ctrl/step_ctrl_gns2/*.csv");
 
 ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns/ctrldata.csv");
 maxdata=readData("../data/ICDCS/validation/step_gns/*.csv");
