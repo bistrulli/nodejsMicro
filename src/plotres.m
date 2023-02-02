@@ -23,6 +23,9 @@ stairs(Tmax)
 stairs(Tctrl2)
 legend("Ground thruth","muOpt")
 
+figure
+hold on
+stairs(sum(ctrlMU2(:,3:end),2))
 
 s=min(size(mudata2(end).rt,1),size(maxdata(end).rt,1));
 x = [mudata2(end).rt(1:s),maxdata(end).rt(1:s)];
