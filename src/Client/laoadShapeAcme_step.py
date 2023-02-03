@@ -15,11 +15,13 @@ class loadShapeAcme_step(loadShape):
             return self.sys.userCount
     
     def addUsers(self,nusers):
+        self.notifyCtrl(self.sys.userCount)
         for u in range(nusers):
             self.sys.addUsers(1,self.dry)
-            self.notifyCtrl(self.sys.userCount)
     
     def stopUsers(self,nusers):
+        
         for u in range(nusers):
             self.sys.stopUsers(1)
-            self.notifyCtrl(self.sys.userCount)
+            
+        self.notifyCtrl(self.sys.userCount)
