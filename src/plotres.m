@@ -31,7 +31,7 @@ g = [ones(s,1); 2*ones(s,1);];
 figure
 boxplot(x,g)
 
-
+figure
 ecdf(mudata(end).rt)
 hold on
 ecdf(maxdata(end).rt)
