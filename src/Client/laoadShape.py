@@ -16,13 +16,14 @@ class loadShape(Thread):
           "MSupdateMiles_hw","MScancelbooking_hw","MSgetrewardmiles_hw",
           "MSqueryflights_hw","MSviewprofile_hw","MSupdateprofile_hw"]
     
-    def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1"):
+    def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None):
         Thread.__init__(self)
         self.t=0
         self.sys=sys
         self.maxt=maxt
         self.mntData=[];
         self.dry=dry
+        self.datadir=datadir
         #self.r=redis.Redis(host='localhost', port=6379)
         self.r=redis.StrictRedis(host=dbHost, port=6379, charset="utf-8", decode_responses=True)
         #self.mongoClient = MongoClient(host="mongodb://127.0.0.1:27017/")
@@ -73,7 +74,7 @@ class loadShape(Thread):
     
     def saveMntData(self):
         print(np.array(self.mntData,dtype=np.str_))
-        np.savetxt('ctrldata.csv', np.array(self.mntData,dtype=np.str_), delimiter=",",fmt="%s")
+        np.savetxt("%s/ctrldata.csv"%(self.datadir), np.array(self.mntData,dtype=np.str_), delimiter=",",fmt="%s")
             
     def gen(self):
         pass

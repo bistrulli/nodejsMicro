@@ -22,8 +22,8 @@ from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
 
 
-def extractKPI(msname):
-    subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","../data/ICDCS/%s.csv"%(msname)]);
+def extractKPI(msname,datadir):
+    subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","%s/%s.csv"%(datadir,msname)]);
     
 # def waitExp():
 #     mongoClient=MongoClient("mongodb://localhost:27017/")
@@ -158,6 +158,9 @@ if __name__ == '__main__':
             sys = nodeSys(dbHost=redisHost)
             for p in data["Cli"]:
                 
+                datadir="../data/journal/ctrl/%s/"%(ctrl["name"])
+                os.makedirs( datadir, exist_ok=True)
+                
                 print("####pop %d###" % (p))
                 sys.startSys(msSys=msSys)
                 time.sleep(5)
@@ -166,16 +169,16 @@ if __name__ == '__main__':
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))
                 
-                #"ctrlCmd":"matlab -r \"main(3);quit\""
+                ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
+                      "ctrlCmd":"matlab -r main(3)"}
                 
-                sys.startCtrl({"name":"atom","workDir":"/home/virtual/git/atom-replication/GA/",
-                               "ctrlCmd":"matlab -r main(3)"},pedis)
+                sys.startCtrl(ctrl,pedis)
                 print("ctrl started")  
                 
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                lshape=loadShapeAcme_const(maxt=600,sys=sys,dry=dry,dbHost=redisHost)
+                lshape=loadShapeAcme_const(maxt=600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
@@ -189,18 +192,15 @@ if __name__ == '__main__':
                 data["trCI"].append([])
                 data["NC"].append([])
                 
+                
                 if(not dry):
                     for ms in  data["ms"]:
                         if(ms=="acmeair"):
                             continue
                         
                         print("saving",ms)
-                        extractKPI(ms)
-                        # if(ms=="client"):
-                        #     data["NC"][-1].append(1000)
-                        # else:
-                        #     data["NC"][-1].append(msSys[ms]["hw"])
-                    extractKPI("client")
+                        extractKPI(ms,datadir)
+                    extractKPI("client",datadir)
                     
                 print("killing clients")
                 sys.stopClient()
