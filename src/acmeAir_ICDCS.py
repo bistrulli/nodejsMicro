@@ -152,7 +152,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(1):
+        for exp in range(10):
             
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                 # ctrl={"name":"muopt_const50","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                 #       "ctrlCmd":"julia acmeCtrl.jl"}
                 
-                datadir="../data/revision2/ctrl/%s/"%(ctrl["name"])
+                datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
                 os.makedirs( datadir, exist_ok=True)
                 
                 print("####pop %d###" % (p))
@@ -182,7 +182,7 @@ if __name__ == '__main__':
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                lshape=loadShapeAcme_const(maxt=300,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
