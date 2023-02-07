@@ -200,8 +200,8 @@ if __name__ == '__main__':
                         #     data["NC"][-1].append(msSys[ms]["hw"])
                     extractKPI("client")
                     
-                #print("killing clients")
-                #sys.stopClient()
+                print("killing clients")
+                sys.stopClient()
                 print("killing system") 
                 sys.stopSys()
                 sys.reset()
@@ -209,8 +209,8 @@ if __name__ == '__main__':
     
     except Exception as ex:
         print("Error")
-        #print("killing clients")
-        #sys.stopClient()
+        print("killing clients")
+        sys.stopClient()
         print("killing system") 
         sys.stopSys()
         resetSim()
