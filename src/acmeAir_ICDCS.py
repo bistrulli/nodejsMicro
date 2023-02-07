@@ -216,6 +216,7 @@ if __name__ == '__main__':
                 sys.reset()
                 resetSim()
                 print("killing ctrl")
+                subprocess.check_call(["pkill","-9","-f","matlab"])
                 sys.ctrlProc.kill()
                 print("killed ctrl");
                 sys.clearLog()
