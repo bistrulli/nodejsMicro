@@ -162,7 +162,7 @@ if __name__ == '__main__':
                 ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
                       "ctrlCmd":"matlab -r main(3)"}
                 
-                datadir="../data/journal/ctrl/%s/"%(ctrl["name"])
+                datadir="../data/revision2/ctrl/%s/"%(ctrl["name"])
                 os.makedirs( datadir, exist_ok=True)
                 
                 print("####pop %d###" % (p))
@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                lshape=loadShapeAcme_const(maxt=600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
