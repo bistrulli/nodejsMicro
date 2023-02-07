@@ -156,7 +156,11 @@ if __name__ == '__main__':
             
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
+            
             for p in data["Cli"]:
+                
+                ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
+                      "ctrlCmd":"matlab -r main(3)"}
                 
                 datadir="../data/journal/ctrl/%s/"%(ctrl["name"])
                 os.makedirs( datadir, exist_ok=True)
@@ -168,9 +172,6 @@ if __name__ == '__main__':
                 
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))
-                
-                ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
-                      "ctrlCmd":"matlab -r main(3)"}
                 
                 sys.startCtrl(ctrl,pedis)
                 print("ctrl started")  
