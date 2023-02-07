@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                lshape=loadShapeAcme_const(maxt=2400,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
