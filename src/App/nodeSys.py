@@ -158,8 +158,8 @@ class nodeSys():
         
         redisCon.set("ctrlStrt","0")
         
-        ctrlOutf = open("../log/%sOut_%d.log"%(ctrl["name"]), "w+")
-        ctrlErrf = open("../log/%sErr_%d.log"%(ctrl["name"]), "w+")
+        ctrlOutf = open("../log/%sOut.log"%(ctrl["name"]), "w+")
+        ctrlErrf = open("../log/%sErr.log"%(ctrl["name"]), "w+")
         
         self.ctrlProc=subprocess.Popen(ctrl["ctrlCmd"].strip().split(" "),stdout=ctrlOutf, stderr=ctrlErrf,cwd=ctrl["workDir"])
         
