@@ -148,7 +148,7 @@ class nodeSys():
             p=psutil.Process(self.nodePrxProc[ms].pid)
             p.kill()
             
-    def startCtrl(self,ctrl=None,redisCon):
+    def startCtrl(self,ctrl=None,redisCon=None):
         '''
             ctrl={"name":"","workDir":"","ctrlCmd":""}
         '''
