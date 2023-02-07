@@ -160,7 +160,7 @@ if __name__ == '__main__':
             for p in data["Cli"]:
                 
                 ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
-                      "ctrlCmd":"matlab -r main(3);quit"}
+                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3)"}
                 
                 # ctrl={"name":"muopt_const50","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                 #       "ctrlCmd":"julia acmeCtrl.jl"}
@@ -214,7 +214,6 @@ if __name__ == '__main__':
                 resetSim()
                 print("killing ctrl")
                 sys.ctrlProc.terminate()
-                sys.ctrlProc.join(5)
                 print("killed ctrl");
     
     except Exception as ex:
