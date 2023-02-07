@@ -169,7 +169,7 @@ if __name__ == '__main__':
                 #"ctrlCmd":"matlab -r \"main(3);quit\""
                 
                 sys.startCtrl({"name":"atom","workDir":"/home/virtual/git/atom-replication/GA/",
-                               "ctrlCmd":"matlab -r disp(\"started\");quit"},pedis)
+                               "ctrlCmd":"matlab -r main(3)"},pedis)
                 print("ctrl started")  
                 
                 #lancio i client iniziali
