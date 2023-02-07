@@ -148,6 +148,34 @@ class nodeSys():
             p=psutil.Process(self.nodePrxProc[ms].pid)
             p.kill()
             
+    def startCtrl(self,ctrl=None,redisCon):
+        '''
+            ctrl={"name":"","workDir":"","ctrlCmd":""}
+        '''
+        
+        if("ctrlCmd" not in ctrl or "name" not in ctrl or "workDir" not in ctrl):
+            raise ValueError("ctrl is invalid")
+        
+        redisCon.set("ctrlStrt","0")
+        
+        ctrlOutf = open("../log/%sOut_%d.log"%(ctrl["name"]), "w+")
+        ctrlErrf = open("../log/%sErr_%d.log"%(ctrl["name"]), "w+")
+        
+        self.ctrlProc=subprocess.Popen(ctrl["ctrlCmd"].strip().split(" "),stdout=ctrlOutf, stderr=ctrlErrf,cwd=ctrl["workDir"])
+        
+        ctrlOutf.close()
+        ctrlErrf.close()
+        
+        self.waitCtrl(redisCon)
+        
+    
+    def waitCtrl(self,redisCon):
+        isStarted=redisCon.get("ctrlStrt")
+        while(isStarted!="1"):
+            isStarted=redisCon.get("ctrlStrt")
+            time.sleep(1)
+            print("waiting ctrl to start")
+            
     
     def startClient(self,N,dry=False):
         

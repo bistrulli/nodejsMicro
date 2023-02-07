@@ -159,16 +159,16 @@ if __name__ == '__main__':
             for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
-                
                 sys.startSys(msSys=msSys)
-                
-                #TODO qua aggiungere la logica per lanciare il controllore
-                
                 time.sleep(5)
                 print("sys started")
                 
                 pedis.set("users","%d"%(p))
-                pedis.publish("users","%d"%(p))  
+                pedis.publish("users","%d"%(p))
+                
+                sys.startCtrl({"name":"atom","workDir":"/home/virtual/git/atom-replication/GA/",
+                               "ctrlCmd":"matlab -r \"main(3); quit\""},pedis)
+                print("ctrl started")  
                 
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
@@ -206,6 +206,8 @@ if __name__ == '__main__':
                 sys.stopSys()
                 sys.reset()
                 resetSim()
+                print("killing ctrl")
+                sys.ctrlProc.kill()
     
     except Exception as ex:
         print("Error")
@@ -214,6 +216,8 @@ if __name__ == '__main__':
         print("killing system") 
         sys.stopSys()
         resetSim()
+        print("killing ctrl")
+        sys.ctrlProc.kill()
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         
