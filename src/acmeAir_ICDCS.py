@@ -152,7 +152,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(10):
+        for exp in range(15):
             
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
