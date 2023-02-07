@@ -214,7 +214,6 @@ if __name__ == '__main__':
                 print("killing system") 
                 sys.stopSys()
                 sys.reset()
-                sys.de
                 resetSim()
                 print("killing ctrl")
                 sys.ctrlProc.kill()
