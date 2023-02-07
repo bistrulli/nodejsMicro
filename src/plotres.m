@@ -3,8 +3,8 @@ clear
 ctrlMU=readmatrix("../data/revision2/ctrl/muopt_const50/ctrldata.csv");
 mudata=readData("../data/revision2/ctrl/muopt_const50/*.csv");
 
-ctrlGA=readmatrix("../data/revision2/ctrl/atom_const50/ctrldata.csv");
-gadata=readData("../data/revision2/ctrl/atom_const50/*.csv");
+ctrlGA=readmatrix("../data/revision2/ctrl/atom_const50_1/ctrldata.csv");
+gadata=readData("../data/revision2/ctrl/atom_const50_1/*.csv");
 
 nanCountGA=sum(isnan(ctrlGA(:,3:end)));
 nanCountMu=sum(isnan(ctrlMU(:,3:end)));
