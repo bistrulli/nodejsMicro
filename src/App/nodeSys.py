@@ -161,6 +161,8 @@ class nodeSys():
         ctrlOutf = open("../log/%sOut.log"%(ctrl["name"]), "w+")
         ctrlErrf = open("../log/%sErr.log"%(ctrl["name"]), "w+")
         
+        print(ctrl["ctrlCmd"].strip().split(" "))
+        
         self.ctrlProc=subprocess.Popen(ctrl["ctrlCmd"].strip().split(" "),stdout=ctrlOutf, stderr=ctrlErrf,cwd=ctrl["workDir"])
         
         ctrlOutf.close()
