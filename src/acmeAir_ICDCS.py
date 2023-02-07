@@ -160,7 +160,7 @@ if __name__ == '__main__':
             for p in data["Cli"]:
                 
                 ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
-                      "ctrlCmd":"matlab -r 'main(3);quit'"}
+                      "ctrlCmd":"matlab -r main(3);quit"}
                 
                 # ctrl={"name":"muopt_const50","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                 #       "ctrlCmd":"julia acmeCtrl.jl"}
