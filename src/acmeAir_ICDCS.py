@@ -166,8 +166,10 @@ if __name__ == '__main__':
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))
                 
+                #"ctrlCmd":"matlab -r \"main(3);quit\""
+                
                 sys.startCtrl({"name":"atom","workDir":"/home/virtual/git/atom-replication/GA/",
-                               "ctrlCmd":"matlab -r \"main(3);quit\""},pedis)
+                               "ctrlCmd":"matlab -r 'disp(\"started\")'"},pedis)
                 print("ctrl started")  
                 
                 #lancio i client iniziali
