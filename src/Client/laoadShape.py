@@ -78,8 +78,12 @@ class loadShape(Thread):
     def gen(self):
         pass
     
-    def addUsers(self,u):
-        pass
+    def addUsers(self,nusers):
+        self.notifyCtrl(self.sys.userCount)
+        for u in range(nusers):
+            self.sys.addUsers(1,self.dry)
     
-    def stopUsers(self,u):
-        pass
+    def stopUsers(self,nusers):
+        for u in range(nusers):
+            self.sys.stopUsers(1)
+        self.notifyCtrl(self.sys.userCount)

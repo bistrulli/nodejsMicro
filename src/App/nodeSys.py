@@ -19,6 +19,7 @@ import traceback
 import tempfile
 import re
 from queue import Queue
+from Client.laoadShapeAcme_const import loadShapeAcme_const
 
 class nodeSys():
     
@@ -188,8 +189,10 @@ class nodeSys():
     def stopClient(self):
         self.stopUsers(self.clientsProc.qsize())
             
-    def startLoadShape(self,maxt,dry=False,dbHost="127.0.0.1"):
-        lshape=loadShapeAcme_step(maxt=maxt,sys=self,dry=dry,dbHost=dbHost)
+    def startLoadShape(self,maxt,dry=False,dbHost="127.0.0.1",lshape=None):
+        #lshape=loadShapeAcme_step(maxt=maxt,sys=self,dry=dry,dbHost=dbHost)
+        #lshape=loadShapeAcme_const(maxt=maxt,sys=self,dry=dry,dbHost=dbHost)
+        self.lshape=lshape
         lshape.start()
     
     def waitMs(self,msName=None,port=None):

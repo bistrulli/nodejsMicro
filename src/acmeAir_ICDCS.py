@@ -18,6 +18,8 @@ import os
 from pymongo import MongoClient
 import pymongo
 import subprocess
+from Client import loadShapeAcme_const
+from Client import loadShapeAcme_step
 
 
 def extractKPI(msname):
@@ -146,46 +148,35 @@ if __name__ == '__main__':
         
         
         msNames=list(msSys.keys());
-        redisHost="localhost"
+        redisHost="127.0.0.1"
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
         for exp in range(1):
             
-            # if(exp>1):
-            #     msSys[msNames[exp-2]]["hw"]=15.0
-            # msSys[msNames[exp-1]]["hw"]=4.0
-            
-            # NCrnd=np.random.rand(10)*9;
-            # print(NCrnd)
-            # ncIdx=0;
-            # for msn in msNames:
-            #     if(msn=="acmeair"):
-            #         continue
-            #     msSys[msn]["hw"]=(NCrnd[ncIdx]+10)
-            #     ncIdx+=1
-                
-            #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            
-            dry=False
-            
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            
-            sys = nodeSys()
+            data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            sys = nodeSys(dbHost=redisHost)
             for p in data["Cli"]:
                 
                 print("####pop %d###" % (p))
                 
                 sys.startSys(msSys=msSys)
+                
+                #TODO qua aggiungere la logica per lanciare il controllore
+                
                 time.sleep(5)
                 print("sys started")
                 
-                #pedis.set("users","%d"%(p))
-                #pedis.publish("users","%d"%(p))  
+                pedis.set("users","%d"%(p))
+                pedis.publish("users","%d"%(p))  
                 
-                #sys.startClient(p,dry=dry)
-                #sys.startLoadShape(300,dry=dry)
-                #setStart()
+                #lancio i client iniziali
+                sys.startClient(p,dry=dry)
+                #lancio la forma del carico e i sistemi di monitoring
+                lshape=loadShapeAcme_const(maxt=600,sys=sys,dry=dry,dbHost=redisHost)
+                lshape.start()
+                #attendo la fine dell'esperiemnto
+                setStart()
                 waitExp(pedis)
                 #time.sleep(380)
                 
