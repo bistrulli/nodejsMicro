@@ -157,6 +157,9 @@ if __name__ == '__main__':
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
             
+            pedis.flushall();
+            
+            
             for p in data["Cli"]:
                 
                 ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
@@ -211,10 +214,12 @@ if __name__ == '__main__':
                 print("killing system") 
                 sys.stopSys()
                 sys.reset()
+                sys.de
                 resetSim()
                 print("killing ctrl")
-                sys.ctrlProc.terminate()
+                sys.ctrlProc.kill()
                 print("killed ctrl");
+                sys.clearLog()
     
     except Exception as ex:
         print("Error")
