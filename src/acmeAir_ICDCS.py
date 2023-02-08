@@ -152,7 +152,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(13):
+        for exp in range(15):
             
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -162,11 +162,11 @@ if __name__ == '__main__':
             
             for p in data["Cli"]:
                 
-                ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
-                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
+                # ctrl={"name":"atom_const50","workDir":"/home/virtual/git/atom-replication/GA/",
+                #       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
-                # ctrl={"name":"muopt_const50","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
-                #       "ctrlCmd":"julia acmeCtrl.jl"}
+                ctrl={"name":"muopt_const50","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                      "ctrlCmd":"julia acmeCtrl.jl"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
                 os.makedirs( datadir, exist_ok=True)
@@ -216,9 +216,9 @@ if __name__ == '__main__':
                 sys.reset()
                 resetSim()
                 print("killing ctrl")
-                subprocess.check_call(["pkill","-9","-f","matlab"])
                 sys.ctrlProc.kill()
-                print("killed ctrl");
+                subprocess.check_call(["pkill","-9","-f","matlab"])
+                subprocess.check_call(["pkill","-9","-f","julia"])
                 sys.clearLog()
     
     except Exception as ex:
