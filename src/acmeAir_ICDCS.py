@@ -154,7 +154,7 @@ if __name__ == '__main__':
         
         for exp in range(15):
             
-            data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
             
             pedis.flushall();

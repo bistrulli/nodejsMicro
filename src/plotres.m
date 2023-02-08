@@ -1,24 +1,44 @@
 clear
 
-ctrlMU=readmatrix("../data/revision2/ctrl/muopt_const50/ctrldata.csv");
-mudata=readData("../data/revision2/ctrl/muopt_const50/*.csv");
-
 ctrlGA=zeros(1200,11,15);
+ctrlMU=zeros(1200,11,15);
 gadata=[];
+mudata=[];
+gaT=[];
+muT=[];
+
+gaRT=[];
+muRT=[];
 
 for i=1:15
     ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const50_%d/ctrldata.csv",i-1));
     gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const50_%d/*.csv",i-1))];
+    
+    gaRT=[gaRT;gadata(end).rt];
+    gaT=[gaT;gadata(end).tr'];
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
     ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+2:nanCountGA+2,3:end,i));
 end
 
+for i=1:15
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const50_%d/ctrldata.csv",i-1));
+    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const50_%d/*.csv",i-1))];
+    
+    muRT=[muRT;mudata(end).rt];
+    muT=[muT;mudata(end).tr'];
+   
+    nanCountMu=sum(isnan(ctrlMU(:,3:end,i)));
+    ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',ctrlMU(nanCountMu+1:nanCountMu+1,3:end,i));
+end
 
-% nanCountMu=sum(isnan(ctrlMU(:,3:end)));
+mGA=mean(ctrlGA(:,3:end,:),3);
+mMU=mean(ctrlMU(:,3:end,:),3);
 
-% ctrlGA=fillmissing(ctrlGA(:,3:end),'constant',ctrlGA(nanCountGA+1:nanCountGA+1,3:end));
-% ctrlMU=fillmissing(ctrlMU(:,3:end),'constant',ctrlMU(nanCountMu+1:nanCountMu+1,3:end));
+figure
+hold on
+stairs(sum(mGA,2));
+stairs(sum(mMU,2));
 
 % ctrlMAX=readmatrix("../data/ICDCS/validation/step_gns_150/ctrldata.csv");
 % maxdata=readData("../data/ICDCS/validation/step_gns_150/*.csv");
@@ -40,18 +60,26 @@ end
 % stairs(sum(ctrlMU(:,3:end),2))
 % stairs(sum(ctrlGA(:,3:end),2))
 % 
-% s=min([size(mudata(end).rt,1),size(gadata(end).rt,1)]);
-% x = [mudata(end).rt(1:s),gadata(end).rt(1:s)];
+% s=min([size(muRT,1),size(gaRT,1)]);
+% x = [muRT(1:s),gaRT(1:s)];
 % g = [ones(s,1); 2*ones(s,1);];
 % figure
 % boxplot(x,g)
-% 
+
 % figure
-% ecdf(mudata(end).rt)
+% ecdf(muT)
 % hold on
-% ecdf(gadata(end).rt)
+% ecdf(gaT)
 % legend("\mu_{opt}","GA")
+
+figure
+ecdf(muRT)
+hold on
+ecdf(gaRT)
+legend("\mu_{opt}","GA")
 % 
-% 
-% (trapz(sum(ctrlGA,2))-trapz(sum(ctrlMU,2)))*100/trapz(sum(ctrlMU,2))
+%
+
+
+(trapz(sum(mGA,2))-trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))
 
