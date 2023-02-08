@@ -11,7 +11,7 @@ for i=1:15
     gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const50_%d/*.csv",i-1))];
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
-    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+1:nanCountGA+1,3:end,i));
+    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+2:nanCountGA+2,3:end,i));
 end
 
 

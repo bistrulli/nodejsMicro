@@ -217,8 +217,8 @@ if __name__ == '__main__':
                 resetSim()
                 print("killing ctrl")
                 sys.ctrlProc.kill()
-                subprocess.check_call(["pkill","-9","-f","matlab"])
-                subprocess.check_call(["pkill","-9","-f","julia"])
+                subprocess.call(["pkill","-9","-f","matlab"])
+                subprocess.call(["pkill","-9","-f","julia"])
                 sys.clearLog()
     
     except Exception as ex:
