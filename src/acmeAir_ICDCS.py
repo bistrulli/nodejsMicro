@@ -154,7 +154,7 @@ if __name__ == '__main__':
         
         for exp in range(15):
             
-            data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[150], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
             
             pedis.flushall();
@@ -162,7 +162,7 @@ if __name__ == '__main__':
             
             for p in data["Cli"]:
                 
-                ctrl={"name":"atom_const100","workDir":"/home/virtual/git/atom-replication/GA/",
+                ctrl={"name":"atom_const150","workDir":"/home/virtual/git/atom-replication/GA/",
                       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 # ctrl={"name":"muopt_const100","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
