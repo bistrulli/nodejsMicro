@@ -1,7 +1,7 @@
 clear
 
 ctrlGA=zeros(1200,11,15);
-ctrlMU=zeros(1200,11,15);
+ctrlMU=zeros(1200,11,1);
 gadata=[];
 mudata=[];
 gaT=[];
@@ -12,8 +12,8 @@ muRT=[];
 
 %load ga data
 for i=1:15
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const100_%d/ctrldata.csv",i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const100_%d/*.csv",i-1))];
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const150_%d/ctrldata.csv",i-1));
+    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const150_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     gaT=[gaT;gadata(end).tr'];
@@ -23,9 +23,9 @@ for i=1:15
 end
 
 %load muOpt data
-for i=1:13
-    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const100_%d/ctrldata.csv",i-1));
-    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const100_%d/*.csv",i-1))];
+for i=1:15
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const150_%d/ctrldata.csv",i-1));
+    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const150_%d/*.csv",i-1))];
     
     muRT=[muRT;mudata(end).rt];
     muT=[muT;mudata(end).tr'];
@@ -70,6 +70,12 @@ x = [muRT(1:s),gaRT(1:s)];
 g = [ones(s,1); 2*ones(s,1);];
 figure
 boxplot(x,g)
+
+figure
+hold on
+ecdf(muRT)
+ecdf(gaRT)
+
 
 
 (trapz(sum(mGA,2))-trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))

@@ -165,7 +165,7 @@ if __name__ == '__main__':
                 # ctrl={"name":"atom_const150","workDir":"/home/virtual/git/atom-replication/GA/",
                 #       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
-                ctrl={"name":"muopt_const150","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                ctrl={"name":"validation_const150","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))
                 
-                sys.startCtrl(ctrl,pedis)
+                #sys.startCtrl(ctrl,pedis)
                 print("ctrl started")  
                 
                 #lancio i client iniziali
@@ -216,9 +216,9 @@ if __name__ == '__main__':
                 sys.reset()
                 resetSim()
                 print("killing ctrl")
-                sys.ctrlProc.kill()
-                subprocess.call(["pkill","-9","-f","matlab"])
-                subprocess.call(["pkill","-9","-f","julia"])
+                # sys.ctrlProc.kill()
+                # subprocess.call(["pkill","-9","-f","matlab"])
+                # subprocess.call(["pkill","-9","-f","julia"])
                 sys.clearLog()
     
     except Exception as ex:
