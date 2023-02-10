@@ -154,7 +154,7 @@ if __name__ == '__main__':
         
         for exp in range(15):
             
-            data = {"Cli":[150], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
+            data = {"Cli":[100], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
             
             pedis.flushall();
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                 # ctrl={"name":"atom_const150","workDir":"/home/virtual/git/atom-replication/GA/",
                 #       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
-                ctrl={"name":"validation_const150","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                ctrl={"name":"validation_const100","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
