@@ -1,7 +1,7 @@
 from Client import loadShape
 from scipy.io import loadmat
 
-class loadShapeAcme_step(loadShape):
+class loadShapeAcme_twt(loadShape):
     
     def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1"):
         super().__init__(maxt,sys,dry,dbHost)

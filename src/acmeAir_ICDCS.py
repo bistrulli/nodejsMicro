@@ -20,6 +20,7 @@ import pymongo
 import subprocess
 from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
+from Client import loadShapeAcme_twt
 
 
 def extractKPI(msname,datadir):
@@ -185,7 +186,8 @@ if __name__ == '__main__':
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                #lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                lshape=loadShapeAcme_twt(maxt=300,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
