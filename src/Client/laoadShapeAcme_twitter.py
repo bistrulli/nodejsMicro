@@ -1,26 +1,12 @@
 from Client import loadShape
-
+from scipy.io import loadmat
 
 class loadShapeAcme_step(loadShape):
     
     def __init__(self,maxt,sys,dry=False,dbHost="127.0.0.1"):
         super().__init__(maxt,sys,dry,dbHost)
+        self.tweetTrace=loadmat("twitter_20210101_730-24_freq120sec.mat")["tweets"][0]
+        self.tweetTrace=(self.tweetTrace-min(self.tweetTrace))/(max(self.tweetTrace)-min(self.tweetTrace))*50+15
         
     def gen(self):
-        if(True and self.t % 30==0 and self.t<=300):
-            return self.sys.userCount+10
-        elif(True and self.t % 30==0 and self.t>=350):
-            return max(self.sys.userCount-10,10)
-        else:
-            return self.sys.userCount
-    
-    def addUsers(self,nusers):
-        self.notifyCtrl(self.sys.userCount)
-        for u in range(nusers):
-            self.sys.addUsers(1,self.dry)
-    
-    def stopUsers(self,nusers):
-        
-        for u in range(nusers):
-            self.sys.stopUsers(1)
-        self.notifyCtrl(self.sys.userCount)
+        return self.tweetTrace[self.t % self.tweetTrace.shape[0]]

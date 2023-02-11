@@ -15,8 +15,8 @@ valRT=[];
 
 %load ga data
 for i=1:15
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const150_%d/ctrldata.csv",i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const150_%d/*.csv",i-1))];
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const50_%d/ctrldata.csv",i-1));
+    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const50_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     gaT=[gaT;gadata(end).tr'];
@@ -27,8 +27,8 @@ end
 
 %load muOpt data
 for i=1:15
-    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const150_%d/ctrldata.csv",i-1));
-    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const150_%d/*.csv",i-1))];
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const50_%d/ctrldata.csv",i-1));
+    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const50_%d/*.csv",i-1))];
     
     muRT=[muRT;mudata(end).rt];
     muT=[muT;mudata(end).tr'];
@@ -38,9 +38,9 @@ for i=1:15
 end
 
 %load validation data
-for i=1:15
-    ctrlVal(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/validation_const150_%d/ctrldata.csv",i-1));
-    valdata=[mudata;readData(sprintf("../data/revision2/ctrl/validation_const150_%d/*.csv",i-1))];
+for i=1:6
+    ctrlVal(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/validation_const50_%d/ctrldata.csv",i-1));
+    valdata=[mudata;readData(sprintf("../data/revision2/ctrl/validation_const50_%d/*.csv",i-1))];
     
     valRT=[muRT;mudata(end).rt];
     valT=[muT;mudata(end).tr'];
