@@ -38,7 +38,7 @@ for i=1:15
 end
 
 %load validation data
-for i=1:10
+for i=1:15
     ctrlVal(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/validation_const150_%d/ctrldata.csv",i-1));
     valdata=[mudata;readData(sprintf("../data/revision2/ctrl/validation_const150_%d/*.csv",i-1))];
     
