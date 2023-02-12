@@ -1,7 +1,7 @@
 clear
 
-ctrlGA=zeros(1200,11,15);
-ctrlMU=zeros(1200,11,1);
+ctrlGA=zeros(600,11,15);
+ctrlMU=zeros(600,11,1);
 gadata=[];
 mudata=[];
 valdata=[];
@@ -14,9 +14,9 @@ muRT=[];
 valRT=[];
 
 %load ga data
-for i=1:15
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_const50_%d/ctrldata.csv",i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_const50_%d/*.csv",i-1))];
+for i=1:1
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_%d/ctrldata.csv",i-1));
+    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     gaT=[gaT;gadata(end).tr'];
@@ -26,9 +26,9 @@ for i=1:15
 end
 
 %load muOpt data
-for i=1:15
-    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/muopt_const50_%d/ctrldata.csv",i-1));
-    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/muopt_const50_%d/*.csv",i-1))];
+for i=1:1
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/julia_tweeter_%d/ctrldata.csv",i-1));
+    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/julia_tweeter_%d/*.csv",i-1))];
     
     muRT=[muRT;mudata(end).rt];
     muT=[muT;mudata(end).tr'];
@@ -38,7 +38,7 @@ for i=1:15
 end
 
 %load validation data
-for i=1:15
+for i=1:0
     ctrlVal(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/validation_const50_%d/ctrldata.csv",i-1));
     valdata=[mudata;readData(sprintf("../data/revision2/ctrl/validation_const50_%d/*.csv",i-1))];
     
@@ -57,13 +57,13 @@ end
 
 mGA=mean(ctrlGA(:,3:end,:),3);
 mMU=mean(ctrlMU(:,3:end,:),3);
-valCtrl=mean(ctrlVal(:,3:end,:),3);
+% valCtrl=mean(ctrlVal(:,3:end,:),3);
 
 figure
 hold on
 stairs(sum(mGA,2));
 stairs(sum(mMU,2));
-stairs(sum(valCtrl,2));
+%stairs(sum(valCtrl,2));
 
 
 
@@ -84,9 +84,9 @@ stairs(sum(valCtrl,2));
 % stairs(sum(ctrlMU(:,3:end),2))
 % stairs(sum(ctrlGA(:,3:end),2))
 
-s=min([size(muRT,1),size(gaRT,1),size(valRT,1)]);
-x = [muRT(1:s),gaRT(1:s),valRT(1:s)];
-g = [ones(s,1); 2*ones(s,1);3*ones(s,1)];
+s=min([size(muRT,1),size(gaRT,1)]);
+x = [muRT(1:s),gaRT(1:s)];
+g = [ones(s,1); 2*ones(s,1)];
 figure
 boxplot(x,g)
 
@@ -94,7 +94,7 @@ figure
 hold on
 ecdf(muRT)
 ecdf(gaRT)
-ecdf(valRT)
+% ecdf(valRT)
 
 
 
