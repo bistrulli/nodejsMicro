@@ -163,11 +163,11 @@ if __name__ == '__main__':
             
             for p in data["Cli"]:
                 
-                # ctrl={"name":"atom_const150","workDir":"/home/virtual/git/atom-replication/GA/",
-                #       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
+                ctrl={"name":"atom_tweeter","workDir":"/home/virtual/git/atom-replication/GA/",
+                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
-                ctrl={"name":"julia_tweeter","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
-                      "ctrlCmd":"julia acmeCtrl.jl"}
+                # ctrl={"name":"julia_tweeter","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                #       "ctrlCmd":"julia acmeCtrl.jl"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
                 os.makedirs( datadir, exist_ok=True)
@@ -219,7 +219,7 @@ if __name__ == '__main__':
                 resetSim()
                 print("killing ctrl")
                 sys.ctrlProc.kill()
-                # subprocess.call(["pkill","-9","-f","matlab"])
+                subprocess.call(["pkill","-9","-f","matlab"])
                 subprocess.call(["pkill","-9","-f","julia"])
                 sys.clearLog()
     
