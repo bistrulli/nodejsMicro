@@ -22,7 +22,7 @@ for i=1:1
     gaT=[gaT;gadata(end).tr'];
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
-    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+2:nanCountGA+2,3:end,i));
+    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',1);
 end
 
 %load muOpt data
@@ -34,7 +34,7 @@ for i=1:1
     muT=[muT;mudata(end).tr'];
    
     nanCountMu=sum(isnan(ctrlMU(:,3:end,i)));
-    ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',ctrlMU(nanCountMu+1:nanCountMu+1,3:end,i));
+    ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',1);
 end
 
 %load validation data
@@ -61,8 +61,8 @@ mMU=mean(ctrlMU(:,3:end,:),3);
 
 figure
 hold on
-stairs(sum(mGA,2));
-stairs(sum(mMU,2));
+stairs(mGA);
+stairs(mMU);
 %stairs(sum(valCtrl,2));
 
 
