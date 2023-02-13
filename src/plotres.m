@@ -14,7 +14,7 @@ muRT=[];
 valRT=[];
 
 %load ga data
-for i=1:1
+for i=1:15
     ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_%d/ctrldata.csv",i-1));
     gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_%d/*.csv",i-1))];
     
@@ -26,7 +26,7 @@ for i=1:1
 end
 
 %load muOpt data
-for i=1:1
+for i=1:15
     ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/julia_tweeter_%d/ctrldata.csv",i-1));
     mudata=[mudata;readData(sprintf("../data/revision2/ctrl/julia_tweeter_%d/*.csv",i-1))];
     
@@ -61,8 +61,8 @@ mMU=mean(ctrlMU(:,3:end,:),3);
 
 figure
 hold on
-stairs(mGA);
-stairs(mMU);
+stairs(sum(mGA,2));
+stairs(sum(mMU,2));
 %stairs(sum(valCtrl,2));
 
 
