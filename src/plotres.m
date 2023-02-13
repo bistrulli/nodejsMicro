@@ -1,37 +1,39 @@
 clear
 
-ctrlGA=zeros(600,11,1);
-ctrlMU=zeros(600,11,1);
+ctrlGA=zeros(600,11,15);
+ctrlMU=zeros(600,11,15);
+gaT=zeros(600,15);
+muT=zeros(600,7);
 gadata=[];
 mudata=[];
 valdata=[];
 
-gaT=[];
-muT=[];
 valT=[];
 gaRT=[];
 muRT=[];
 valRT=[];
 
 %load ga data
-for i=1:1
+for i=1:size(ctrlGA,3)
     ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_%d/ctrldata.csv",i-1));
     gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
-    gaT=[gaT;gadata(end).tr'];
+    %gaT=[gaT;gadata(end).tr'];
+    gaT(:,i)=gadata(end).tr(1:600);
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
     ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',1);
 end
 
 %load muOpt data
-for i=1:1
+for i=1:size(ctrlMU,3)
     ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/julia_tweeter_%d/ctrldata.csv",i-1));
     mudata=[mudata;readData(sprintf("../data/revision2/ctrl/julia_tweeter_%d/*.csv",i-1))];
     
     muRT=[muRT;mudata(end).rt];
-    muT=[muT;mudata(end).tr'];
+    %muT=[muT;mudata(end).tr'];
+    muT(:,i)=mudata(end).tr(1:600);
    
     nanCountMu=sum(isnan(ctrlMU(:,3:end,i)));
     ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',1);
@@ -63,14 +65,19 @@ figure
 hold on
 stairs(sum(mGA,2));
 stairs(sum(mMU,2));
-stairs(ctrlGA(:,2))
+%stairs(ctrlGA(:,2))
 %stairs(sum(valCtrl,2));
 
 
 
 % Tmax = smoothdata(maxdata(1).tr,'movmean',3);
-% Tctrl = smoothdata(mudata(1).tr,'movmean',3);
-% Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
+%Tctrl = smoothdata(mudata(end).tr,'movmean',3);
+%Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
+
+figure
+stairs(smoothdata(mean(muT,2),'movmean',3));
+hold on
+stairs(smoothdata(mean(gaT,2),'movmean',3));
 
 % figure
 % hold on

@@ -153,7 +153,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(15):
+        for exp in range(1):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -163,11 +163,11 @@ if __name__ == '__main__':
             
             for p in data["Cli"]:
                 
-                # ctrl={"name":"atom_tweeter","workDir":"/home/virtual/git/atom-replication/GA/",
-                #       "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
+                ctrl={"name":"atom_tweeter_over","workDir":"/home/virtual/git/atom-replication/GA/",
+                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
-                ctrl={"name":"julia_tweeter","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
-                      "ctrlCmd":"julia acmeCtrl.jl"}
+                # ctrl={"name":"julia_tweeter","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                #       "ctrlCmd":"julia acmeCtrl.jl"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
                 os.makedirs( datadir, exist_ok=True)
