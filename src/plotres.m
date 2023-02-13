@@ -1,9 +1,9 @@
 clear
 
-ctrlGA=zeros(600,11,15);
+ctrlGA=zeros(600,11,1);
 ctrlMU=zeros(600,11,15);
-gaT=zeros(600,15);
-muT=zeros(600,7);
+gaT=zeros(600,size(ctrlGA,3));
+muT=zeros(600,size(ctrlMU,3));
 gadata=[];
 mudata=[];
 valdata=[];
@@ -15,8 +15,8 @@ valRT=[];
 
 %load ga data
 for i=1:size(ctrlGA,3)
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_%d/ctrldata.csv",i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_%d/*.csv",i-1))];
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_over_%d/ctrldata.csv",i-1));
+    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_over_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     %gaT=[gaT;gadata(end).tr'];
