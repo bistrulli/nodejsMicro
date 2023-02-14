@@ -153,13 +153,21 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(15):
+        for exp in range(1):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
             
             pedis.flushall();
-            
+            pedis.mset({"MSauth_hw":"3.6572",
+                        "MSvalidateid_hw":"1.8773",
+                        "MSbookflights_hw":"3.1551", 
+                        "MSupdateMiles_hw":"5.0964",
+                        "MScancelbooking_hw":"2.0323", 
+                        "MSgetrewardmiles_hw":"4.3805",
+                         "MSqueryflights_hw":"6.4983",
+                         "MSviewprofile_hw":"3.5825",
+                         "MSupdateprofile_hw":"2.7341" })
             
             for p in data["Cli"]:
                 

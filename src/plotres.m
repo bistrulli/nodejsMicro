@@ -1,6 +1,6 @@
 clear
 
-ctrlGA=zeros(600,11,4);
+ctrlGA=zeros(600,11,1);
 ctrlMU=zeros(600,11,15);
 gaT=zeros(600,size(ctrlGA,3));
 muT=zeros(600,size(ctrlMU,3));
@@ -23,7 +23,7 @@ for i=1:size(ctrlGA,3)
     gaT(:,i)=gadata(end).tr(1:600);
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
-    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',1);
+    ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+1:nanCountGA+1,3:end,i));
 end
 
 %load muOpt data
@@ -36,7 +36,7 @@ for i=1:size(ctrlMU,3)
     muT(:,i)=mudata(end).tr(1:600);
    
     nanCountMu=sum(isnan(ctrlMU(:,3:end,i)));
-    ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',1);
+    ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',0);
 end
 
 %load validation data
