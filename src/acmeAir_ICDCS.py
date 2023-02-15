@@ -27,7 +27,8 @@ import argparse
 def getCliOptions():
     parser = argparse.ArgumentParser(description='Muopt Experiments Runner')
     parser.add_argument('--ctrl', action='store_const')
-    return parser
+    args = parser.parse_args()
+    return args
 
 
 def extractKPI(msname,datadir):
@@ -69,8 +70,8 @@ def resetSim():
 
 if __name__ == '__main__':
     
-    parser=getCliOptions()
-    print(parser.ctrl)
+    args=getCliOptions()
+    print(args.ctrl)
     
     
     prxPath="../../msProxy/target/msproxy-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
