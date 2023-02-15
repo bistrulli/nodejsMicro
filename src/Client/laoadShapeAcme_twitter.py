@@ -8,7 +8,7 @@ class loadShapeAcme_twt(loadShape):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
         absolute_path = os.path.dirname(__file__)
-        trace_path = os.path.join(absolute_path, "twitter_20210101_730-24_freq120sec.mat")
+        trace_path = os.path.join(absolute_path, "twitter_20210101_7:00:00-8:00:00.mat")
         self.tweetTrace=loadmat(trace_path)["tweets"][0]
         self.tweetTrace=(self.tweetTrace-min(self.tweetTrace))/(max(self.tweetTrace)-min(self.tweetTrace))*50+15
         
