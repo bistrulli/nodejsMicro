@@ -254,6 +254,8 @@ if __name__ == '__main__':
         resetSim()
         print("killing ctrl")
         sys.ctrlProc.kill()
+        subprocess.call(["pkill","-9","-f","matlab"])
+        subprocess.call(["pkill","-9","-f","julia"])
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         
