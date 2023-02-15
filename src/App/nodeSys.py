@@ -163,7 +163,11 @@ class nodeSys():
         
         print(ctrl["ctrlCmd"].strip().split(" "))
         
-        self.ctrlProc=subprocess.Popen(ctrl["ctrlCmd"].strip().split(" "),stdout=ctrlOutf, stderr=ctrlErrf,cwd=ctrl["workDir"])
+        self.ctrlProc=subprocess.Popen(ctrl["ctrlCmd"].strip().split(" "),stdout=ctrlOutf, 
+                                       stderr=ctrlErrf,
+                                       cwd=ctrl["workDir"],
+                                       stdin=subprocess.DEVNULL,
+                                       start_new_session=True)
         
         ctrlOutf.close()
         ctrlErrf.close()
