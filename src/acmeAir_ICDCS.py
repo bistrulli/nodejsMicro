@@ -26,7 +26,7 @@ import argparse
 
 def getCliOptions():
     parser = argparse.ArgumentParser(description='Muopt Experiments Runner')
-    parser.add_argument('--ctrl', action='store_const')
+    parser.add_argument('ctrl', choices=['muopt', 'atom'],help='specify the controller to use')
     args = parser.parse_args()
     return args
 
