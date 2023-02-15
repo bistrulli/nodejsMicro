@@ -71,7 +71,6 @@ def resetSim():
 if __name__ == '__main__':
     
     args=getCliOptions()
-    print(args.ctrl)
     
     
     prxPath="../../msProxy/target/msproxy-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
@@ -184,11 +183,13 @@ if __name__ == '__main__':
             
             for p in data["Cli"]:
                 
-                # ctrl={"name":"atom_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/GA/",
-                #      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
-                
-                ctrl={"name":"julia_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                ctrl=None
+                if(args.ctrl=="muopt"):
+                    ctrl={"name":"julia_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
+                elif(args.ctrl=="atom"):
+                    ctrl={"name":"atom_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/GA/",
+                     "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
                 os.makedirs( datadir, exist_ok=True)
