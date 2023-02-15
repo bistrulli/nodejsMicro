@@ -21,6 +21,13 @@ import subprocess
 from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
 from Client import loadShapeAcme_twt
+import argparse
+
+
+def getCliOptions():
+    parser = argparse.ArgumentParser(description='Muopt Experiments Runner')
+    parser.add_argument('--ctrl', action='store_const')
+    return parser
 
 
 def extractKPI(msname,datadir):
@@ -61,6 +68,11 @@ def resetSim():
 
 
 if __name__ == '__main__':
+    
+    parser=getCliOptions()
+    print(parser.ctrl)
+    
+    
     prxPath="../../msProxy/target/msproxy-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
     try:
         msSys = {#auth service
