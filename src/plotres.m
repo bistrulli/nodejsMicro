@@ -1,6 +1,6 @@
 clear
 
-ctrlGA=zeros(2100,11,12);
+ctrlGA=zeros(2100,11,15le);
 ctrlMU=zeros(2100,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));

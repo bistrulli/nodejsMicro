@@ -2,7 +2,7 @@ from Client import loadShape
 
 
 class StepShape(loadShape):
-    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,intervals, values):
+    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,intervals=None, values=None):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
         assert len(intervals) == len(values)

@@ -3,7 +3,7 @@ import math
 
 
 class SinShape(loadShape):
-    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,mod, shift, period=100):
+    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,mod=None, shift=None, period=100):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
         self.mod = mod

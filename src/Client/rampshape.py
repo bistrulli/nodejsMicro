@@ -1,7 +1,7 @@
 from Client import loadShape
 
 class RampShape(loadShape):
-    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,slope, steady, initial=1, rampstart=0):
+    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,slope=None, steady=None, initial=1, rampstart=0):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
         self.slope = slope
