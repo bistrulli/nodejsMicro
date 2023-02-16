@@ -21,6 +21,7 @@ import subprocess
 from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
 from Client import loadShapeAcme_twt
+from Client import SinShape
 import argparse
 
 
@@ -165,7 +166,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(8,15):
+        for exp in range(1):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -185,10 +186,10 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_sin","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
-                    ctrl={"name":"atom_tweeter_7_8","workDir":"/home/virtual/git/atom-replication/GA/",
+                    ctrl={"name":"atom_sin","workDir":"/home/virtual/git/atom-replication/GA/",
                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
@@ -208,8 +209,8 @@ if __name__ == '__main__':
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
-                #lshape=loadShapeAcme_const(maxt=1200,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
-                lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                #lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                lshape=SinShape(maxt=600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,mod=50, shift=15, period=200)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()

@@ -1,7 +1,7 @@
 clear
 
-ctrlGA=zeros(2100,11,7);
-ctrlMU=zeros(2100,11,7);
+ctrlGA=zeros(2100,11,12);
+ctrlMU=zeros(2100,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -79,6 +79,14 @@ stairs(smoothdata(mean(muT,2),'movmean',3));
 hold on
 stairs(smoothdata(mean(gaT,2),'movmean',3));
 legend("muOpt","muGA")
+
+totMUT=cumsum(mean(muT,2));
+totGAT=cumsum(mean(gaT,2));
+
+figure 
+hold on
+stairs(cumsum(mean(muT,2)))
+stairs(cumsum(mean(gaT,2)))
 
 % figure
 % hold on
