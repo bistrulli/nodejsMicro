@@ -166,7 +166,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(5):
+        for exp in range(15):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -210,7 +210,7 @@ if __name__ == '__main__':
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
                 #lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
-                lshape=SinShape(maxt=1600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+                lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
