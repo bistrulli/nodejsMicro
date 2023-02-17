@@ -11,4 +11,4 @@ class SinShape(loadShape):
         self.period = period / (2*math.pi)
 
     def gen(self):
-        return abs(math.sin(self.t/self.period)*self.mod+self.shift)
+        return math.sin(self.t/self.period)*self.mod+self.shift

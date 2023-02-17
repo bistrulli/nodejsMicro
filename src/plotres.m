@@ -1,7 +1,7 @@
 clear
 
-ctrlGA=zeros(2100,11,15le);
-ctrlMU=zeros(2100,11,15);
+ctrlGA=zeros(600,11,1);
+ctrlMU=zeros(600,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -15,8 +15,8 @@ valRT=[];
 
 %load ga data
 for i=1:size(ctrlGA,3)
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_tweeter_7_8_%d/ctrldata.csv",i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_tweeter_7_8_%d/*.csv",i-1))];
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/atom_sin_%d/ctrldata.csv",i-1));
+    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/atom_sin_%d/*.csv",i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     %gaT=[gaT;gadata(end).tr'];
@@ -28,8 +28,8 @@ end
 
 %load muOpt data
 for i=1:size(ctrlMU,3)
-    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/julia_tweeter_7_8_%d/ctrldata.csv",i-1));
-    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/julia_tweeter_7_8_%d/*.csv",i-1))];
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/julia_sin_%d/ctrldata.csv",i-1));
+    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/julia_sin_%d/*.csv",i-1))];
     
     muRT=[muRT;mudata(end).rt];
     %muT=[muT;mudata(end).tr'];
