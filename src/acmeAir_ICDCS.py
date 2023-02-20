@@ -22,6 +22,8 @@ from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
 from Client import loadShapeAcme_twt
 from Client import SinShape
+from Client import RampShape
+from Client import StepShape
 import argparse
 
 
