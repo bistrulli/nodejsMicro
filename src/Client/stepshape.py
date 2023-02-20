@@ -1,6 +1,5 @@
 from Client import loadShape
 from numpy.random import default_rng
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import savemat
 from scipy.io import loadmat
@@ -33,6 +32,8 @@ class StepShape(loadShape):
 
 
 if __name__ == '__main__':
+    
+    import matplotlib.pyplot as plt
     
     rng = default_rng()
     
