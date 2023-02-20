@@ -168,7 +168,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(15):
+        for exp in range(1):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -188,10 +188,10 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_sin","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_step","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
-                    ctrl={"name":"atom_sin","workDir":"/home/virtual/git/atom-replication/GA/",
+                    ctrl={"name":"atom_step","workDir":"/home/virtual/git/atom-replication/GA/",
                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
@@ -212,7 +212,8 @@ if __name__ == '__main__':
                 sys.startClient(p,dry=dry)
                 #lancio la forma del carico e i sistemi di monitoring
                 #lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
-                lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+                #lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+                lshape=StepShape(maxt=600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()

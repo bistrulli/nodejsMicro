@@ -3,11 +3,21 @@ from numpy.random import default_rng
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import savemat
+from scipy.io import loadmat
+import os
 
 
 class StepShape(loadShape):
     def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,intervals=None, values=None):
         super().__init__(maxt,sys,dry,dbHost,datadir)
+        
+        if(intervals is None and values is None):
+            loadmat("stepshape.mat")
+            
+            absolute_path = os.path.dirname(__file__)
+            trace_path = os.path.join(absolute_path, "stepshape.mat")
+            intervals=loadmat(trace_path)["intervals"][0]
+            values=loadmat(trace_path)["values"][0]
         
         assert len(intervals) == len(values)
         self.intervals = intervals
@@ -45,4 +55,7 @@ if __name__ == '__main__':
     plt.step(np.linspace(1,len(users),len(users)),users)
     plt.show()
     
+    savemat("stepshape.mat",{"intervals":intervals,"values":values})
     
+    trace=loadmat("stepshape.mat")
+    print(trace)
