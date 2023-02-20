@@ -1,7 +1,7 @@
 clear
 
-ctrlGA=zeros(600,11,1);
-ctrlMU=zeros(600,11,1);
+ctrlGA=zeros(2000,11,1);
+ctrlMU=zeros(2000,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];

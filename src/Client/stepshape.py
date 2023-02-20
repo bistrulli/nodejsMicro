@@ -36,7 +36,7 @@ if __name__ == '__main__':
     rng = default_rng()
     
     maxtime=2000
-    Nint=int(maxtime/5.0)
+    Nint=int(maxtime/10.0)
     users=[]
     values=np.random.randint(low=10,high=65,size=Nint, dtype=int)
     #intervals = rng.choice(Nint*2, size=Nint, replace=False)
