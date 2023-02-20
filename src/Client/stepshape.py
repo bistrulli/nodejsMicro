@@ -35,11 +35,12 @@ if __name__ == '__main__':
     
     rng = default_rng()
     
-    Nint=120
+    maxtime=2000
+    Nint=int(maxtime/5.0)
     users=[]
     values=np.random.randint(low=10,high=65,size=Nint, dtype=int)
     #intervals = rng.choice(Nint*2, size=Nint, replace=False)
-    intervals=np.linspace(1,601,Nint,dtype=int)
+    intervals=np.linspace(1,maxtime+1,Nint,dtype=int)
     intervals=np.sort(intervals)
     print(intervals)
     
@@ -47,7 +48,7 @@ if __name__ == '__main__':
                         intervals=intervals,
                         values=values)
     
-    for i in range(600):
+    for i in range(maxtime):
         stepShape.t=i
         users+=[stepShape.gen()]
         
@@ -55,6 +56,4 @@ if __name__ == '__main__':
     plt.show()
     
     savemat("stepshape.mat",{"intervals":intervals,"values":values})
-    
     trace=loadmat("stepshape.mat")
-    print(trace)

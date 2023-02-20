@@ -213,7 +213,7 @@ if __name__ == '__main__':
                 #lancio la forma del carico e i sistemi di monitoring
                 #lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 #lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
-                lshape=StepShape(maxt=600,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None)
+                lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None)
                 lshape.start()
                 #attendo la fine dell'esperiemnto
                 setStart()
