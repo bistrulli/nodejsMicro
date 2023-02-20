@@ -11,8 +11,6 @@ class StepShape(loadShape):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
         if(intervals is None and values is None):
-            loadmat("stepshape.mat")
-            
             absolute_path = os.path.dirname(__file__)
             trace_path = os.path.join(absolute_path, "stepshape.mat")
             intervals=loadmat(trace_path)["intervals"][0]
