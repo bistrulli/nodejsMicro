@@ -1,7 +1,7 @@
 clear
 
-ctrlGA=zeros(2000,11,1);
-ctrlMU=zeros(2000,11,1);
+ctrlGA=zeros(2000,11,15);
+ctrlMU=zeros(2000,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -13,8 +13,8 @@ gaRT=[];
 muRT=[];
 valRT=[];
 
-expnameMu="julia_step";
-expnameAtom="atom_step";
+expnameMu="julia_sin";
+expnameAtom="atom_sin";
 
 %load ga data
 for i=1:size(ctrlGA,3)
@@ -64,10 +64,38 @@ mGA=mean(ctrlGA(:,3:end,:),3);
 mMU=mean(ctrlMU(:,3:end,:),3);
 % valCtrl=mean(ctrlVal(:,3:end,:),3);
 
-figure
+
+
+
+legend("Users")
+ax = gca;
+ax.FontSize = 24;
+ylim([0,65])
+stairs(ctrlMU(:,2,1))
+
+
+figure('units','normalized','outerposition',[0 0 1 1])
 hold on
-stairs(sum(mGA,2));
-stairs(sum(mMU,2));
+box on
+grid on
+hold on
+stairs(sum(mGA,2),"LineWidth",1.5);
+stairs(sum(mMU,2),"LineWidth",1.5);
+ax = gca;
+ax.FontSize = 24;
+exportgraphics(gca,"/Users/emilio-imt/Desktop/ctrlCore.pdf")
+close()
+
+figure('units','normalized','outerposition',[0 0 1 1])
+hold on
+box on
+grid on
+hold on
+stairs(ctrlMU(:,2,1),"LineWidth",1.5);
+ax = gca;
+ax.FontSize = 24;
+exportgraphics(gca,"/Users/emilio-imt/Desktop/users.pdf")
+close()
 %stairs(ctrlGA(:,2))
 %stairs(sum(valCtrl,2));
 
@@ -78,9 +106,9 @@ stairs(sum(mMU,2));
 %Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
 
 figure
-stairs(smoothdata(mean(muT,2),'movmean',3));
+stairs(smoothdata(mean(muT,2),'movmean',1));
 hold on
-stairs(smoothdata(mean(gaT,2),'movmean',3));
+stairs(smoothdata(mean(gaT,2),'movmean',1));
 legend("muOpt","muGA")
 
 totMUT=cumsum(mean(muT,2));
@@ -118,6 +146,6 @@ legend("muOpt","muGA")
 % ecdf(valRT)
 
 
-
+abs(totMUT(end)-totGAT(end))*100/totMUT(end)
 (trapz(sum(mGA,2))-trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))
 
