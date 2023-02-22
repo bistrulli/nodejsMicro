@@ -13,8 +13,8 @@ gaRT=[];
 muRT=[];
 valRT=[];
 
-expnameMu="julia_sin";
-expnameAtom="atom_sin";
+expnameMu="julia_step";
+expnameAtom="atom_step";
 
 %load ga data
 for i=1:size(ctrlGA,3)
@@ -83,8 +83,8 @@ stairs(sum(mGA,2),"LineWidth",1.5);
 stairs(sum(mMU,2),"LineWidth",1.5);
 ax = gca;
 ax.FontSize = 24;
-exportgraphics(gca,"/Users/emilio-imt/Desktop/ctrlCore.pdf")
-close()
+% exportgraphics(gca,"/Users/emilio-imt/Desktop/ctrlCore.pdf")
+% close()
 
 figure('units','normalized','outerposition',[0 0 1 1])
 hold on
@@ -94,8 +94,8 @@ hold on
 stairs(ctrlMU(:,2,1),"LineWidth",1.5);
 ax = gca;
 ax.FontSize = 24;
-exportgraphics(gca,"/Users/emilio-imt/Desktop/users.pdf")
-close()
+% exportgraphics(gca,"/Users/emilio-imt/Desktop/users.pdf")
+% close()
 %stairs(ctrlGA(:,2))
 %stairs(sum(valCtrl,2));
 

@@ -36,13 +36,14 @@ if __name__ == '__main__':
     rng = default_rng()
     
     maxtime=2000
-    Nint=int(maxtime/10.0)
+    Nint=int(maxtime/500.0)
     users=[]
     values=np.random.randint(low=10,high=65,size=Nint, dtype=int)
     #intervals = rng.choice(Nint*2, size=Nint, replace=False)
     intervals=np.linspace(1,maxtime+1,Nint,dtype=int)
     intervals=np.sort(intervals)
     print(intervals)
+    print(values)
     
     stepShape=StepShape(maxt=None,sys=None,dry=False,dbHost="127.0.0.1",datadir=None,
                         intervals=intervals,
@@ -55,5 +56,5 @@ if __name__ == '__main__':
     plt.step(np.linspace(1,len(users),len(users)),users)
     plt.show()
     
-    savemat("stepshape.mat",{"intervals":intervals,"values":values})
-    trace=loadmat("stepshape.mat")
+    savemat("stepshape_slow.mat",{"intervals":intervals,"values":values})
+    trace=loadmat("stepshape_slow.mat")
