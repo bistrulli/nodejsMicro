@@ -106,9 +106,9 @@ ax.FontSize = 24;
 %Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
 
 figure
-stairs(smoothdata(mean(muT,2),'movmean',3));
+stairs(smoothdata(mean(muT,2),'movmean',10));
 hold on
-stairs(smoothdata(mean(gaT,2),'movmean',3));
+stairs(smoothdata(mean(gaT,2),'movmean',10));
 legend("muOpt","muGA")
 
 totMUT=cumsum(mean(muT,2));
