@@ -13,8 +13,8 @@ gaRT=[];
 muRT=[];
 valRT=[];
 
-expnameMu="julia_step";
-expnameAtom="atom_step";
+expnameMu="julia_step_slow";
+expnameAtom="atom_step_slow";
 
 %load ga data
 for i=1:size(ctrlGA,3)
@@ -106,9 +106,9 @@ ax.FontSize = 24;
 %Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
 
 figure
-stairs(smoothdata(mean(muT,2),'movmean',1));
+stairs(smoothdata(mean(muT,2),'movmean',3));
 hold on
-stairs(smoothdata(mean(gaT,2),'movmean',1));
+stairs(smoothdata(mean(gaT,2),'movmean',3));
 legend("muOpt","muGA")
 
 totMUT=cumsum(mean(muT,2));
