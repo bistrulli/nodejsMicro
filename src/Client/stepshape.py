@@ -12,7 +12,7 @@ class StepShape(loadShape):
         
         if(intervals is None and values is None):
             absolute_path = os.path.dirname(__file__)
-            trace_path = os.path.join(absolute_path, "stepshape.mat")
+            trace_path = os.path.join(absolute_path, "stepshape_slow.mat")
             intervals=loadmat(trace_path)["intervals"][0]
             values=loadmat(trace_path)["values"][0]
         

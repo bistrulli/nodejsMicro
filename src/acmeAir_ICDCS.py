@@ -188,10 +188,10 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_step","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_step_slow","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
-                    ctrl={"name":"atom_step","workDir":"/home/virtual/git/atom-replication/GA/",
+                    ctrl={"name":"atom_step_slow","workDir":"/home/virtual/git/atom-replication/GA/",
                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
