@@ -214,11 +214,11 @@ if __name__ == '__main__':
                 
                 lshape=None
                 if(args.load=="step_slow"):
-                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow.mat")
+                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow")
                 elif(args.load=="sin"):
                     lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
                 elif(args.load=="step"):
-                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape.mat")
+                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape")
                 elif(args.load=="tweeter_7_8"):
                     lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
                 else:
