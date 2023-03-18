@@ -28,8 +28,9 @@ import argparse
 
 
 def getCliOptions():
-    parser = argparse.ArgumentParser(description='Muopt Experiments Runner')
+    parser = argparse.ArgumentParser(description='muOpt Experiments Runner')
     parser.add_argument('ctrl', choices=['muopt', 'atom'],help='specify the controller to use')
+    parser.add_argument("load",choices=["step_slow","sin","step",'tweeter_7_8'],help='specify the load shape to use')
     args = parser.parse_args()
     return args
 
@@ -168,7 +169,7 @@ if __name__ == '__main__':
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(15):
+        for exp in range(15,31):
             
             data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
@@ -188,10 +189,10 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_step_slow","workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
-                    ctrl={"name":"atom_step_slow","workDir":"/home/virtual/git/atom-replication/GA/",
+                    ctrl={"name":"atom_s%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/GA/",
                      "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
                 
                 datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
@@ -210,11 +211,22 @@ if __name__ == '__main__':
                 
                 #lancio i client iniziali
                 sys.startClient(p,dry=dry)
-                #lancio la forma del carico e i sistemi di monitoring
-                #lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
-                #lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
-                lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None)
+                
+                lshape=None
+                if(args.load=="step_slow"):
+                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow.mat")
+                elif(args.load=="sin"):
+                    lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+                elif(args.load=="step"):
+                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape.mat")
+                elif(args.load=="tweeter_7_8"):
+                    lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+                else:
+                    raise ValueError("Load not recognized")
+                
                 lshape.start()
+                
+                
                 #attendo la fine dell'esperiemnto
                 setStart()
                 waitExp(pedis)

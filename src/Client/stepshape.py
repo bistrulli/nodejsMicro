@@ -7,14 +7,16 @@ import os
 
 
 class StepShape(loadShape):
-    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,intervals=None, values=None):
+    def __init__(self, maxt,sys,dry=False,dbHost="127.0.0.1",datadir=None,intervals=None, values=None,shapeData=None):
         super().__init__(maxt,sys,dry,dbHost,datadir)
         
-        if(intervals is None and values is None):
+        if(intervals is None and values is None and shapeData is not None):
             absolute_path = os.path.dirname(__file__)
-            trace_path = os.path.join(absolute_path, "stepshape_slow.mat")
+            trace_path = os.path.join(absolute_path, "%s.mat"%(shapeData))
             intervals=loadmat(trace_path)["intervals"][0]
             values=loadmat(trace_path)["values"][0]
+        else:
+            raise ValueError("at lest one between interval and stepShape should be specified")
         
         assert len(intervals) == len(values)
         self.intervals = intervals
