@@ -1,14 +1,15 @@
 clear
 
-exps=["step_slow","sin","step"];
+% exps=["step_slow","sin","step"];
+exps=["step_slow"]
 % exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,15);
-ctrlMU=zeros(2000,11,15);
+ctrlGA=zeros(2000,11,24);
+ctrlMU=zeros(2000,11,30);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -105,7 +106,7 @@ ax = gca;
 ax.FontSize = fontSize;
 xlabel("Time(s)")
 ylabel("#Users")
-legend("Users")
+legend("Users","Location","southeast")
 axis tight
 xlim(lim)
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_users.pdf",expWork));
@@ -125,7 +126,7 @@ ax = gca;
 ax.FontSize = fontSize;
 xlabel("Time(s)")
 ylabel("#Cores")
-legend("\muOpt","ATOM")
+legend("\muOpt","ATOM","Location","southeast")
 xlim(lim)
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_cores.pdf",expWork));
 close()
@@ -153,13 +154,14 @@ close()
 figure('units','normalized','position',[0 0 1 1])
 stairs(smoothdata(mean(muT,2),'movmean',3),"LineWidth",2.5);
 hold on
-stairs(smoothdata(gaTCI(:,1),'movmean',3),"-.","Color",[0.85,0.33,0.10]);
-stairs(smoothdata(gaTCI(:,2),'movmean',3),"-.","Color",[0.85,0.33,0.10]);
 stairs(smoothdata(mean(gaT,2),'movmean',3),"LineWidth",2.5,"Color",[0.85,0.33,0.10]);
+
+stairs(smoothdata(gaTCI(:,1),'movmean',3),"-.","Color",[0.85,0.33,0.10],"LineWidth",0.001);
+stairs(smoothdata(gaTCI(:,2),'movmean',3),"-.","Color",[0.85,0.33,0.10],"LineWidth",0.001);
 
 grid on;
 box on;
-legend("\muOpt","ATOM")
+legend("\muOpt","ATOM","Location","southeast")
 ax = gca;
 ax.FontSize = fontSize;
 ylabel("Troughput(req/s)")
