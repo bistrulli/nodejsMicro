@@ -1,6 +1,6 @@
 clear
 
-% exps=["step_slow","sin","step"];
+%exps=["step_slow","sin","step"];
 exps=["step_slow"]
 % exps=["tweeter_7_8"];
 
@@ -8,8 +8,8 @@ for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,24);
-ctrlMU=zeros(2000,11,30);
+ctrlGA=zeros(2000,11,30);
+ctrlMU=zeros(2000,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -26,6 +26,9 @@ expWork=exps(1,ex);
 expnameMu=sprintf("julia_%s",expWork);
 expnameAtom=sprintf("atom_%s",expWork);
 
+gaObj=zeros(size(ctrlGA,1),size(ctrlGA,3));
+muObj=zeros(size(ctrlMU,1),size(ctrlMU,3));
+
 %load ga data
 for i=1:size(ctrlGA,3)
     ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/%s_%d/ctrldata.csv",expnameAtom,i-1));
@@ -37,6 +40,8 @@ for i=1:size(ctrlGA,3)
 
     nanCountGA=sum(isnan(ctrlGA(:,3:end,i)));
     ctrlGA(:,3:end,i)=fillmissing(ctrlGA(:,3:end,i),'constant',ctrlGA(nanCountGA+1:nanCountGA+1,3:end,i));
+   
+    gaObj(:,i)=computObj(gaT(:,i), sum(ctrlGA(:,3:end,i),2),ctrlGA(:,2,i));
 end
 
 %compute CI for gacontrol
@@ -64,6 +69,8 @@ for i=1:size(ctrlMU,3)
    
     nanCountMu=sum(isnan(ctrlMU(:,3:end,i)));
     ctrlMU(:,3:end,i)=fillmissing(ctrlMU(:,3:end,i),'constant',0);
+
+    muObj(:,i)=computObj(muT(:,i), sum(ctrlMU(:,3:end,i),2),ctrlMU(:,2,i));
 end
 
 %compute CI for mucontrol
@@ -224,7 +231,7 @@ totGAT=cumsum(mean(gaT,2));
 % close()
 
 
-for i=1:size(ctrlGA,3)
+for i=1:min(size(ctrlGA,3),size(ctrlMU,3))
     deltaS(i)=(-trapz(sum(ctrlGA(:,3:end,i),2))+trapz(sum(ctrlMU(:,3:end,i),2)))*100/trapz(sum(ctrlMU(:,3:end,i),2));
     deltaT(i)=mean(muT(:,i)-gaT(:,i))*100/mean(muT(:,i));
 end
@@ -233,7 +240,8 @@ end
 figure
 set(gcf,'units','normalized',"position",[0 0 0.5 1]);
 hold on
-somedata=[(totMUT(end)-totGAT(end))*100/totMUT(end),(-trapz(sum(mGA,2))+trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))];
+%somedata=[(totMUT(end)-totGAT(end))*100/totMUT(end),(-trapz(sum(mGA,2))+trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))];
+somedata=[mean(deltaT),mean(deltaS)]
 %somenames={"$\Delta\mathcal{T}$",'$\Delta\mathcal{S}$'};
 somenames={" "," "};
 % set(groot,'defaultAxesTickLabelInterpreter','latex');
@@ -259,6 +267,24 @@ CIds=getCI(deltaS)-mean(deltaS);
 errorbar([1,2],[mean(deltaT),mean(deltaS)],[CIdt(1),CIds(1)],[CIdt(2),CIds(2)],'x',"LineWidth",2,"Color","red");
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_stat.pdf",expWork));
 close()
+
+
+figure('units','normalized','position',[0 0 1 1])
+stairs(smoothdata(mean(muObj,2),'movmean',3),"LineWidth",2.5)
+hold on
+stairs(smoothdata(mean(gaObj,2),'movmean',3),"--","LineWidth",2.5)
+
+grid on;
+box on;
+legend("\muOpt","ATOM","Location","southeast")
+ax = gca;
+ax.FontSize = fontSize;
+%ylabel("Obj")
+xlabel("Time(s)")
+xlim(lim)
+exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_obj.pdf",expWork));
+close()
+
 
 end
 
