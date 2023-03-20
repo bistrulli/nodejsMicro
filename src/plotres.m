@@ -1,7 +1,7 @@
 clear
 
 %exps=["step_slow","sin","step"];
-exps=["step_slow"]
+exps=["step"]
 % exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
