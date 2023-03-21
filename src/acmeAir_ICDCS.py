@@ -189,7 +189,7 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_%s_2"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
                     ctrl={"name":"atom_%s_2"%(args.load),"workDir":"/home/virtual/git/atom-replication/GA/",
