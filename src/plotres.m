@@ -1,7 +1,7 @@
 clear
 
 exps=["sin","step"];
-% exps=["wc98"]
+%exps=["wc98"]
 % exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
@@ -261,6 +261,8 @@ xlim([0.5,2.5])
 xh = get(gca,'xlabel');
 xh.Color=[1,1,1];
 xlabel("time");
+
+% ylim(sort(somedata*1.30))
 
 CIdt=getCI(deltaT)-mean(deltaT);
 CIds=getCI(deltaS)-mean(deltaS);
