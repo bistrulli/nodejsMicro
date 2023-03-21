@@ -1,15 +1,15 @@
 clear
 
-%exps=["step_slow","sin","step"];
-exps=["wc98"]
+exps=["sin","step"];
+% exps=["wc98"]
 % exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,1);
-ctrlMU=zeros(2000,11,1);
+ctrlGA=zeros(2000,11,30);
+ctrlMU=zeros(2000,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
