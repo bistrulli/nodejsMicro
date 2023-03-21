@@ -1,14 +1,14 @@
 clear
 
 %exps=["step_slow","sin","step"];
-exps=["step"]
+exps=["wc98"]
 % exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,4);
+ctrlGA=zeros(2000,11,1);
 ctrlMU=zeros(2000,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
@@ -23,8 +23,8 @@ valRT=[];
 
 fontSize=52;
 expWork=exps(1,ex);
-expnameMu=sprintf("julia_%s_2",expWork);
-expnameAtom=sprintf("atom_%s_2",expWork);
+expnameMu=sprintf("julia_%s",expWork);
+expnameAtom=sprintf("atom_%s",expWork);
 
 gaObj=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muObj=zeros(size(ctrlMU,1),size(ctrlMU,3));
@@ -269,21 +269,21 @@ exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_
 close()
 
 
-figure('units','normalized','position',[0 0 1 1])
-stairs(smoothdata(mean(muObj,2),'movmean',3),"LineWidth",2.5)
-hold on
-stairs(smoothdata(mean(gaObj,2),'movmean',3),"--","LineWidth",2.5)
-
-grid on;
-box on;
-legend("\muOpt","ATOM","Location","southeast")
-ax = gca;
-ax.FontSize = fontSize;
-%ylabel("Obj")
-xlabel("Time(s)")
-xlim(lim)
-exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_obj.pdf",expWork));
-close()
+% figure('units','normalized','position',[0 0 1 1])
+% stairs(smoothdata(mean(muObj,2),'movmean',3),"LineWidth",2.5)
+% hold on
+% stairs(smoothdata(mean(gaObj,2),'movmean',3),"--","LineWidth",2.5)
+% 
+% grid on;
+% box on;
+% legend("\muOpt","ATOM","Location","southeast")
+% ax = gca;
+% ax.FontSize = fontSize;
+% %ylabel("Obj")
+% xlabel("Time(s)")
+% xlim(lim)
+% exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_obj.pdf",expWork));
+% close()
 
 
 end

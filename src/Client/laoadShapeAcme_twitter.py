@@ -10,7 +10,7 @@ class loadShapeAcme_twt(loadShape):
         absolute_path = os.path.dirname(__file__)
         trace_path = os.path.join(absolute_path, trace)
         self.tweetTrace=loadmat(trace_path)["tweets"][0]
-        self.tweetTrace=(self.tweetTrace-min(self.tweetTrace))/(max(self.tweetTrace)-min(self.tweetTrace))*50+15
+        self.tweetTrace=(self.tweetTrace-min(self.tweetTrace))/(max(self.tweetTrace)-min(self.tweetTrace))*50+25
         
     def gen(self):
         return self.tweetTrace[self.t % self.tweetTrace.shape[0]]
