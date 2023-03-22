@@ -1,14 +1,14 @@
 clear
 
-exps=["sin","step"];
-%exps=["wc98"]
-% exps=["tweeter_7_8"];
+% exps=["sin","step"];
+exps=["wc98"]
+%exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,30);
+ctrlGA=zeros(2000,11,15);
 ctrlMU=zeros(2000,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
@@ -106,7 +106,6 @@ mMU=mean(ctrlMU(:,3:end,:),3);
 %users figure
 figure('units','normalized','outerposition',[0 0 1 1])
 stairs(ctrlMU(:,2,1),"LineWidth",2.5);
-ylim([10,62])
 box on
 grid on
 ax = gca;
@@ -116,11 +115,12 @@ ylabel("#Users")
 legend("Users","Location","southeast")
 axis tight
 xlim(lim)
+ylim([0,95ò])
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_users.pdf",expWork));
 close()
 
 
-figure('units','normalized','position',[0 0 1 1])
+figure('units','normalized','outerposition',[0 0 1 1])
 hold on
 box on
 grid on
@@ -135,6 +135,7 @@ xlabel("Time(s)")
 ylabel("#Cores")
 legend("\muOpt","ATOM","Location","southeast")
 xlim(lim)
+ylim([0,95])
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_cores.pdf",expWork));
 close()
 
@@ -158,7 +159,7 @@ close()
 %Tctrlga = smoothdata(gadata(end).tr,'movmean',3);
 
 %throughput
-figure('units','normalized','position',[0 0 1 1])
+figure('units','normalized','outerposition',[0 0 1 1])
 stairs(smoothdata(mean(muT,2),'movmean',3),"LineWidth",2.5);
 hold on
 stairs(smoothdata(mean(gaT,2),'movmean',3),"LineWidth",2.5,"Color",[0.85,0.33,0.10]);
@@ -174,6 +175,7 @@ ax.FontSize = fontSize;
 ylabel("Troughput(req/s)")
 xlabel("Time(s)")
 xlim(lim)
+ylim([0,max(mean(gaT,2))*1.25])
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_throughput_t.pdf",expWork));
 close()
 
@@ -238,15 +240,16 @@ end
 
 % figure('units','normalized','outerposition',[0 0 0.5 0.5])
 figure
-set(gcf,'units','normalized',"position",[0 0 0.5 1]);
+set(gcf,'units','normalized',"position",[0 0 1 1]);
 hold on
 %somedata=[(totMUT(end)-totGAT(end))*100/totMUT(end),(-trapz(sum(mGA,2))+trapz(sum(mMU,2)))*100/trapz(sum(mMU,2))];
-somedata=[mean(deltaT),mean(deltaS)]
-%somenames={"$\Delta\mathcal{T}$",'$\Delta\mathcal{S}$'};
-somenames={" "," "};
-% set(groot,'defaultAxesTickLabelInterpreter','latex');
-% set(groot,'defaulttextinterpreter','latex');
-% set(groot,'defaultLegendInterpreter','latex');
+somedata=[mean(deltaT),mean(deltaS)];
+somenames={"","$\Delta\mathcal{T}$","","$\Delta\mathcal{S}$"};
+% somenames={" "," "};
+set(gca,'defaultAxesTickLabelInterpreter','latex');
+set(gca,'defaulttextinterpreter','latex');
+set(gca,'defaultLegendInterpreter','latex');
+
 h=bar([1,2],somedata);
 h.FaceColor="flat";
 h.CData(1,:)=[241 197 58]/255;
@@ -254,7 +257,7 @@ grid on;
 box on;
 set(gca,'xticklabel',somenames)
 ylabel("%")
-% ylim([0,1])
+ylim([-45,20])
 ax = gca;
 ax.FontSize = fontSize;
 xlim([0.5,2.5])
