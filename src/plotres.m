@@ -8,7 +8,7 @@ for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,15);
+ctrlGA=zeros(2000,11,26);
 ctrlMU=zeros(2000,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
@@ -115,7 +115,7 @@ ylabel("#Users")
 legend("Users","Location","southeast")
 axis tight
 xlim(lim)
-ylim([0,95ò])
+ylim([0,95])
 exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_users.pdf",expWork));
 close()
 
