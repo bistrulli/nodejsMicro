@@ -46,7 +46,7 @@ def resetSim():
 def getCtrl(ctrlName,loadName):
     ctrl=None
     if(ctrlName=="muopt"):
-        ctrl={"name":"julia_test_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+        ctrl={"name":"julia_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
           "ctrlCmd":"julia acmeCtrl.jl"}
     elif(ctrlName=="atom"):
         ctrl={"name":"atom_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/GA/",
@@ -60,13 +60,13 @@ def startLoadShape(loadName):
     if(loadName=="step_slow"):
         lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow")
     elif(loadName=="sin"):
-        lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+        lshape=SinShape(maxt=150,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
     elif(args.load=="step"):
         lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape")
     elif(loadName=="tweeter_7_8"):
-        lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
+        lshape=loadShapeAcme_twt(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
     elif(loadName=="wc98"):
-        lshape=loadShapeAcme_twt(maxt=100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,trace="wc98.mat")
+        lshape=loadShapeAcme_twt(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,trace="wc98.mat")
     else:
         raise ValueError("Load not recognized")
     lshape.start()

@@ -1,15 +1,15 @@
 clear
 
 %exps=["sin","step"];
-% exps=["wc98"]
-exps=["tweeter_7_8"];
+exps=["wc98"]
+% exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
-lim=[0,2000];
+lim=[0,100];
 
-ctrlGA=zeros(2100,11,30);
-ctrlMU=zeros(2100,11,15);
+ctrlGA=zeros(100,11,1);
+ctrlMU=zeros(100,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -31,8 +31,8 @@ muObj=zeros(size(ctrlMU,1),size(ctrlMU,3));
 
 %load ga data
 for i=1:size(ctrlGA,3)
-    ctrlGA(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/%s_%d/ctrldata.csv",expnameAtom,i-1));
-    gadata=[gadata;readData(sprintf("../data/revision2/ctrl/%s_%d/*.csv",expnameAtom,i-1))];
+    ctrlGA(:,:,i)=readmatrix(sprintf("../data/replication/%s_%d/ctrldata.csv",expnameAtom,i-1));
+    gadata=[gadata;readData(sprintf("../data/replication/%s_%d/*.csv",expnameAtom,i-1))];
     
     gaRT=[gaRT;gadata(end).rt];
     %gaT=[gaT;gadata(end).tr'];
@@ -60,8 +60,8 @@ end
 
 %load muOpt data
 for i=1:size(ctrlMU,3)
-    ctrlMU(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/%s_%d/ctrldata.csv",expnameMu,i-1));
-    mudata=[mudata;readData(sprintf("../data/revision2/ctrl/%s_%d/*.csv",expnameMu,i-1))];
+    ctrlMU(:,:,i)=readmatrix(sprintf("../data/replication/%s_%d/ctrldata.csv",expnameMu,i-1));
+    mudata=[mudata;readData(sprintf("../data/replication/%s_%d/*.csv",expnameMu,i-1))];
     
     muRT=[muRT;mudata(end).rt];
     %muT=[muT;mudata(end).tr'];
@@ -80,27 +80,8 @@ for i=1:size(ctrlMU,1)
     ctrlMUCI(i,:) = getCI(datai);
 end
 
-%load validation data
-for i=1:0
-    ctrlVal(:,:,i)=readmatrix(sprintf("../data/revision2/ctrl/validation_const50_%d/ctrldata.csv",i-1));
-    valdata=[mudata;readData(sprintf("../data/revision2/ctrl/validation_const50_%d/*.csv",i-1))];
-    
-    valRT=[muRT;mudata(end).rt];
-    valT=[muT;mudata(end).tr'];
-   
-%     nanCountVal=sum(isnan(ctrlVal(:,3:end,i)));
-%     ctrlVal(:,3:end,i)=fillmissing(ctrlVal(:,3:end,i),'constant',ctrlVal(nanCountVal+1:nanCountVal+1,3:end,i));
-    ctrlVal(:,3:end,i)=ones(size(ctrlVal,1),9)*150;
-end
-
-
-%load 1_client data
-% ctrlMAX=readmatrix("../data/ICDCS/validation/1_client_gns/ctrldata.csv");
-% maxdata=readData("../data/ICDCS/validation/1_client_gns/*.csv");
-
 mGA=mean(ctrlGA(:,3:end,:),3);
 mMU=mean(ctrlMU(:,3:end,:),3);
-% valCtrl=mean(ctrlVal(:,3:end,:),3);
 
 
 %users figure
@@ -116,8 +97,8 @@ legend("Users","Location","southeast")
 axis tight
 xlim(lim)
 ylim([0,95])
-exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_users.pdf",expWork));
-close()
+% exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_users.pdf",expWork));
+% close()
 
 
 figure('units','normalized','outerposition',[0 0 1 1])
@@ -136,8 +117,8 @@ ylabel("#Cores")
 legend("\muOpt","ATOM","Location","southeast")
 xlim(lim)
 ylim([0,95])
-exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_cores.pdf",expWork));
-close()
+% exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_cores.pdf",expWork));
+% close()
 
 % figure('units','normalized','outerposition',[0 0 1 1])
 % hold on
@@ -271,8 +252,8 @@ yticks([-45,-35,-25,-15,-5,5,15])
 CIdt=getCI(deltaT)-mean(deltaT);
 CIds=getCI(deltaS)-mean(deltaS);
 errorbar([1,2],[mean(deltaT),mean(deltaS)],[CIdt(1),CIds(1)],[CIdt(2),CIds(2)],'x',"LineWidth",2,"Color","red");
-exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_stat.pdf",expWork));
-close()
+% exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_stat.pdf",expWork));
+% close()
 
 
 % figure('units','normalized','position',[0 0 1 1])
