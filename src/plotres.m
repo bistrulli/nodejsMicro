@@ -9,7 +9,7 @@ for ex=1:length(exps)
 lim=[0,200];
 
 ctrlGA=zeros(2000,11,1);
-ctrlMU=zeros(200,11,1);
+ctrlMU=zeros(2000,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];

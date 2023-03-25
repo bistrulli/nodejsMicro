@@ -139,7 +139,7 @@ if __name__ == '__main__':
         
         for exp in range(1):
             
-            sys = nodeSys(dbHost=redisHost,isCgroup=True)
+            sys = nodeSys(dbHost=redisHost,isCgroup=False)
             pedis.flushall();
             
             #init CPU allocation in the case of simulated CPU
