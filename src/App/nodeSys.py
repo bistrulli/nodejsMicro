@@ -97,7 +97,7 @@ class nodeSys():
                                                               stdout=msOutf, stderr=msErrf)]
                     elif(self.nodeSys[ms]["type"]=="spring"):
                         if(self.isCgroup):
-                            self.nodeSysProc[ms]+=[subprocess.Popen(["cgexec","-g","cpu:/%s"%(ms),"java","-jar",
+                            self.nodeSysProc[ms]+=[subprocess.Popen(["sudo","cgexec","-g","cpu:/%s"%(ms),"java","-jar",
                                                                  "-Xmx10g",
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
