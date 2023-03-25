@@ -1,27 +1,10 @@
-'''
-Created on 2 lug 2022
-
-@author: emilio
-'''
-
 import time
 import traceback
-import datetime
 import redis
-
-from scipy.io import savemat
-
 from App import nodeSys
-import numpy as np
 import os
-
 from pymongo import MongoClient
-import pymongo
 import subprocess
-from Client import loadShapeAcme_step
-from Client import loadShapeAcme_twt
-from Client import SinShape
-from Client import StepShape
 import argparse
 
 
@@ -57,6 +40,16 @@ def resetSim():
         mongoClient["sys"]["sim"].drop()
     mongoClient.close()
 
+def getCtrl(ctrlName,loadName):
+    ctrl=None
+    if(ctrlName=="muopt"):
+        ctrl={"name":"julia_test_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+          "ctrlCmd":"julia acmeCtrl.jl"}
+    elif(ctrlName=="atom"):
+        ctrl={"name":"atom_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/GA/",
+         "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
+        
+    return ctrl
     
 
 
@@ -138,17 +131,18 @@ if __name__ == '__main__':
               }
         
         
-        msNames=list(msSys.keys());
+        #here the host where redis is installed
         redisHost="127.0.0.1"
+        msNames=list(msSys.keys());
         pedis=redis.StrictRedis(host=redisHost, port=6379, charset="utf-8", decode_responses=True)
         dry=False
         
-        for exp in range(15,16):
+        for exp in range(1):
             
-            data = {"Cli":[1], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             sys = nodeSys(dbHost=redisHost)
-            
             pedis.flushall();
+            
+            #init CPU allocation in the case of simulated CPU
             pedis.mset({"MSauth_hw":"3.6572",
                         "MSvalidateid_hw":"1.8773",
                         "MSbookflights_hw":"3.1551", 
@@ -159,95 +153,39 @@ if __name__ == '__main__':
                          "MSviewprofile_hw":"3.5825",
                          "MSupdateprofile_hw":"2.7341" })
             
-            for p in data["Cli"]:
-                
-                ctrl=None
-                if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_test_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
-                      "ctrlCmd":"julia acmeCtrl.jl"}
-                elif(args.ctrl=="atom"):
-                    ctrl={"name":"atom_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/GA/",
-                     "ctrlCmd":"matlab -nodesktop -nosplash -nodisplay -nojvm -r main(3) quit;"}
-                
-                datadir="../data/revision2/ctrl/%s_%d/"%(ctrl["name"],exp)
-                os.makedirs( datadir, exist_ok=True)
-                
-                print("####pop %d###" % (p))
-                sys.startSys(msSys=msSys)
-                time.sleep(5)
-                print("sys started")
-                
-                pedis.set("users","%d"%(p))
-                pedis.publish("users","%d"%(p))
-                
-                sys.startCtrl(ctrl,pedis)
-                print("ctrl started")  
-                
-                #lancio i client iniziali
-                sys.startClient(p,dry=dry)
-                
-                lshape=None
-                if(args.load=="step_slow"):
-                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow")
-                elif(args.load=="sin"):
-                    lshape=SinShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
-                elif(args.load=="step"):
-                    lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape")
-                elif(args.load=="tweeter_7_8"):
-                    lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
-                elif(args.load=="wc98"):
-                    lshape=loadShapeAcme_twt(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,trace="wc98.mat")
-                else:
-                    raise ValueError("Load not recognized")
-                
-                lshape.start()
-                
-                
-                #attendo la fine dell'esperiemnto
-                setStart()
-                waitExp(pedis)
-                #time.sleep(380)
-                
-                data["ms"] = list(msSys.keys())
-                data["RTm"].append([])
-                data["Tm"].append([])
-                data["rtCI"].append([])
-                data["trCI"].append([])
-                data["NC"].append([])
-                
-                
-                if(not dry):
-                    for ms in  data["ms"]:
-                        if(ms=="acmeair"):
-                            continue
-                        
-                        print("saving",ms)
-                        extractKPI(ms,datadir)
-                    extractKPI("client",datadir)
+            
+            ctrl=getCtrl(args.ctrl,args.load)
+            datadir="../data/replication/%s_%d/"%(ctrl["name"],exp)
+            os.makedirs( datadir, exist_ok=True)
+            
+            print("starting Acmeair")
+            sys.startSys(msSys=msSys)
+            time.sleep(5)
+            print("sys started")
+            
+            #wait the end of the experiment
+            waitExp(pedis) 
+            
+            if(not dry):
+                for ms in list(msSys.keys()):
+                    if(ms=="acmeair"):
+                        continue
                     
-                print("killing clients")
-                sys.stopClient()
-                print("killing system") 
-                sys.stopSys()
-                sys.reset()
-                resetSim()
-                print("killing ctrl")
-                sys.ctrlProc.kill()
-                subprocess.call(["pkill","-9","-f","matlab"])
-                subprocess.call(["pkill","-9","-f","julia"])
-                sys.clearLog()
+                    print("saving",ms)
+                    extractKPI(ms,datadir)
+                extractKPI("client",datadir)
+                
+            print("killing system") 
+            sys.stopSys()
+            sys.reset()
+            resetSim()
+            sys.clearLog()
     
     except Exception as ex:
         print("Error")
-        print("killing clients")
-        sys.stopClient()
         print("killing system") 
         sys.stopSys()
         resetSim()
-        print("killing ctrl")
-        sys.ctrlProc.kill()
-        subprocess.call(["pkill","-9","-f","matlab"])
-        subprocess.call(["pkill","-9","-f","julia"])
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         
