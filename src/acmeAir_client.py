@@ -179,7 +179,7 @@ if __name__ == '__main__':
             datadir="../data/replication/%s_%d/"%(ctrl["name"],exp)
             os.makedirs( datadir, exist_ok=True)
             
-            initUsr=1  
+            initUsr=10
             #lancio i client iniziali
             sys.startClient(initUsr,dry=dry)
             startLoadShape(args.load)
