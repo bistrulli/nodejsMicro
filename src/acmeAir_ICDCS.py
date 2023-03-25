@@ -43,7 +43,7 @@ def resetSim():
 def getCtrl(ctrlName,loadName):
     ctrl=None
     if(ctrlName=="muopt"):
-        ctrl={"name":"julia_test_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+        ctrl={"name":"julia_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
           "ctrlCmd":"julia acmeCtrl.jl"}
     elif(ctrlName=="atom"):
         ctrl={"name":"atom_%s"%(loadName),"workDir":"/home/virtual/git/atom-replication/GA/",

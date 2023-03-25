@@ -60,7 +60,7 @@ def startLoadShape(loadName):
     if(loadName=="step_slow"):
         lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape_slow")
     elif(loadName=="sin"):
-        lshape=SinShape(maxt=150,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
+        lshape=SinShape(maxt=500,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir, mod=25., shift=35., period=200)
     elif(args.load=="step"):
         lshape=StepShape(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,intervals=None, values=None,shapeData="stepshape")
     elif(loadName=="tweeter_7_8"):
