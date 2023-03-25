@@ -8,8 +8,8 @@ for ex=1:length(exps)
 
 lim=[0,100];
 
-ctrlGA=zeros(150,11,1);
-ctrlMU=zeros(150,11,1);
+ctrlGA=zeros(500,11,1);
+ctrlMU=zeros(500,11,1);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
