@@ -1,15 +1,15 @@
 clear
 
-% exps=["sin","step"];
-exps=["wc98"]
-%exps=["tweeter_7_8"];
+%exps=["sin","step"];
+% exps=["wc98"]
+exps=["tweeter_7_8"];
 
 for ex=1:length(exps)
 
 lim=[0,2000];
 
-ctrlGA=zeros(2000,11,26);
-ctrlMU=zeros(2000,11,15);
+ctrlGA=zeros(2100,11,30);
+ctrlMU=zeros(2100,11,15);
 gaT=zeros(size(ctrlGA,1),size(ctrlGA,3));
 muT=zeros(size(ctrlMU,1),size(ctrlMU,3));
 gadata=[];
@@ -257,13 +257,14 @@ grid on;
 box on;
 set(gca,'xticklabel',somenames)
 ylabel("%")
-ylim([-45,20])
+ylim([-45,15])
 ax = gca;
 ax.FontSize = fontSize;
 xlim([0.5,2.5])
 xh = get(gca,'xlabel');
 xh.Color=[1,1,1];
 xlabel("time");
+yticks([-45,-35,-25,-15,-5,5,15])
 
 % ylim(sort(somedata*1.30))
 

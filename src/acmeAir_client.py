@@ -22,30 +22,12 @@ import subprocess
 
 def extractKPI(msname):
     subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","../data/ICDCS/%s.csv"%(msname)]);
-    
-# def waitExp():
-#     mongoClient=MongoClient("mongodb://localhost:27017/")
-#
-#     print("experiment running")
-#     sim=mongoClient["sys"]["sim"].find_one({})
-#     while(sim["toStop"]==0):
-#         time.sleep(1)
-#         sim=mongoClient["sys"]["sim"].find_one({})
-#     mongoClient.close()
 
 def waitExp(redisCon):
     toStop=redisCon.get("toStop")
     while(toStop!="1"):
         toStop=redisCon.get("toStop")
         time.sleep(2)
-    
-# def setStart():
-#     mongoClient=MongoClient("mongodb://localhost:27017/")
-#     collist = mongoClient["sys"].list_collection_names()
-#     # if "sim" in collist:
-#     #     mongoClient["sys"]["sim"].drop()
-#     mongoClient["sys"]["sim"].insert_one({"started":1,"toStop":0})
-#     mongoClient.close()
 
 def setStart(redisCon):
     redisCon.set("toStop","0")
@@ -69,7 +51,7 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":27.4862
+                          "hw":1
                           },
                 #customeService
                 "MSvalidateid":{  "type":"spring",
@@ -84,21 +66,21 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":3.7927
+                          "hw":1
                           },
                 "MSupdateprofile":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw": 2.6975
+                          "hw": 1
                           },
                 "MSupdateMiles":{"type":"spring",
                           "appFile":"../../acmeair-customerservice-springboot/target/acmeair-customerservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":37.8600
+                          "hw":1
                           },
                 #booking service
                 "MSbookflights":{  "type":"spring",
@@ -106,28 +88,14 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":14.2920
+                          "hw":1
                           },
-                # "MSbybookingnumber":{  "type":"spring",
-                #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
-                #           "addr":"localhost",
-                #           "replica":1,
-                #           "prxFile":"../prx/proxy.jar",
-                #           "hw":15
-                #           },
-                # "MSbyuser":{  "type":"spring",
-                #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
-                #           "addr":"localhost",
-                #           "replica":1,
-                #           "prxFile":"../prx/proxy.jar",
-                #           "hw":15
-                #           },
                 "MScancelbooking":{  "type":"spring",
                           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":37.6865
+                          "hw":1
                           },
                 #flight service
                 "MSqueryflights":{  "type":"spring",
@@ -135,14 +103,14 @@ if __name__ == '__main__':
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":28.3911
+                          "hw":1
                           },
                 "MSgetrewardmiles":{  "type":"spring",
                           "appFile":"../../acmeair-flightservice-springboot/target/acmeair-flightservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
                           "replica":1,
                           "prxFile":prxPath,
-                          "hw":19.0223
+                          "hw":1
                           },
                 "acmeair":True
               }
@@ -155,22 +123,6 @@ if __name__ == '__main__':
         
         for exp in range(1):
             
-            # if(exp>1):
-            #     msSys[msNames[exp-2]]["hw"]=15.0
-            # msSys[msNames[exp-1]]["hw"]=4.0
-            
-            # NCrnd=np.random.rand(10)*9;
-            # print(NCrnd)
-            # ncIdx=0;
-            # for msn in msNames:
-            #     if(msn=="acmeair"):
-            #         continue
-            #     msSys[msn]["hw"]=(NCrnd[ncIdx]+10)
-            #     ncIdx+=1
-                
-            #data = {"Cli":np.linspace(20,220,25,dtype=int), "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
-            
-            
             data = {"Cli":[50], "RTm":[], "rtCI":[], "Tm":[], "trCI":[], "ms":[],"NC":[]}
             
             sys = nodeSys(dbHost=redisHost)
@@ -178,52 +130,24 @@ if __name__ == '__main__':
                 
                 print("####pop %d###" % (p))
                 
-                #sys.startSys(msSys=msSys)
-                #time.sleep(5)
-                
                 pedis.set("users","%d"%(p))
                 pedis.publish("users","%d"%(p))  
                 
                 sys.startClient(p,dry=dry)
                 sys.startLoadShape(600,dry=dry,dbHost=redisHost)
                 setStart(pedis)
+                
                 waitExp(pedis)
-                #time.sleep(360)
-                
-                # data["ms"] = list(msSys.keys())
-                # data["RTm"].append([])
-                # data["Tm"].append([])
-                # data["rtCI"].append([])
-                # data["trCI"].append([])
-                # data["NC"].append([])
-                
-                # if(not dry):
-                #     for ms in  data["ms"]:
-                #         if(ms=="acmeair"):
-                #             continue
-                #
-                #         print("saving",ms)
-                #         extractKPI(ms)
-                        # if(ms=="client"):
-                        #     data["NC"][-1].append(1000)
-                        # else:
-                        #     data["NC"][-1].append(msSys[ms]["hw"])
-                    #extractKPI("client")
                     
                 print("killing clients")
                 sys.stopClient()
-                # print("killing system") 
-                # sys.stopSys()
-                # sys.reset()
-                # resetSim()
     
     except Exception as ex:
         print("Error")
         print("killing clients")
         sys.stopClient()
         print("killing system") 
-        # sys.stopSys()
-        # resetSim()
+
         
         traceback.print_exception(type(ex), ex, ex.__traceback__)
         

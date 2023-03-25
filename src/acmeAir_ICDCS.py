@@ -18,11 +18,9 @@ import os
 from pymongo import MongoClient
 import pymongo
 import subprocess
-from Client import loadShapeAcme_const
 from Client import loadShapeAcme_step
 from Client import loadShapeAcme_twt
 from Client import SinShape
-from Client import RampShape
 from Client import StepShape
 import argparse
 
@@ -37,16 +35,6 @@ def getCliOptions():
 
 def extractKPI(msname,datadir):
     subprocess.check_call(["mongoexport","-d",msname,"-c","rt","-f","st,end","--type=csv","-o","%s/%s.csv"%(datadir,msname)]);
-    
-# def waitExp():
-#     mongoClient=MongoClient("mongodb://localhost:27017/")
-#
-#     print("experiment running")
-#     sim=mongoClient["sys"]["sim"].find_one({})
-#     while(sim["toStop"]==0):
-#         time.sleep(1)
-#         sim=mongoClient["sys"]["sim"].find_one({})
-#     mongoClient.close()
 
 def waitExp(redisCon):
     toStop=redisCon.get("toStop")
@@ -124,20 +112,6 @@ if __name__ == '__main__':
                           "prxFile":prxPath,
                           "hw":300
                           },
-                # "MSbybookingnumber":{  "type":"spring",
-                #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
-                #           "addr":"localhost",
-                #           "replica":1,
-                #           "prxFile":"../prx/proxy.jar",
-                #           "hw":15
-                #           },
-                # "MSbyuser":{  "type":"spring",
-                #           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
-                #           "addr":"localhost",
-                #           "replica":1,
-                #           "prxFile":"../prx/proxy.jar",
-                #           "hw":15
-                #           },
                 "MScancelbooking":{  "type":"spring",
                           "appFile":"../../acmeair-bookingservice-springboot/target/acmeair-bookingservice-springboot-2.1.1-SNAPSHOT.jar",
                           "addr":"localhost",
@@ -189,7 +163,7 @@ if __name__ == '__main__':
                 
                 ctrl=None
                 if(args.ctrl=="muopt"):
-                    ctrl={"name":"julia_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
+                    ctrl={"name":"julia_test_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/LQN-CRN/controller/acmeAir/",
                       "ctrlCmd":"julia acmeCtrl.jl"}
                 elif(args.ctrl=="atom"):
                     ctrl={"name":"atom_%s"%(args.load),"workDir":"/home/virtual/git/atom-replication/GA/",
