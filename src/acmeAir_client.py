@@ -66,7 +66,7 @@ def startLoadShape(loadName):
     elif(loadName=="tweeter_7_8"):
         lshape=loadShapeAcme_twt(maxt=2100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir)
     elif(loadName=="wc98"):
-        lshape=loadShapeAcme_twt(maxt=2000,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,trace="wc98.mat")
+        lshape=loadShapeAcme_twt(maxt=100,sys=sys,dry=dry,dbHost=redisHost,datadir=datadir,trace="wc98.mat")
     else:
         raise ValueError("Load not recognized")
     lshape.start()
@@ -182,7 +182,7 @@ if __name__ == '__main__':
             initUsr=1  
             #lancio i client iniziali
             sys.startClient(initUsr,dry=dry)
-            startLoadShape()
+            startLoadShape(args.load)
             
             pedis.set("users","%d"%(1))
             pedis.publish("users","%d"%(1))  
