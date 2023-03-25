@@ -20,6 +20,7 @@ import tempfile
 import re
 from queue import Queue
 from Client.laoadShapeAcme_const import loadShapeAcme_const
+from cgroupspy import trees
 
 class nodeSys():
     
@@ -38,7 +39,7 @@ class nodeSys():
     userId=0
     dbHost=None
     
-    def __init__(self,dbHost="localhost"):
+    def __init__(self,dbHost="localhost",isCgroup=False):
         self.nodeSysProc={}
         self.nodePrxProc={}
         self.clientThreads=[]
@@ -49,12 +50,16 @@ class nodeSys():
         nodeSys.userId=0
         self.userCount=0
         self.dbHost=dbHost;
+        self.isCgroup=isCgroup
         #self.clearLog()
     
     
     def startSys(self,msSys=None):
         
         self.nodeSys=copy.deepcopy(msSys)
+        
+        if(self.isCgroup):
+            self.initCgroup(self.nodeSys)
         
         mongoCli=MongoClient("mongodb://%s:27017/"%(self.dbHost)) 
         try:
@@ -91,8 +96,16 @@ class nodeSys():
                                                                "port=%s"%(port)], 
                                                               stdout=msOutf, stderr=msErrf)]
                     elif(self.nodeSys[ms]["type"]=="spring"):
-                        self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
-                                                                 #"-XX:+UseEpsilonGC",
+                        if(self.isCgroup):
+                            self.nodeSysProc[ms]+=[subprocess.Popen(["cgexec","-g","cpu:/%s"%(ms),"java","-jar",
+                                                                 "-Xmx10g",
+                                                                 self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
+                                                                 "--server.port=%d"%(port),
+                                                                 "--ms.name=%s"%(ms),
+                                                                 "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
+                                                              stdout=msOutf, stderr=msErrf)]
+                        else:
+                            self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
                                                                  "-Xmx10g",
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
@@ -341,7 +354,19 @@ class nodeSys():
         self.data={}
         self.startTime=None
         self.clearLog()
-    
+        
+    def initCgroup(self,msSys=None):
+        self.cgtree = trees.Tree()
+        
+        msname=list(msSys.keys());
+        
+        for ms in msname:
+            if(ms=="acmeair"):
+                continue
+            msgroup = self.cgtree.get_node_by_path("/%s"%(ms))
+            if(msgroup is not None):
+                subprocess.call(["sudo","cgdelete","-g","cpu:/%s"%(ms)])
+            subprocess.call(["sudo","cgcreate","-g","cpu:/%s"%(ms)])
     
     
     
