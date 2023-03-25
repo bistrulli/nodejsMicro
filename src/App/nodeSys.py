@@ -103,7 +103,8 @@ class nodeSys():
                                                                  "--server.port=%d"%(port),
                                                                  "--ms.name=%s"%(ms),
                                                                  "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
-                                                              stdout=msOutf, stderr=msErrf)]
+                                                               stdout=msOutf, stderr=msErrf,
+                                                               stdin=subprocess.DEVNULL,start_new_session=True)]
                         else:
                             self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
                                                                  "-Xmx10g",
