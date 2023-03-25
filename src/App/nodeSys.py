@@ -102,7 +102,8 @@ class nodeSys():
                                                                  self.nodeSys[ms]["appFile"],"ms_name=%s"%(ms),
                                                                  "--server.port=%d"%(port),
                                                                  "--ms.name=%s"%(ms),
-                                                                 "--ms.hw=%f"%(self.nodeSys[ms]["hw"])], 
+                                                                 "--ms.hw=%f"%(self.nodeSys[ms]["hw"]),
+                                                                 "--ms.iscgroup=y"], 
                                                                stdout=msOutf, stderr=msErrf,
                                                                stdin=subprocess.DEVNULL)]
                         else:
