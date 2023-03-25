@@ -6,7 +6,7 @@ exps=["sin"]
 
 for ex=1:length(exps)
 
-lim=[0,200];
+lim=[0,2000];
 
 ctrlGA=zeros(2000,11,1);
 ctrlMU=zeros(2000,11,1);
@@ -157,8 +157,8 @@ ylabel("Troughput(req/s)")
 xlabel("Time(s)")
 xlim(lim)
 ylim([0,max(mean(gaT,2))*1.25])
-exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_throughput_t.pdf",expWork));
-close()
+% exportgraphics(gca,sprintf("/Users/emilio-imt/git/muOptPaper/figures/acmeair/%s_throughput_t.pdf",expWork));
+% close()
 
 totMUT=cumsum(mean(muT,2));
 totGAT=cumsum(mean(gaT,2));
