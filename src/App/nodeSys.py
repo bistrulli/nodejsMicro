@@ -21,6 +21,7 @@ import re
 from queue import Queue
 from Client.laoadShapeAcme_const import loadShapeAcme_const
 from cgroupspy import trees
+from executor import CPUExecutor
 
 class nodeSys():
     
@@ -106,6 +107,11 @@ class nodeSys():
                                                                  "--ms.iscgroup=y"], 
                                                                stdout=msOutf, stderr=msErrf,
                                                                stdin=subprocess.DEVNULL)]
+                            
+                            #run the executor
+                            exe=CPUExecutor(ms,redisHpst=self.dbHost,redisPort=6379)
+                            exe.start()
+                            
                         else:
                             self.nodeSysProc[ms]+=[subprocess.Popen(["java","-jar",
                                                                  "-Xmx10g",
@@ -162,6 +168,8 @@ class nodeSys():
             print("killing Prx Proc",ms,self.nodePrxProc[ms].pid)
             p=psutil.Process(self.nodePrxProc[ms].pid)
             p.kill()
+            
+        CPUExecutor.toStop=True
             
     def startCtrl(self,ctrl=None,redisCon=None):
         '''
